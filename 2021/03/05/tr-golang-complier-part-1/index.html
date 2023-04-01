@@ -158,7 +158,7 @@ until i <span class="token operator">==</span> <span class="token number">0</spa
 
 <p>声明 - 这仅仅是一个供学习的小玩具，我不认为增加<code>until</code>对Go是一个好的注意。因为Go的极简机制是一个绝对正确的设计。</p>
 <h2 id="Go编译器的总体架构"><a href="#Go编译器的总体架构" class="headerlink" title="Go编译器的总体架构"></a>Go编译器的总体架构</h2><p>Go编译器（Go compiler (<code>gc</code>)）是一个经典的编译器架构，如果你了解过其他编译器你会立刻感觉熟悉。架构如下图：</p>
-<p><img src="/../img/2023-04-02-04-02-51.png"></p>
+<p><img src="/../img/2023-04-02-04-08-53.png"></p>
 <p>Go编译器的实现在Go源码的<code>src/cmd/compile/internal</code>目录中；后序本文中提到的代码路径都是该目录下的相对路径。整个编译器是由Go实现，因此阅读起来很容易。这篇文章我们将一个一个解释这些步骤，以及增加一个<code>until</code>关键字需要的编码。</p>
 <p>查看<code>src/cmd/compile</code>下的 <code>README</code> 文件可以简单的了解这些编译步骤。这个文件是这篇文章的一个好的补充。</p>
 <p>注：scan -&gt;Parse-&gt;AST，这三步实际就是一个字符串处理程序，将一个Go源文件转换为树的结构。</p>
