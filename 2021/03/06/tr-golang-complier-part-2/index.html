@@ -127,6 +127,7 @@
 <p><img src="/../img/2023-04-02-01-55-39.png"></p>
 <p>在最后，我们是通过在＂重写AST＂阶段将其替换为<code>for</code>来实现<code>until</code>。另外，在<code>gc/walk.go</code>中，其他类似的转换也是在编译器进行SSA转换和代码生成之前完成的。</p>
 <p>在这一部分中，我们将通过在编译流程中处理新的<code>until</code>语句来介绍编译器的其余阶段。</p>
+<span id="more"></span>
 <h2 id="SSA"><a href="#SSA" class="headerlink" title="SSA"></a>SSA</h2><p>在<code>gc</code>运行<code>walk</code>转换后，它调用<code>buildssa</code>（在<code>gc/ssa.go</code>中）将AST转换为新的中间表示（intermediate representation (<strong>IR</strong>)），其形式为<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Static_single_assignment_form">静态单赋值（SSA）形式</a>。</p>
 <p>注：一个Go程序元素只有包、类型、函数、变量和常量 （packages, types, functions, variables and constants）这五种。ssa定义了的他们的数据结构，使用函数体的静态单赋值（ssa）形式中间表示（IR）。</p>
 <p>SSA是什么意思？为什么编译器会将AST转为SSA？让我们从第一个问题开始；我建议阅读上面链接的SSA维基百科页面和其他资源，但这是一个快速说明。</p>
