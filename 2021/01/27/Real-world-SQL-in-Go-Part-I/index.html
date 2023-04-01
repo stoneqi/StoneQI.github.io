@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>
+        
+            [翻译]Real-world SQL in Go: PartI
+        
+    </title>
+    <link rel="icon" href="/img/favicon.png"/>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <!-- 
+<link rel="stylesheet" href="/css/gitment.css">
+ -->
+    
+<link rel="stylesheet" href="/css/hljs.min.css">
+
+    
+<script src="/js/hljs.min.js"></script>
+  
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?8ad9e7d37411eee585b4bd7194806394";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script>  
+    <!-- 
+<script src="/js/gitment.browser.js"></script>
+   -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Nick" type="application/atom+xml">
+</head>
+<body>
+    <header class="header" id="header">
+    <h1>
+        <a class="title" href="/">
+            Nick
+        </a>
+    </h1>
+    <h2>
+        <a class="motto">
+            天地间的怪事莫过于侦察别人的一些和自己绝不相干的事了
+        </a>
+    </h2>
+    <nav class="navbar">
+        <ul class="menu">
+            
+            
+                <li class="menu-item">
+                    <a href="/" class="menu-item-link">
+                        首页
+                    </a>
+                </li>
+            
+                
+            
+                <li class="menu-item">
+                    <a href="/archives" class="menu-item-link">
+                        归档
+                    </a>
+                </li>
+            
+                
+            
+                <li class="menu-item">
+                    <a target="_blank" rel="noopener" href="https://github.com/StoneQI" class="menu-item-link">
+                        Github
+                    </a>
+                </li>
+            
+                
+            
+                <li class="menu-item">
+                    <a href="/atom.xml" class="menu-item-link">
+                        RSS
+                    </a>
+                </li>
+            
+                
+            
+                
+            
+                <li class="menu-item">
+                    <a href="/category-archive" class="menu-item-link">
+                        目录
+                    </a>
+                </li>
+            
+                
+                
+                <li class="menu-item">
+                    <a class="menu-item-link search">
+                        Search                   
+                        <i class="fa fa-long-arrow-right search-icon" aria-hidden="true"></i>
+                    </a>
+                        <input placeholder="Search..." class="search-input" style="display:none;border:none!important;" onkeydown="onEnter(event)" onkeypress="onEnter(event)"></input>
+                </li>
+                
+        </ul>
+    </nav>
+</header>
+    <main class="main">
+        <article class="post">
+            <h1>
+                <a class="title" href="/2021/01/27/Real-world-SQL-in-Go-Part-I/"> 
+                    [翻译]Real-world SQL in Go: PartI 
+                </a>
+            </h1>
+            <div class="meta">
+                <a class="date"> 
+                    <i class="fa fa-calendar" aria-hidden="true"></i>                    
+                    2021-01-27   
+                </a>
+                
+                <a class="category">
+                    <i class="fa fa-th" aria-hidden="true"></i>  
+                </a>
+               
+                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/go/">go</a></li></ul>
+                
+                <a class="tag">
+                    <i class="fa fa-tags" aria-hidden="true"></i>  
+                </a>
+                
+                    <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BF%BB%E8%AF%91/" rel="tag">翻译</a></li></ul>
+            </div>
+<div class="toc">
+  <ol class="toc-list"><li class="toc-list-item toc-list-level-1"><a class="toc-list-link" href="#%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E6%8E%A5%E5%8F%A3"><span class="toc-list-text">实现服务接口</span></a></li><li class="toc-list-item toc-list-level-1"><a class="toc-list-link" href="#%E5%B0%81%E8%A3%85%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-list-text">封装数据库</span></a></li><li class="toc-list-item toc-list-level-1"><a class="toc-list-link" href="#%E4%BB%8ESQL-helpers-%E4%B8%AD%E5%88%86%E7%A6%BB%E6%8E%A5%E5%8F%A3%E5%AE%9E%E7%8E%B0"><span class="toc-list-text">从SQL helpers 中分离接口实现</span></a></li><li class="toc-list-item toc-list-level-1"><a class="toc-list-link" href="#%E5%AE%9E%E7%8E%B0%E5%AE%9E%E4%BD%93%E6%9F%A5%E8%AF%A2"><span class="toc-list-text">实现实体查询</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E6%9C%8D%E5%8A%A1%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="toc-list-text">服务具体实现</span></a></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#Helper-methods"><span class="toc-list-text">Helper methods</span></a></li></ol></li><li class="toc-list-item toc-list-level-1"><a class="toc-list-link" href="#SQL%E6%9E%84%E5%BB%BA%E5%99%A8%E4%B8%8E%E6%89%8B%E5%86%99SQL"><span class="toc-list-text">SQL构建器与手写SQL</span></a></li><li class="toc-list-item toc-list-level-1"><a class="toc-list-link" href="#%E7%BB%9F%E8%AE%A1%E8%A1%8C%E7%9A%84%E6%80%BB%E6%95%B0"><span class="toc-list-text">统计行的总数</span></a></li><li class="toc-list-item toc-list-level-1"><a class="toc-list-link" href="#%E5%AE%9E%E7%8E%B0%E5%AE%9E%E4%BD%93%E6%9F%A5%E6%89%BE"><span class="toc-list-text">实现实体查找</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E6%8E%A5%E5%8F%A3%E5%AE%9E%E7%8E%B0"><span class="toc-list-text">接口实现</span></a></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#Helper-%E5%87%BD%E6%95%B0"><span class="toc-list-text">Helper 函数</span></a></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E4%BC%98%E5%8C%96%E4%B8%BB%E9%94%AE%E6%9F%A5%E6%89%BE"><span class="toc-list-text">优化主键查找</span></a></li></ol></li><li class="toc-list-item toc-list-level-1"><a class="toc-list-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-list-text">结论</span></a></li></ol>
+</div>
+            <div class="content">
+                <blockquote>
+<p>原文由 Ben Johnson 发表在 <a target="_blank" rel="noopener" href="https://www.gobeyond.dev/">gobeyond</a>，推荐观看原文<a target="_blank" rel="noopener" href="https://www.gobeyond.dev/real-world-sql-part-one/">文章链接</a></p>
+</blockquote>
+<p>不管您是不是讨厌还是接受SQL，在某个时候您都会在项目中使用它。关系数据库结构并不总是能很好地映射到应用程序数据结构，但SQL的普遍性意味着它是开发人员在需要数据持久性时使用的基本工具。</p>
+<p>虽然Go有<a target="_blank" rel="noopener" href="https://gorm.io/">GORM</a>之类的对象关系映射库，但我们将避免这种集成库，而直接使用标准库包<code>database/sql</code>。ORM库封装了<code>SQL</code>底层的复杂性，在简单的数据访问中这很有帮助，但缺点是会使高级查询和调试更加复杂。</p>
+<p>在本文中，我们将研究如何直接使用<code>SQL</code>构造数据访问代码、在何处处理业务模型以及一些有用的SQL技巧。我将引用<a target="_blank" rel="noopener" href="https://wtfdial.com/">WTF Dial</a>项目的代码。你可以通过这篇<a target="_blank" rel="noopener" href="https://www.gobeyond.dev/wtf-dial/">介绍性的博客文章</a>来了解它。</p>
+<span id="more"></span>
+<h1 id="实现服务接口"><a href="#实现服务接口" class="headerlink" title="实现服务接口"></a>实现服务接口</h1><p>在上一篇关于<a href="!--swig%EF%BF%BC0--"><code>CRUD</code></a>设计的博客文章中，我描述了一个用于管理实体(entity)的接口。一个<code>dial</code>是衡量当前用户对自己所属团队的感到沮丧指标。同时该团队中其他成员也有对应的<code>dial</code>指标。</p>
+<pre><code class="go">// dial.go#L81-L122
+type DialService interface &#123;
+    FindDialByID(ctx context.Context, id int) (*Dial, error)
+    FindDials(ctx context.Context, filter DialFilter) ([]*Dial, int, error)
+    CreateDial(ctx context.Context, dial *Dial) error
+    UpdateDial(ctx context.Context, id int, upd DialUpdate) (*Dial, error)
+    DeleteDial(ctx context.Context, id int) error
+&#125;
+</code></pre>
+<p>这里我们使用SQLite作为我们的数据库。但是在这里讨论的概念适用于任何SQL数据库。 主要包含三个包<code>wtf.DialService</code>，<code>sqlite</code>，<code>sqlite.DialService</code>。</p>
+<h1 id="封装数据库"><a href="#封装数据库" class="headerlink" title="封装数据库"></a>封装数据库</h1><p>将我们的包命名为通用的名字(比如<code>sqlite</code>)似乎有些奇怪，但我们的包将封装底层的其他包，而不会暴露这些包的内部。我们包的调用者只能通过我们的包与SQL和SQLite交互。你命名为<code>sqlite</code> <code>database/sql</code> <code>mattn/go-sqlite3</code> <code>wtfsqlite</code> <code>wtfsql</code>，但我个人觉得丑陋。</p>
+<p>因为我们没有公开底层的SQL包，所以在我们的应用程序中提供自己的封装包类型：<code>DB</code> <code>sqlite</code></p>
+<pre><code class="go">// sqlite/sqlite.go#L43-L58
+
+// DB represents a database connection to our application.
+type DB struct &#123;
+    db     *sql.DB
+
+    // Datasource name.
+    DSN string
+&#125;
+
+// Open opens the database connection.
+func (db *DB) Open() (err error)
+
+// Close closes the database connection.
+func (db *DB) Close() error
+</code></pre>
+<p>这种封装让我们可以在我们的方法中处理数据库的启动和关闭，而不需要关心底层数据库<code>Open()</code> 的<code>Close()</code>的细节.</p>
+<h1 id="从SQL-helpers-中分离接口实现"><a href="#从SQL-helpers-中分离接口实现" class="headerlink" title="从SQL helpers 中分离接口实现"></a>从SQL helpers 中分离接口实现</h1><p>在我的包中，我发现解藕服务接口实现和实际执行SQL的函数很有用。服务实现存在于原因：</p>
+<ul>
+<li>提供接口<code>wtf.DialService</code> 的一个实现。</li>
+<li>提供业务边界。</li>
+</ul>
+<p>因此，服务方法通常很小，并且采用以下格式：</p>
+<pre><code class="go">// sqlite/dial.go#L75-L99
+
+func (s *DialService) CreateDial(ctx context.Context, dial *wtf.Dial) error &#123;
+    tx, err := s.db.BeginTx(ctx, nil)
+    if err != nil &#123;
+        return err
+    &#125;
+    defer tx.Rollback()
+
+    // Call helper functions...
+    
+    return tx.Commit()
+&#125;
+</code></pre>
+<p>在本例中，我们启动一个事务，执行一些较低级别的<code>SQL helpers</code>函数，然后提交。如果<code>SQL helpers</code>函数中发生任何错误，那么进行回滚放弃更改。如果我们的函数到达末尾并成功调用，那么提交事务保存更改, <code>defer tx.Rollback()</code>将不做操作.</p>
+<p>一个典型的 <code>helper function</code>如下</p>
+<pre><code class="go">// sqlite/dial.go#L360-L418
+func createDial(ctx context.Context, tx *Tx, dial *wtf.Dial) error
+</code></pre>
+<p><code>helper</code>函数是通用性的函数，它们不附加到特定的服务。因此它们可以被不同的服务使用，甚至可以被其他<code>helper</code>函数调用。这是一种封装低级SQL调用,提供抽象的高级函数的简单方法。</p>
+<h1 id="实现实体查询"><a href="#实现实体查询" class="headerlink" title="实现实体查询"></a>实现实体查询</h1><p>我们的 <code>wtf.DialService</code>包中定义了 <code>FindDials()</code>一个用于搜索<code>Dial</code>的接口。</p>
+<pre><code class="go">// dial.go#L81-L122
+package wtf
+
+type DialService interface &#123;
+    FindDials(ctx context.Context, filter DialFilter) ([]*Dial, int, error)
+    ...
+&#125;
+</code></pre>
+<h2 id="服务具体实现"><a href="#服务具体实现" class="headerlink" title="服务具体实现"></a>服务具体实现</h2><p>这个接口的具体实现在我们的包<code>sqlite</code>中:</p>
+<pre><code class="go">// sqlite/dial.go#L47-L73
+func (s *DialService) FindDials(ctx context.Context, filter wtf.DialFilter) ([]*wtf.Dial, int, error) &#123;
+    tx, err := s.db.BeginTx(ctx, nil)
+    if err != nil &#123;
+        return nil, 0, err
+    &#125;
+    defer tx.Rollback()
+
+
+    // 调用helper类
+    // Fetch list of matching dial objects.
+    dials, n, err := findDials(ctx, tx, filter)
+    if err != nil &#123;
+        return dials, n, err
+    &#125;
+
+    // Iterate over dials and attach associated owner user.
+    // This should be batched up if using a remote database server.
+    for _, dial := range dials &#123;
+        if err := attachDialAssociations(ctx, tx, dial); err != nil &#123;
+            return dials, n, err
+        &#125;
+    &#125;
+    return dials, n, nil
+&#125;
+</code></pre>
+<p>从较高的层次来看，它执行三个步骤：</p>
+<ol>
+<li>建立业务边界。</li>
+<li>查找匹配的 <code>dial</code>。</li>
+<li>查找每个<code>dial</code>的关联数据（例如<code>dial</code>所有者）。</li>
+</ol>
+<h2 id="Helper-methods"><a href="#Helper-methods" class="headerlink" title="Helper methods"></a>Helper methods</h2><p>我们有一个用于搜索的helper方法，因为我们希望将其用于其他服务。例如，在查找用户时，我们可能还希望返回该用户的<code>dial</code> 列表。</p>
+<p>我们的helper方法从较高的层次来看如下：</p>
+<pre><code class="go">// sqlite/dial.go#L292-L358
+// helper 方法, 和上文中的方法不一样,不属于DialService结构体
+func findDials(ctx context.Context, tx *Tx, filter wtf.DialFilter) ([]*wtf.Dial, int, error) &#123;
+    // Build WHERE clause...
+
+    // Execute query.
+    rows, err := tx.QueryContext(ctx, `SELECT ...`)
+    if err != nil &#123;
+        return nil, n, err
+    &#125;
+    defer rows.Close()
+
+    // Iterate over rows and deserialize into Dial objects.
+    dials := make([]*wtf.Dial, 0)
+    for rows.Next() &#123;
+        var dial wtf.Dial
+        if rows.Scan(&amp;dial.ID, ...); err != nil &#123;
+            return nil, 0, err
+        &#125;
+        dials = append(dials, &amp;dial)
+    &#125;
+    return dials, n, rows.Err()
+&#125;
+</code></pre>
+<p>必要的,我们尝试将SQL字段转换为应用程序域对象。<code>wtf.Dial</code> 中有几个有趣的细节。</p>
+<h1 id="SQL构建器与手写SQL"><a href="#SQL构建器与手写SQL" class="headerlink" title="SQL构建器与手写SQL"></a>SQL构建器与手写SQL</h1><p>即使您不使用ORM，也可以使用<code>Squirrel</code>之类的工具来构建SQL语句。我个人并没有用<code>Squirrel</code>，但它看起来可能是一个很好的选择。然而，对于我的大多数查询，我发现手动书写SQL也是足够使用的。</p>
+<p>查询条件通常是<code>SQL</code>查询语句变化最多的部分，因此我们将重点讨论查询条件的生成。我们将一系列的过滤字段组合成程序中的一个业务模型(结构体)。我们通过<code>where</code> <code>wtf.DialFilter</code> <code>AND</code> 来构建一个添加数组</p>
+<pre><code class="go">// sqlite/dial.go#L295-L311
+
+// List of WHERE clause predicates. Start with an always true predicate
+// so we have at least one when joining later.
+where := []string&#123;&quot;1 = 1&quot;&#125;
+
+// Bind parameters used by the WHERE clause. 
+var args []interface&#123;&#125;&#123;&#125;
+
+// Add predicate for ID if specified on the filter.
+if v := filter.ID; v != nil &#123;
+    where = append(where, &quot;id = ?&quot;)
+    args = append(args, *v)
+&#125;
+
+</code></pre>
+<p>然后我们可以使用<code>strings.Join()</code>构建查询</p>
+<pre><code class="go">whereClause := strings.Join(where, &quot; AND &quot;)
+q := `SELECT ... FROM dials WHERE ` + whereClause
+</code></pre>
+<p>如果我们没有任何过滤字段，那么我们的查询语句就会匹配所有行。如果我们加上我们的ID过滤字段，它将会过滤ID。没有过滤字段的时候,我们添加了 <code>&quot;1 = 1&quot;</code> 额外的语句, 然而SQL语句优化器足够聪明，可以忽略一个始终为真的条件，例如: <code>WHERE 1=1 </code> <code> WHERE 1=1 AND id=？1 = 1</code></p>
+<h1 id="统计行的总数"><a href="#统计行的总数" class="headerlink" title="统计行的总数"></a>统计行的总数</h1><p>我们的服务接口要求返回用于分页的匹配<code>dial</code>的总数。例如， 接口值返回100个匹配<code>dial</code>中的20个，那么前端想知道匹配<code>dial</code>的总数，这样他们就可以显示共有5页结果.</p>
+<p>最简单的方法是先执行带有Limit的查询,获得部分结果，然后重新执行不带Limit的查询。然而，有一些SQL技巧可以让您将这些查询合并到一次查询中.</p>
+<p>许多数据库（如SQLite或Postgres）提供了窗口功能。我们可以指定一个窗值口作为查询字段之一，它将忽略 <code>OFFSET</code> <code>LIMIT</code></p>
+<p>注: 窗口功能详细参考该文章 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/92654574">SQL窗口函数</a></p>
+<pre><code class="go">SELECT id, name, COUNT(*) OVER()
+FROM dials
+WHERE user_id = ?
+OFFSET 40 LIMIT 20
+// 计算原始查询中的总匹配计数
+</code></pre>
+<p>该字段返回空窗口上查询的总计数。它将为我们查询的每一行返回相同的值，这样我们就可以简单地在每一行的迭代中获取改值。</p>
+<h1 id="实现实体查找"><a href="#实现实体查找" class="headerlink" title="实现实体查找"></a>实现实体查找</h1><p>实体查找这是一个非常常见的任务，因此我发现创建一个单独的函数 <code>FindDials()</code> <code>FindDialByID()</code>非常有用。</p>
+<pre><code class="go">// dial.go#L81-L122
+package wtf
+
+type DialService interface &#123;
+    FindDial(ctx context.Context, id int) (*Dial, error)
+    ...
+&#125;
+</code></pre>
+<h2 id="接口实现"><a href="#接口实现" class="headerlink" title="接口实现"></a>接口实现</h2><p>我们的接口实现和前面的接口实现累屎类似，只是我们现在正在  查询单个<code>dial</code>。</p>
+<pre><code class="go">sqlite/dial.go#L26-L45
+func (s *DialService) FindDialByID(ctx context.Context, id int) (*wtf.Dial, error) &#123;
+    tx, err := s.db.BeginTx(ctx, nil)
+    if err != nil &#123;
+        return nil, err
+    &#125;
+    defer tx.Rollback()
+
+    // Fetch dial object and attach owner user.
+    dial, err := findDialByID(ctx, tx, id)
+    if err != nil &#123;
+        return nil, err
+    &#125; else if err := attachDialAssociations(ctx, tx, dial); err != nil &#123;
+        return nil, err
+    &#125;
+
+    return dial, nil
+&#125;
+</code></pre>
+<h2 id="Helper-函数"><a href="#Helper-函数" class="headerlink" title="Helper 函数"></a>Helper 函数</h2><p>我们的底层实际上包装了函数<code>findDials()</code>，但它改变了语义，由查询多个变单个。</p>
+<pre><code class="go">// sqlite/dial.go#L265-L275
+// findDialByID is a helper function to retrieve a dial by ID.
+// Returns ENOTFOUND if dial doesn&#39;t exist.
+func findDialByID(ctx context.Context, tx *Tx, id int) (*wtf.Dial, error) &#123;
+    dials, _, err := findDials(ctx, tx, wtf.DialFilter&#123;ID: &amp;id&#125;)
+    if err != nil &#123;
+        return nil, err
+    &#125; else if len(dials) == 0 &#123;
+        return nil, &amp;wtf.Error&#123;Code: wtf.ENOTFOUND, Message: &quot;Dial not found.&quot;&#125;
+    &#125;
+    return dials[0], nil
+&#125;
+
+</code></pre>
+<p>如果找不到数据，则会返回错误，函数希望给定的拨号存在。在这里，我们将一个空的结果集转换为 “not found” 错误。</p>
+<p>您可以在<a href="">Failure is Your Domain</a>中找到有关使用于应用程序特定类型的详细信息。我将很快编写一个更新版本，其中包括 go1.13 错误包装，但现在大多数概念仍然有效正确。</p>
+<h2 id="优化主键查找"><a href="#优化主键查找" class="headerlink" title="优化主键查找"></a>优化主键查找</h2><p>创建一个单独的函数来优化按ID查找拨<code>dial</code>，而不是重用源代码，这可能会很有用。它允许您跳过片分配并优化查询字段列表，以包含相关的对象数据，例如该表的用户信息。</p>
+<p>但是，复制查询代码会导致存在两处相似代码,会增加维护的难度。最好等到在代码中找到需要优化的路径，然后只对它们进行优化。</p>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>在本文中，我们研究了如何实现业务模型服务接口的读取端，并将高级接口与低级SQL助手函数分开。我们还研究了如何通过与SQL窗口函数集成来优化分页查询。在下一篇文章中，我们将研究如何实现业务模型服务的写接口。</p>
+<p>如果不小心的话，SQL很容易渗透到整个应用程序中。通过将数据库代码隔离到单个包中，我们可以确保应用程序代码的其余部分可以干净且独立。</p>
+<p>如果您对本文有问题，评论，或建议，请访问<a target="_blank" rel="noopener" href="https://github.com/StoneQI/StoneQI.github.io/discussions">GitHub Discussion board</a>,这是一个Github讨论版，使用它可以进行更方便的交流。</p>
+
+            </div>
+          
+           
+            <div class="copyright">
+                <div class="name">
+                    <a>本文作者:</a>
+                    <a>Nick Yang</a>
+                </div>
+                <div class="link">
+                    <a>本文链接:</a>
+                    <a class="permalink" href="https://stoneqi.github.io/2021/01/27/Real-world-SQL-in-Go-Part-I/">https://stoneqi.github.io/2021/01/27/Real-world-SQL-in-Go-Part-I/</a>
+                </div>
+                <div class="license">
+                    <a>版权声明:</a>
+                    <a>本博客所有文章除特别声明外，均采用许可协议 CC BY-NC-SA 3.0 CN。转载请注明出处！</a>
+                </div>
+            </div>
+            
+
+          
+
+
+</article>
+
+
+<div class="tip">
+<button class="tip-btn">
+    打赏
+</button>
+<div class="tip-img">
+<ul>
+    
+<li>
+    <img src="/img/aipay.jpg"></img>
+</li>
+
+ 
+<li>
+    <img src="/img/wechatpay.png"></img>
+</li>
+
+</ul>
+</div>
+</div>
+
+<div class="more">
+
+    <div class="prev">
+   <a href="/2021/02/22/Go-Test-Used/">  Go 实际项目测试实践</a>
+    </div>
+
+<div></div>
+
+    <div class="next">
+    <a href="/2021/01/25/backup-note/"> 编程备忘录 </a>
+    </div>
+    
+</div>
+
+<div class="bdsharebuttonbox">
+<a href="#" class="bds_weixin fa fa-weixin" data-cmd="weixin" title="分享到微信" style="color:#1cbd8f">
+</a>
+<a href="#" class="bds_tsina fa fa-weibo" data-cmd="tsina" title="分享到新浪微博" style="color:#ff6363">
+</a>
+<a href="#" class="bds_twi fa fa-twitter" data-cmd="twi" title="分享到Twitter" style="color:#00A7EB">
+</a>
+<a href="#" class="bds_fbook fa fa-facebook" data-cmd="fbook" title="分享到Facebook" style="color:#00A7EB">
+</a>
+</div>
+<script>
+window._bd_share_config={
+    "common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},
+    "share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='../../../../../static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+ 
+<!-- <div id="comments"></div> -->
+<div id="gitalk-container"></div>
+
+<script>
+  //   var gitment = new Gitment({
+  //   id: "Wed Jan 27 2021 21:38:52 GMT+0800",
+  //   owner: "StoneQi",
+  //   repo: "stoneqi.github.io",
+  //   oauth: {
+  //     client_id:"d9f4e8907ec2566c2307",
+  //     client_secret: "2390fe6084c9227566e82de1755e3c3de4a13592",
+  //   }
+  // })
+  // gitment.render('comments')
+
+  const gitalk = new Gitalk({
+  clientID: "d9f4e8907ec2566c2307",
+  clientSecret: "2390fe6084c9227566e82de1755e3c3de4a13592",
+  repo: "stoneqi.github.io",      // The repository of store comments,
+  owner: "StoneQi",
+  admin: ["StoneQi"],
+  language: "zh-CN",
+  id: "Wed Jan 27 2021 21:38:52 GMT+0800",      // Ensure uniqueness and length less than 50
+  distractionFreeMode: false  // Facebook-like distraction free mode
+})
+
+gitalk.render('gitalk-container')
+</script>
+    </main>
+    <a class="not-found">not found!</a>
+    <div class="search-items">
+    </div>
+    <a href="#header" id="top" style="display:none">
+        <i class="fa fa-sort-asc fa-2x"></i>
+    </a>
+    <footer class="footer">
+    <div class="footer-copyright">©️2017
+    <a href="//github.com/Vevlins/toki" class="link" target="_blank">Toki</a>  by Vevlins
+    </div>    
+</footer>
+
+    
+<script src="/js/jquery.js"></script>
+
+    
+<script src="/js/toki.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

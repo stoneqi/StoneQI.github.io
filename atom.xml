@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Nick</title>
+  <icon>https://stoneqi.github.io/icon.png</icon>
+  <subtitle>Nick Yang的博客</subtitle>
+  <link href="https://stoneqi.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://stoneqi.github.io/"/>
+  <updated>2023-04-01T17:17:41.418Z</updated>
+  <id>https://stoneqi.github.io/</id>
+  
+  <author>
+    <name>Nick Yang</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hello world</title>
+    <link href="https://stoneqi.github.io/2023/04/02/hello-world/"/>
+    <id>https://stoneqi.github.io/2023/04/02/hello-world/</id>
+    <published>2023-04-01T17:17:41.418Z</published>
+    <updated>2023-04-01T17:17:41.418Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;一直想写博客，断断续续零散也糊弄了几篇，却未坚持下去，望这次能坚持下去！&lt;/p&gt;
+&lt;p&gt;如果您对本文有问题，评论，或建议，请访问&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="杂记" scheme="https://stoneqi.github.io/categories/%E6%9D%82%E8%AE%B0/"/>
+    
+    
+    <category term="杂记" scheme="https://stoneqi.github.io/tags/%E6%9D%82%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【翻译】Go 编译器理解: 新增一个关键字语句-Part2 </title>
+    <link href="https://stoneqi.github.io/2021/03/06/tr-golang-complier-part-2/"/>
+    <id>https://stoneqi.github.io/2021/03/06/tr-golang-complier-part-2/</id>
+    <published>2021-03-06T07:41:49.000Z</published>
+    <updated>2023-04-01T17:56:47.993Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;这是介绍Go编译器系列的第二篇，在[第1部分]（&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="go" scheme="https://stoneqi.github.io/categories/go/"/>
+    
+    
+    <category term="go" scheme="https://stoneqi.github.io/tags/go/"/>
+    
+    <category term="翻译" scheme="https://stoneqi.github.io/tags/%E7%BF%BB%E8%AF%91/"/>
+    
+    <category term="编译器" scheme="https://stoneqi.github.io/tags/%E7%BC%96%E8%AF%91%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【翻译】Go 编译器理解: 新增一个关键字语句-Part 1</title>
+    <link href="https://stoneqi.github.io/2021/03/05/tr-golang-complier-part-1/"/>
+    <id>https://stoneqi.github.io/2021/03/05/tr-golang-complier-part-1/</id>
+    <published>2021-03-05T07:41:49.000Z</published>
+    <updated>2023-04-01T17:17:41.419Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;原文发表在 &lt;a href=&quot;https://eli.thegreenplace.net/&quot;&gt;thegreenplace&lt;/a&gt;，推荐观看原文&lt;a href=&quot;https://eli.thegreenplace.net/2019/go-compiler-internals-adding-a-new-statement-to-go-part-1/&quot;&gt;Go compiler internals: adding a new statement to Go - Part 1 - Eli Bendersky’s website (thegreenplace.net)&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这是该系列第一篇文章，文章将简单介绍Go 的编译器。编译器知识非常庞大，一般需要一本书才能详细描述。因此本文章只是一个快速的叫深入的介绍。我计划未来写更多的关于编译器的文章。&lt;/p&gt;
+&lt;p&gt;在本系列中，我们将向Go编译器中添加一个新的语言关键字，建立一个可修改的编译器。（译者注：Go实现了自举，因此Go编译器也其实是一个Go应用，只要理解其中的原理，添加一个新的关键字特性也并非难事）&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="go" scheme="https://stoneqi.github.io/categories/go/"/>
+    
+    
+    <category term="go" scheme="https://stoneqi.github.io/tags/go/"/>
+    
+    <category term="翻译" scheme="https://stoneqi.github.io/tags/%E7%BF%BB%E8%AF%91/"/>
+    
+    <category term="编译器" scheme="https://stoneqi.github.io/tags/%E7%BC%96%E8%AF%91%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>一个介于wait-free 和 lock-free的高性能MPSC队列</title>
+    <link href="https://stoneqi.github.io/2021/03/04/go-mpsc-md/"/>
+    <id>https://stoneqi.github.io/2021/03/04/go-mpsc-md/</id>
+    <published>2021-03-04T03:06:13.000Z</published>
+    <updated>2023-04-01T17:17:41.418Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;本文实现了一个介于wait-free 和 lock-free的高性能MPSC队列，也就是多生产者但消费者队列。&lt;/p&gt;
+&lt;p&gt;与使用channel耗时测试：&lt;br&gt;测试配置：1W个生产者，每个生产者写入90次。统计生产者全部写入队列耗时。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;测试&lt;/th&gt;
+&lt;th&gt;MPSC队列耗时&lt;/th&gt;
+&lt;th&gt;channel耗时&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;
+&lt;td&gt;测试1&lt;/td&gt;
+&lt;td&gt;115.454185ms&lt;/td&gt;
+&lt;td&gt;965.9469ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;测试2&lt;/td&gt;
+&lt;td&gt;97.00209ms&lt;/td&gt;
+&lt;td&gt;992.595ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;测试3&lt;/td&gt;
+&lt;td&gt;109.776455ms&lt;/td&gt;
+&lt;td&gt;989.837ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;测试4&lt;/td&gt;
+&lt;td&gt;90.19232ms&lt;/td&gt;
+&lt;td&gt;1.3611857s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;测试5&lt;/td&gt;
+&lt;td&gt;79.12408ms&lt;/td&gt;
+&lt;td&gt;1.2725355s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;测试6&lt;/td&gt;
+&lt;td&gt;68.650755ms&lt;/td&gt;
+&lt;td&gt;1.3981461s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;测试7&lt;/td&gt;
+&lt;td&gt;77.155775ms&lt;/td&gt;
+&lt;td&gt;1.2469043s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;测试8&lt;/td&gt;
+&lt;td&gt;103.899735ms&lt;/td&gt;
+&lt;td&gt;1.4227174s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;测试9&lt;/td&gt;
+&lt;td&gt;72.15339ms&lt;/td&gt;
+&lt;td&gt;1.3351006s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;测试10&lt;/td&gt;
+&lt;td&gt;129.974485ms&lt;/td&gt;
+&lt;td&gt;1.0454128s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;</summary>
+    
+    
+    
+    <category term="go" scheme="https://stoneqi.github.io/categories/go/"/>
+    
+    
+    <category term="go" scheme="https://stoneqi.github.io/tags/go/"/>
+    
+    <category term="mpsc" scheme="https://stoneqi.github.io/tags/mpsc/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Go nil详解</title>
+    <link href="https://stoneqi.github.io/2021/03/04/go-nil-type-md/"/>
+    <id>https://stoneqi.github.io/2021/03/04/go-nil-type-md/</id>
+    <published>2021-03-04T02:41:36.000Z</published>
+    <updated>2023-04-01T17:17:41.418Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;Go-类型的默认值&quot;&gt;&lt;a href=&quot;#Go-类型的默认值&quot; class=&quot;headerlink&quot; title=&quot;Go 类型的默认值&quot;&gt;&lt;/a&gt;Go 类型的默认值&lt;/h2&gt;&lt;h3 id=&quot;基本类型（basic-type）&quot;&gt;&lt;a href=&quot;#基本类型（basic-type）&quot; class=&quot;headerlink&quot; title=&quot;基本类型（basic type）&quot;&gt;&lt;/a&gt;基本类型（basic type）&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;内置字符串类型：&lt;code&gt;string&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;内置布尔类型：&lt;code&gt;bool&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;内置数值类型：&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;int8&lt;/code&gt;、&lt;code&gt;uint8&lt;/code&gt;（&lt;code&gt;byte&lt;/code&gt;）、&lt;code&gt;int16&lt;/code&gt;、&lt;code&gt;uint16&lt;/code&gt;、&lt;code&gt;int32&lt;/code&gt;（&lt;code&gt;rune&lt;/code&gt;）、&lt;code&gt;uint32&lt;/code&gt;、&lt;code&gt;int64&lt;/code&gt;、&lt;code&gt;uint64&lt;/code&gt;、&lt;code&gt;int&lt;/code&gt;、&lt;code&gt;uint&lt;/code&gt;、&lt;code&gt;uintptr&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;float32&lt;/code&gt;、&lt;code&gt;float64&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;complex64&lt;/code&gt;、&lt;code&gt;complex128&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;注意，&lt;code&gt;byte&lt;/code&gt;是&lt;code&gt;uint8&lt;/code&gt;的一个内置别名，&lt;code&gt;rune&lt;/code&gt;是&lt;code&gt;int32&lt;/code&gt;的一个内置别名。 &lt;/p&gt;</summary>
+    
+    
+    
+    <category term="go" scheme="https://stoneqi.github.io/categories/go/"/>
+    
+    
+    <category term="go" scheme="https://stoneqi.github.io/tags/go/"/>
+    
+    <category term="nil" scheme="https://stoneqi.github.io/tags/nil/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Go 实际项目测试实践</title>
+    <link href="https://stoneqi.github.io/2021/02/22/Go-Test-Used/"/>
+    <id>https://stoneqi.github.io/2021/02/22/Go-Test-Used/</id>
+    <published>2021-02-21T16:50:58.000Z</published>
+    <updated>2023-04-01T17:17:41.417Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;测试的重要性不言而喻。然而在项目中，真正做到编写完整的测试却是少之又少。&lt;/p&gt;
+&lt;p&gt;主要原因推测有三个：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;觉得写测试太麻烦，花费时间。其实我觉得这是个伪命题，因为通常写完一段代码，我们肯定会测试该代码能否正确执行，比如HTTP请求，数据库请求，RPC请求，逻辑函数。我们都会进行访问测试，这其实就是测试用例了，只是没有集成到测试框架中。其实，我们完全可以将这部分测试写成代码放到测试中。&lt;/li&gt;
+&lt;li&gt;代码不可测试。这其实很常见，大部分我们都是接手已有的代码。如果代码没有好的架构设计，统一的分格，强制的CR。那么写出不可测试的代码也就司空见惯了。对于这种代码，只能进行逐步重构了。&lt;/li&gt;
+&lt;li&gt;不知道怎么测试。项目中的代码一般都会有很多的依赖，而测试中去独立部署这些服务肯定成本巨大，因此如何处理这些依赖是建立测试的最大障碍。下文中我也会尝试介绍这部分的处理手段。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;一般的测试分为单元测试和集成测试，但是这里我们会模糊这种界限，不做具体区分。下面出现的代码都是为了这篇文章而写的伪代码，没有考虑架构之类的。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="go" scheme="https://stoneqi.github.io/categories/go/"/>
+    
+    
+    <category term="测试" scheme="https://stoneqi.github.io/tags/%E6%B5%8B%E8%AF%95/"/>
+    
+    <category term="go" scheme="https://stoneqi.github.io/tags/go/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[翻译]Real-world SQL in Go: PartI</title>
+    <link href="https://stoneqi.github.io/2021/01/27/Real-world-SQL-in-Go-Part-I/"/>
+    <id>https://stoneqi.github.io/2021/01/27/Real-world-SQL-in-Go-Part-I/</id>
+    <published>2021-01-27T13:38:52.000Z</published>
+    <updated>2023-04-01T17:17:41.417Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;原文由 Ben Johnson 发表在 &lt;a href=&quot;https://www.gobeyond.dev/&quot;&gt;gobeyond&lt;/a&gt;，推荐观看原文&lt;a href=&quot;https://www.gobeyond.dev/real-world-sql-part-one/&quot;&gt;文章链接&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;不管您是不是讨厌还是接受SQL，在某个时候您都会在项目中使用它。关系数据库结构并不总是能很好地映射到应用程序数据结构，但SQL的普遍性意味着它是开发人员在需要数据持久性时使用的基本工具。&lt;/p&gt;
+&lt;p&gt;虽然Go有&lt;a href=&quot;https://gorm.io/&quot;&gt;GORM&lt;/a&gt;之类的对象关系映射库，但我们将避免这种集成库，而直接使用标准库包&lt;code&gt;database/sql&lt;/code&gt;。ORM库封装了&lt;code&gt;SQL&lt;/code&gt;底层的复杂性，在简单的数据访问中这很有帮助，但缺点是会使高级查询和调试更加复杂。&lt;/p&gt;
+&lt;p&gt;在本文中，我们将研究如何直接使用&lt;code&gt;SQL&lt;/code&gt;构造数据访问代码、在何处处理业务模型以及一些有用的SQL技巧。我将引用&lt;a href=&quot;https://wtfdial.com/&quot;&gt;WTF Dial&lt;/a&gt;项目的代码。你可以通过这篇&lt;a href=&quot;https://www.gobeyond.dev/wtf-dial/&quot;&gt;介绍性的博客文章&lt;/a&gt;来了解它。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="go" scheme="https://stoneqi.github.io/categories/go/"/>
+    
+    
+    <category term="go" scheme="https://stoneqi.github.io/tags/go/"/>
+    
+    <category term="翻译" scheme="https://stoneqi.github.io/tags/%E7%BF%BB%E8%AF%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>编程备忘录</title>
+    <link href="https://stoneqi.github.io/2021/01/25/backup-note/"/>
+    <id>https://stoneqi.github.io/2021/01/25/backup-note/</id>
+    <published>2021-01-25T12:19:47.000Z</published>
+    <updated>2023-04-01T17:17:41.418Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;编程中常用的、易忘的配置等记录&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="备忘录" scheme="https://stoneqi.github.io/categories/%E5%A4%87%E5%BF%98%E5%BD%95/"/>
+    
+    
+    <category term="C++" scheme="https://stoneqi.github.io/tags/C/"/>
+    
+    <category term="备忘" scheme="https://stoneqi.github.io/tags/%E5%A4%87%E5%BF%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[翻译]Packages as layers, not groups</title>
+    <link href="https://stoneqi.github.io/2021/01/25/tr-packages-as-layers-not-groups/"/>
+    <id>https://stoneqi.github.io/2021/01/25/tr-packages-as-layers-not-groups/</id>
+    <published>2021-01-25T12:16:37.000Z</published>
+    <updated>2023-04-01T17:17:41.419Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;原文由 Ben Johnson 发表在 &lt;a href=&quot;https://www.gobeyond.dev/&quot;&gt;gobeyond&lt;/a&gt;，推荐观看原文&lt;a href=&quot;https://www.gobeyond.dev/packages-as-layers/&quot;&gt;文章链接&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;四年前，我写了一篇名为”&lt;a href=&quot;https://www.gobeyond.dev/standard-package-layout/&quot;&gt;Standard Package Layout&lt;/a&gt;“的文章，试图解决即使是高级Go开发人员最困难的主题之一：package layout(go项目中包的组织)。 但是，大多数开发人员仍在努力用目录的方式组织管理代码。&lt;/p&gt;
+&lt;p&gt;几乎所有的编程语言都有一种将相关功能分组在一起的机制。 Ruby有gems，Java有packages。 这些语言没有将代码代码分组的标准约定，因为老实说，这并不重要。 一切都取决于个人喜好。&lt;/p&gt;
+&lt;p&gt;但是，转到Go的开发人员发现他们需要经常关心代码包的组织。 为什么Go软件包与其他语言如此不同？ 这是因为它们不是groups(组)，而是layers(层)。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="go" scheme="https://stoneqi.github.io/categories/go/"/>
+    
+    
+    <category term="go" scheme="https://stoneqi.github.io/tags/go/"/>
+    
+    <category term="翻译" scheme="https://stoneqi.github.io/tags/%E7%BF%BB%E8%AF%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[翻译]Common CRUD Design in Go</title>
+    <link href="https://stoneqi.github.io/2021/01/24/tr-common-crud-design-in-go/"/>
+    <id>https://stoneqi.github.io/2021/01/24/tr-common-crud-design-in-go/</id>
+    <published>2021-01-24T12:38:13.000Z</published>
+    <updated>2023-04-01T17:17:41.418Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;原文由 Ben Johnson 发表在 &lt;a href=&quot;https://www.gobeyond.dev/&quot;&gt;gobeyond&lt;/a&gt;，推荐观看原文&lt;a href=&quot;https://www.gobeyond.dev/crud/&quot;&gt;文章链接&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;增删改查（CRUD）是一个技术产品的基础部分，做过应用开发的人应该很熟悉它。&lt;/p&gt;
+&lt;p&gt;开发CRUD应用时，大多数编程语言会有框架提供一个固定的开发架构，例如PHP的Yii2、Java的SSH。但是总所周知Go社区是反框架的。因此，我们需要设计自己的CRUD架构。&lt;/p&gt;
+&lt;p&gt;在一年的Go应用开发经验后，我发现了一套通用的CRUD设计模式，能满足大多数不同的项目的要求。我将以开发 &lt;a href=&quot;https://github.com/benbjohnson/wtf&quot;&gt;WTF Dial&lt;/a&gt; 项目为例进行说明。 项目的详细介绍&lt;a href=&quot;https://www.gobeyond.dev/wtf-dial/&quot;&gt;参考链接&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;译者：&lt;a href=&quot;https://github.com/benbjohnson/wtf&quot;&gt;WTF Dial(which they feel)&lt;/a&gt; 项目提供一个界面，每个成员可输入对当前团队的糟糕程度(f-cked)。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="go" scheme="https://stoneqi.github.io/categories/go/"/>
+    
+    
+    <category term="go" scheme="https://stoneqi.github.io/tags/go/"/>
+    
+    <category term="翻译" scheme="https://stoneqi.github.io/tags/%E7%BF%BB%E8%AF%91/"/>
+    
+    <category term="CRUD" scheme="https://stoneqi.github.io/tags/CRUD/"/>
+    
+  </entry>
+  
+</feed>
