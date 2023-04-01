@@ -6,7 +6,7 @@
   <link href="https://stoneqi.github.io/atom.xml" rel="self"/>
   
   <link href="https://stoneqi.github.io/"/>
-  <updated>2023-04-01T19:55:08.449Z</updated>
+  <updated>2023-04-01T20:00:26.076Z</updated>
   <id>https://stoneqi.github.io/</id>
   
   <author>
@@ -21,10 +21,10 @@
     <link href="https://stoneqi.github.io/2021/03/06/tr-golang-complier-part-2/"/>
     <id>https://stoneqi.github.io/2021/03/06/tr-golang-complier-part-2/</id>
     <published>2021-03-06T07:41:49.000Z</published>
-    <updated>2023-04-01T19:55:08.449Z</updated>
+    <updated>2023-04-01T20:00:26.076Z</updated>
     
     
-    <summary type="html">&lt;p&gt;这是介绍Go编译器系列的第二篇，在[第1部分]（&lt;a href=&quot;https://eli.thegreenplace.net/2019/go-compiler-internals-adding-a-new-statement-to-go-part-2/%EF%BC%89%E4%B8%AD%EF%BC%8C%E6%88%91%E4%BB%AC%E5%9C%A8Go%E4%B8%AD%E6%B7%BB%E5%8A%A0%E4%BA%86%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E5%85%B3%E9%94%AE%E8%AF%8D%E8%AF%AD%E5%8F%A5%EF%BC%8C%E9%80%9A%E8%BF%87%E6%9E%84%E5%BB%BA%E4%BF%AE%E6%94%B9%E7%89%88%E6%9C%AC%E7%9A%84%E7%BC%96%E8%AF%91%E5%99%A8%E6%9D%A5%E6%94%AF%E6%8C%81%E8%AF%A5%E5%85%B3%E9%94%AE%E5%AD%97%E3%80%82%E4%B8%BA%E6%AD%A4%EF%BC%8C%E6%88%91%E4%BB%AC%E6%8C%89%E7%85%A7%E6%AD%A4%E5%9B%BE%E4%BB%8B%E7%BB%8D%E4%BA%86%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E5%89%8D%E4%BA%94%E4%B8%AA%E9%98%B6%E6%AE%B5%EF%BC%9A&quot;&gt;https://eli.thegreenplace.net/2019/go-compiler-internals-adding-a-new-statement-to-go-part-2/）中，我们在Go中添加了一个新的关键词语句，通过构建修改版本的编译器来支持该关键字。为此，我们按照此图介绍了编译器的前五个阶段：&lt;/a&gt;&lt;/p&gt;
+    <summary type="html">&lt;p&gt;这是介绍Go编译器系列的第二篇，在&lt;a href=&quot;https://eli.thegreenplace.net/2019/go-compiler-internals-adding-a-new-statement-to-go-part-2/&quot;&gt;第1部分&lt;/a&gt;中，我们在Go中添加了一个新的关键词语句，通过构建修改版本的编译器来支持该关键字。为此，我们按照此图介绍了编译器的前五个阶段：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;/../img/2023-04-02-01-55-39.png&quot;&gt;&lt;/p&gt;
 &lt;p&gt;在最后，我们是通过在＂重写AST＂阶段将其替换为&lt;code&gt;for&lt;/code&gt;来实现&lt;code&gt;until&lt;/code&gt;。另外，在&lt;code&gt;gc/walk.go&lt;/code&gt;中，其他类似的转换也是在编译器进行SSA转换和代码生成之前完成的。&lt;/p&gt;
 &lt;p&gt;在这一部分中，我们将通过在编译流程中处理新的&lt;code&gt;until&lt;/code&gt;语句来介绍编译器的其余阶段。&lt;/p&gt;</summary>
