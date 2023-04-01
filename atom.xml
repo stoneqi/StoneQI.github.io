@@ -77,7 +77,7 @@
     <link href="https://stoneqi.github.io/2021/03/04/go-mpsc-md/"/>
     <id>https://stoneqi.github.io/2021/03/04/go-mpsc-md/</id>
     <published>2021-03-04T03:06:13.000Z</published>
-    <updated>2023-04-01T17:17:41.418Z</updated>
+    <updated>2023-04-01T18:07:03.561Z</updated>
     
     
     <summary type="html">&lt;p&gt;本文实现了一个介于wait-free 和 lock-free的高性能MPSC队列，也就是多生产者但消费者队列。&lt;/p&gt;
@@ -147,9 +147,9 @@
     <category term="go" scheme="https://stoneqi.github.io/categories/go/"/>
     
     
-    <category term="go" scheme="https://stoneqi.github.io/tags/go/"/>
-    
     <category term="mpsc" scheme="https://stoneqi.github.io/tags/mpsc/"/>
+    
+    <category term="go" scheme="https://stoneqi.github.io/tags/go/"/>
     
   </entry>
   
@@ -158,7 +158,7 @@
     <link href="https://stoneqi.github.io/2021/03/04/go-nil-type-md/"/>
     <id>https://stoneqi.github.io/2021/03/04/go-nil-type-md/</id>
     <published>2021-03-04T02:41:36.000Z</published>
-    <updated>2023-04-01T17:17:41.418Z</updated>
+    <updated>2023-04-01T18:06:52.690Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;Go-类型的默认值&quot;&gt;&lt;a href=&quot;#Go-类型的默认值&quot; class=&quot;headerlink&quot; title=&quot;Go 类型的默认值&quot;&gt;&lt;/a&gt;Go 类型的默认值&lt;/h2&gt;&lt;h3 id=&quot;基本类型（basic-type）&quot;&gt;&lt;a href=&quot;#基本类型（basic-type）&quot; class=&quot;headerlink&quot; title=&quot;基本类型（basic type）&quot;&gt;&lt;/a&gt;基本类型（basic type）&lt;/h3&gt;&lt;ul&gt;
@@ -189,7 +189,7 @@
     <link href="https://stoneqi.github.io/2021/02/22/Go-Test-Used/"/>
     <id>https://stoneqi.github.io/2021/02/22/Go-Test-Used/</id>
     <published>2021-02-21T16:50:58.000Z</published>
-    <updated>2023-04-01T17:17:41.417Z</updated>
+    <updated>2023-04-01T18:06:56.394Z</updated>
     
     
     <summary type="html">&lt;p&gt;测试的重要性不言而喻。然而在项目中，真正做到编写完整的测试却是少之又少。&lt;/p&gt;
@@ -206,9 +206,9 @@
     <category term="go" scheme="https://stoneqi.github.io/categories/go/"/>
     
     
-    <category term="测试" scheme="https://stoneqi.github.io/tags/%E6%B5%8B%E8%AF%95/"/>
-    
     <category term="go" scheme="https://stoneqi.github.io/tags/go/"/>
+    
+    <category term="测试" scheme="https://stoneqi.github.io/tags/%E6%B5%8B%E8%AF%95/"/>
     
   </entry>
   
@@ -243,7 +243,7 @@
     <link href="https://stoneqi.github.io/2021/01/25/backup-note/"/>
     <id>https://stoneqi.github.io/2021/01/25/backup-note/</id>
     <published>2021-01-25T12:19:47.000Z</published>
-    <updated>2023-04-01T17:17:41.418Z</updated>
+    <updated>2023-04-01T18:06:59.752Z</updated>
     
     
     <summary type="html">&lt;p&gt;编程中常用的、易忘的配置等记录&lt;/p&gt;</summary>
@@ -319,7 +319,7 @@
     <link href="https://stoneqi.github.io/2021/01/23/hello-world/"/>
     <id>https://stoneqi.github.io/2021/01/23/hello-world/</id>
     <published>2021-01-23T12:16:37.000Z</published>
-    <updated>2023-04-01T18:08:17.741Z</updated>
+    <updated>2023-04-01T18:10:09.723Z</updated>
     
     
       

@@ -15,29 +15,14 @@
     
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 
-    <!-- 
-<link rel="stylesheet" href="/css/gitment.css">
- -->
     
 <link rel="stylesheet" href="/css/hljs.min.css">
 
     
 <script src="/js/hljs.min.js"></script>
   
-    <script>
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?8ad9e7d37411eee585b4bd7194806394";
-          var s = document.getElementsByTagName("script")[0]; 
-          s.parentNode.insertBefore(hm, s);
-        })();
-    </script>  
-    <!-- 
-<script src="/js/gitment.browser.js"></script>
-   -->
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> 
 <meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Nick" type="application/atom+xml">
 </head>
 <body>
@@ -65,7 +50,7 @@
                 
             
                 <li class="menu-item">
-                    <a href="/archives" class="menu-item-link">
+                    <a href="/archives/" class="menu-item-link">
                         归档
                     </a>
                 </li>
@@ -73,8 +58,8 @@
                 
             
                 <li class="menu-item">
-                    <a target="_blank" rel="noopener" href="https://github.com/StoneQI" class="menu-item-link">
-                        Github
+                    <a target="_blank" rel="noopener" href="https://github.com/StoneQI/" class="menu-item-link">
+                        GitHub
                     </a>
                 </li>
             
@@ -91,8 +76,8 @@
                 
             
                 <li class="menu-item">
-                    <a href="/category-archive" class="menu-item-link">
-                        目录
+                    <a href="/category-archive/" class="menu-item-link">
+                        分类
                     </a>
                 </li>
             
@@ -100,10 +85,10 @@
                 
                 <li class="menu-item">
                     <a class="menu-item-link search">
-                        Search                   
+                        搜索                   
                         <i class="fa fa-long-arrow-right search-icon" aria-hidden="true"></i>
                     </a>
-                        <input placeholder="Search..." class="search-input" style="display:none;border:none!important;" onkeydown="onEnter(event)" onkeypress="onEnter(event)"></input>
+                        <input placeholder="搜索..." class="search-input" style="display:none;border:none!important;" onkeydown="onEnter(event)" onkeypress="onEnter(event)"></input>
                 </li>
                 
         </ul>
@@ -145,32 +130,32 @@
 <p>在本系列中，我们将向Go编译器中添加一个新的语言关键字，建立一个可修改的编译器。（译者注：Go实现了自举，因此Go编译器也其实是一个Go应用，只要理解其中的原理，添加一个新的关键字特性也并非难事）</p>
 <span id="more"></span>
 <h2 id="新增一个关键字语句-statement"><a href="#新增一个关键字语句-statement" class="headerlink" title="新增一个关键字语句(statement)"></a>新增一个关键字语句(statement)</h2><p>大多数语言有一个<code>while</code>语言，在Go中并未直接有该语句，但是可以通过<code>for</code>实现：</p>
-<pre><code>for &lt;some-condition&gt; &#123;
+<pre class="line-numbers language-none"><code class="language-none">for &lt;some-condition&gt; &#123;
   &lt;loop body&gt;
-&#125;
-</code></pre>
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
 <p>增加一个<code>while</code>语句并不重要，因为<code>for</code>能实现该功能。因此我们实现一个更有挑战的功能，添加<code>until</code>语句，<code>until</code>和<code>while</code>功能大体一致，只是当条件为否时才执行循环。下述一个例子：</p>
-<pre><code class="go">i := 4
-// i == 0 为否时才循环，等于 i != 0
-until i == 0 &#123;
-  i--
-  fmt.Println(&quot;Hello, until!&quot;)
-&#125;
-</code></pre>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">i <span class="token operator">:=</span> <span class="token number">4</span>
+<span class="token comment">// i == 0 为否时才循环，等于 i != 0</span>
+until i <span class="token operator">==</span> <span class="token number">0</span> <span class="token punctuation">&#123;</span>
+  i<span class="token operator">--</span>
+  fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Hello, until!"</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>和下述语句一致:</p>
-<pre><code class="go">i := 4
-// i != 0 为 true 时进行循环
-for i != 0 &#123;
-  i--
-  fmt.Println(&quot;Hello, until!&quot;)
-&#125;
-</code></pre>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">i <span class="token operator">:=</span> <span class="token number">4</span>
+<span class="token comment">// i != 0 为 true 时进行循环</span>
+<span class="token keyword">for</span> i <span class="token operator">!=</span> <span class="token number">0</span> <span class="token punctuation">&#123;</span>
+  i<span class="token operator">--</span>
+  fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Hello, until!"</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>同时，我们能在循环声明的时候使用一个初始化语句，如下例：</p>
-<pre><code class="go">until i := 4; i == 0 &#123;
-  i--
-  fmt.Println(&quot;Hello, until!&quot;)
-&#125;
-</code></pre>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">until i <span class="token operator">:=</span> <span class="token number">4</span><span class="token punctuation">;</span> i <span class="token operator">==</span> <span class="token number">0</span> <span class="token punctuation">&#123;</span>
+  i<span class="token operator">--</span>
+  fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Hello, until!"</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>声明 - 这仅仅是一个供学习的小玩具，我不认为增加<code>until</code>对Go是一个好的注意。因为Go的极简机制是一个绝对正确的设计。</p>
 <h2 id="Go编译器的总体架构"><a href="#Go编译器的总体架构" class="headerlink" title="Go编译器的总体架构"></a>Go编译器的总体架构</h2><p>Go编译器（Go compiler (<code>gc</code>)）是一个经典的编译器架构，如果你了解过其他编译器你会立刻感觉熟悉。架构如下图：</p>
 <p><img src="https://gitee.com/stoneqi/blogimage/raw/master/img/go-compiler-flow.png" alt="Go gc compiler flow"></p>
@@ -179,102 +164,102 @@ for i != 0 &#123;
 <p>注：scan -&gt;Parse-&gt;AST，这三步实际就是一个字符串处理程序，将一个Go源文件转换为树的结构。</p>
 <h2 id="Scan"><a href="#Scan" class="headerlink" title="Scan"></a>Scan</h2><p>扫描器（<code>scanner </code>）（也称为<code>lexer</code>）将源代码解析成独立的实体（Token）。例如，<code>for</code>将解析成<code>_For</code>，<code>···</code>将解析成<code>_DotDotDot</code>，<code>·</code>将成为<code>_Dot</code>，等等。</p>
 <p><code>scanner</code>实现在 <code>syntax</code>包中。因此我们需要在这里新增一个关键字<code>until</code>，<code>syntax/tokens.go</code>文件有一个编译器中需要的所有tokens列表。因此我们新增加一个<code>until</code>：</p>
-<pre><code class="go">_Fallthrough // fallthrough
-_For         // for
-_Until       // until  新增的
-_Func        // func
-</code></pre>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">_Fallthrough <span class="token comment">// fallthrough</span>
+_For         <span class="token comment">// for</span>
+_Until       <span class="token comment">// until  新增的</span>
+_Func        <span class="token comment">// func</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p> token 产量右边的注释是重要的，因为它用于标识文本中的 token。<code>syntax/tokens.go</code>是被用来生成<code>syntax/token_string.go</code>的，该代码在 Token 列表的上方有如下一行：：</p>
-<pre><code>//go:generate stringer -type token -linecomment
-</code></pre>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F;go:generate stringer -type token -linecomment<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
 <p><code>go generate</code> 能手动运行然后输出文件 (<code>syntax/token_string.go</code>) 。为了重新生成它，我从<code>syntax</code>目录运行了以下命令：</p>
-<pre><code>GOROOT=&lt;src checkout&gt; go generate tokens.go
-</code></pre>
+<pre class="line-numbers language-none"><code class="language-none">GOROOT&#x3D;&lt;src checkout&gt; go generate tokens.go<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
 <p>当我们修改编译器，重新生成 (<code>syntax/token_string.go</code>) 时， “ GOROOT” 设置<a target="_blank" rel="noopener" href="https://github.com/golang/go/issues/32724">从Go 1.12起是必不可少的</a>，并且必须指向源代码的跟目录。</p>
 <p>运行代码生成器并验证<code>syntax / token_string.go</code>现在具有<code>until</code> Token后，我尝试重建编译器，但遇到了 panic：</p>
-<pre><code>panic: imperfect hash
-</code></pre>
+<pre class="line-numbers language-none"><code class="language-none">panic: imperfect hash<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
 <p><code>panic</code>发生在 <code>syntax/scanner.go</code>文件的下述代码中:</p>
-<pre><code>// 这是一个关键字的hash函数，假定关键字长度至少为2
-// hash is a perfect hash function for keywords.
-// It assumes that s has at least length 2.
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 这是一个关键字的hash函数，假定关键字长度至少为2
+&#x2F;&#x2F; hash is a perfect hash function for keywords.
+&#x2F;&#x2F; It assumes that s has at least length 2.
 func hash(s []byte) uint &#123;
   return (uint(s[0])&lt;&lt;4 ^ uint(s[1]) + uint(len(s))) &amp; uint(len(keywordMap)-1)
 &#125;
 
-var keywordMap [1 &lt;&lt; 6]token // size 必须时2的次方数  size must be power of two
+var keywordMap [1 &lt;&lt; 6]token &#x2F;&#x2F; size 必须时2的次方数  size must be power of two
 
 func init() &#123;
-  // populate keywordMap
-  // 构建 keywordMap
-  for tok := _Break; tok &lt;= _Var; tok++ &#123;
-    h := hash([]byte(tok.String()))
-    if keywordMap[h] != 0 &#123;
+  &#x2F;&#x2F; populate keywordMap
+  &#x2F;&#x2F; 构建 keywordMap
+  for tok :&#x3D; _Break; tok &lt;&#x3D; _Var; tok++ &#123;
+    h :&#x3D; hash([]byte(tok.String()))
+    if keywordMap[h] !&#x3D; 0 &#123;
       panic(&quot;imperfect hash&quot;)
     &#125;
-    keywordMap[h] = tok
+    keywordMap[h] &#x3D; tok
   &#125;
-&#125;
-</code></pre>
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>编译器尝试构建一个“完美的”哈希表，以从hash 查找到关键字字符串(Token)。 “完美”表示它不希望发生冲突，而只是一个线性数组，其中每个关键字都映射到一个索引（哈希可能发生冲突）。而我们添加的<code>until</code>关键字刚好发生了冲突。因为该哈希函数是一个针对该问题特定的函数（例如，它仅查看关键字字符串的前两个字符的内容）。并且去调试 <code>until</code>为何会产生冲突的原因并不容易。为了解决此问题，我将查找表的大小更改为“ [1 &lt;&lt; 7] token”，从而将查找数组的大小从64更改为128。这为哈希函数提供了更多的空间来分配其键，冲突消失了。</p>
 <h2 id="Parse"><a href="#Parse" class="headerlink" title="Parse"></a>Parse</h2><p>Go有一个标准的递归下降解析器 (parser)，它转换 scanner 扫描的 Token 流 到一个正确的语法树。我们将在 <code>syntax/nodes.go</code>中增加一个新的<code>until</code> 节点类型 :</p>
-<pre><code>UntilStmt struct &#123;
-  Init SimpleStmt  // 初始化
-  Cond Expr        //条件表达式
-  Body *BlockStmt  // 循环体
-  stmt  // 主要是接口信息 Pos() 表示在源代码中的位置
-&#125;
-</code></pre>
+<pre class="line-numbers language-none"><code class="language-none">UntilStmt struct &#123;
+  Init SimpleStmt  &#x2F;&#x2F; 初始化
+  Cond Expr        &#x2F;&#x2F;条件表达式
+  Body *BlockStmt  &#x2F;&#x2F; 循环体
+  stmt  &#x2F;&#x2F; 主要是接口信息 Pos() 表示在源代码中的位置
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p><code>for</code> 循环的节点类型定义<code>ForStmt</code>，我们仿照定义了<code>UntilStmt</code>。我们的新<code>until</code>和<code>for</code>是及其相似的，因此我们的<code>until</code>语句有几个可选的子语句</p>
-<pre><code>until &lt;init&gt;; &lt;cond&gt; &#123;
+<pre class="line-numbers language-none"><code class="language-none">until &lt;init&gt;; &lt;cond&gt; &#123;
   &lt;body&gt;
-&#125;
-</code></pre>
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
 <p> <code>&lt;init&gt;</code> 和<code>&lt;cond&gt;</code> 是可选的。<code>UntilStmt.stmt</code>是嵌入字段，被用于语法树中所有的 statements （区分一下statements 和 expression）语句，其中包含了该语句的位置信息。</p>
 <p>解析代码是在<code>syntax/parser.go</code>中完成的。<code>parser.stmtOrNil</code>方法解析当前位置的一个语句。</p>
 <p>它查看当前 Token 并决定要解析的语句。这是一个包含我们添加代码的摘录：</p>
-<pre><code>switch p.tok &#123;
+<pre class="line-numbers language-none"><code class="language-none">switch p.tok &#123;
 case _Lbrace:
   return p.blockStmt(&quot;&quot;)
 
-// ...
+&#x2F;&#x2F; ...
 
 case _For:
   return p.forStmt()
 
-case _Until: // 如果都是 _Until
-  return p.untilStmt() // 进行解析
-</code></pre>
+case _Until: &#x2F;&#x2F; 如果都是 _Until
+  return p.untilStmt() &#x2F;&#x2F; 进行解析<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>And this is <code>untilStmt</code>:</p>
-<pre><code>func (p *parser) untilStmt() Stmt &#123;
+<pre class="line-numbers language-none"><code class="language-none">func (p *parser) untilStmt() Stmt &#123;
   if trace &#123;
     defer p.trace(&quot;untilStmt&quot;)()
   &#125;
 
-  s := new(UntilStmt)
-  s.pos = p.pos()
+  s :&#x3D; new(UntilStmt)
+  s.pos &#x3D; p.pos()
 
-  s.Init, s.Cond, _ = p.header(_Until) // 只使用前两个
-  s.Body = p.blockStmt(&quot;until clause&quot;)
+  s.Init, s.Cond, _ &#x3D; p.header(_Until) &#x2F;&#x2F; 只使用前两个
+  s.Body &#x3D; p.blockStmt(&quot;until clause&quot;)
 
   return s
-&#125;
-</code></pre>
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p> <code>parser.header</code>方法被使用来解析<code>if</code> 和 <code>for</code> 语句的头部（也就是<code>Init</code>和<code>Cond</code>），这和 <code>until</code>的头部是一样的，因此我们直接重用该方法。一般的形式下，它支持三个部分（以分号分隔）。在<code>for</code>语句中，第三部分可用于<a target="_blank" rel="noopener" href="https://golang.org/ref/spec#PostStmt">“ post”语句</a>，但是我们不会在<code>until</code>中支持它，因此我们只使用前两部分。注意，<code>header</code>方法参数接受源 Token （判断是解析<code>if</code>还是<code>for</code>），以便能够区分所服务的语句类型。例如，它将拒绝<code>if</code>的<code>post</code>语句。我们也应该在header方法 的实现中添加当为 <code>until</code>时拒绝一个<code>post</code>语句，但是现在我们并没有实现这部分。</p>
 <p>这是解析器中需要做的所有更改。由于<code>until</code>在结构上与现有语句非常相似，因此我们可以重用许多功能。而不必添加太多代码。</p>
 <p>在使用编译器解析下述代码解析成语法树<code>untilStmt</code>节点后， 使用<code>syntax.Fdump</code>可打印出<code>untilStmt</code>的信息。</p>
-<pre><code>i = 4
-until i == 0 &#123;
+<pre class="line-numbers language-none"><code class="language-none">i &#x3D; 4
+until i &#x3D;&#x3D; 0 &#123;
   i--
   fmt.Println(&quot;Hello, until!&quot;)
-&#125;
-</code></pre>
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>我们将得到<code>until</code>语句对应的<code>untilStmt</code>结构</p>
-<pre><code> 84  .  .  .  .  .  3: *syntax.UntilStmt &#123;
+<pre class="line-numbers language-none"><code class="language-none"> 84  .  .  .  .  .  3: *syntax.UntilStmt &#123;
  85  .  .  .  .  .  .  Init: nil
  86  .  .  .  .  .  .  Cond: *syntax.Operation &#123;
- 87  .  .  .  .  .  .  .  Op: ==
- 88  .  .  .  .  .  .  .  X: i @ ./useuntil.go:13:8
+ 87  .  .  .  .  .  .  .  Op: &#x3D;&#x3D;
+ 88  .  .  .  .  .  .  .  X: i @ .&#x2F;useuntil.go:13:8
  89  .  .  .  .  .  .  .  Y: *syntax.BasicLit &#123;
  90  .  .  .  .  .  .  .  .  Value: &quot;0&quot;
  91  .  .  .  .  .  .  .  .  Kind: 0
@@ -284,14 +269,14 @@ until i == 0 &#123;
  95  .  .  .  .  .  .  .  List: []syntax.Stmt (2 entries) &#123;
  96  .  .  .  .  .  .  .  .  0: *syntax.AssignStmt &#123;
  97  .  .  .  .  .  .  .  .  .  Op: -
- 98  .  .  .  .  .  .  .  .  .  Lhs: i @ ./useuntil.go:14:3
+ 98  .  .  .  .  .  .  .  .  .  Lhs: i @ .&#x2F;useuntil.go:14:3
  99  .  .  .  .  .  .  .  .  .  Rhs: *(Node @ 52)
 100  .  .  .  .  .  .  .  .  &#125;
 101  .  .  .  .  .  .  .  .  1: *syntax.ExprStmt &#123;
 102  .  .  .  .  .  .  .  .  .  X: *syntax.CallExpr &#123;
 103  .  .  .  .  .  .  .  .  .  .  Fun: *syntax.SelectorExpr &#123;
-104  .  .  .  .  .  .  .  .  .  .  .  X: fmt @ ./useuntil.go:15:3
-105  .  .  .  .  .  .  .  .  .  .  .  Sel: Println @ ./useuntil.go:15:7
+104  .  .  .  .  .  .  .  .  .  .  .  X: fmt @ .&#x2F;useuntil.go:15:3
+105  .  .  .  .  .  .  .  .  .  .  .  Sel: Println @ .&#x2F;useuntil.go:15:7
 106  .  .  .  .  .  .  .  .  .  .  &#125;
 107  .  .  .  .  .  .  .  .  .  .  ArgList: []syntax.Expr (1 entries) &#123;
 108  .  .  .  .  .  .  .  .  .  .  .  0: *syntax.BasicLit &#123;
@@ -305,156 +290,156 @@ until i == 0 &#123;
 116  .  .  .  .  .  .  .  &#125;
 117  .  .  .  .  .  .  .  Rbrace: syntax.Pos &#123;&#125;
 118  .  .  .  .  .  .  &#125;
-119  .  .  .  .  .  &#125;
-</code></pre>
+119  .  .  .  .  .  &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h2 id="构建AST"><a href="#构建AST" class="headerlink" title="构建AST"></a>构建AST</h2><p>现在，我们得到了具有源代码的语法树表示形式，编译器据此将构建“抽象语法树”。我过去曾经写过<a target="_blank" rel="noopener" href="http://eli.thegreenplace.net/2009/02/16/abstract-vs-concrete-syntax-trees">抽象与具体语法树</a>-如果你不熟悉抽象语法树和具体语法树，可参考这篇文章。因此现在Go代码编译过程中，存在两颗语法树，但是，未来可能会更改。 因为Go编译器最初是用C编写的，后来实现了自举，采用Go编写。所以它的某些部分是较旧的C时代的遗迹，而某些部分则是较新的Go。将来的重构可能只剩下一种语法树，但是现在（Go 1.12）是构建两颗语法树的结果。</p>
 <p>AST代码位于<code>gc</code>包中，并且节点类型在<code>gc/syntax.go</code>中定义（不要与定义真实语法树的<code>syntax</code>包混淆！上述Parse中的结构都是真实语法树的部分）</p>
 <p>Go AST的结构与CST不同。并非每个节点类型都有其专用的结构类型，所有AST节点都使用<code>syntax.Node</code>类型，这是一种“区分联合”类型，其中包含许多不同类型的字段。但是，大多数节点类型中的某些字段是通用的：</p>
-<pre><code class="go">
-// A Node is a single node in the syntax tree.
-// Actually the syntax tree is a syntax DAG, because there is only one
-// node with Op=ONAME for a given instance of a variable x.
-// The same is true for Op=OTYPE and Op=OLITERAL. See Node.mayBeShared.
-type Node struct &#123;
-  // Tree structure.
-  // Generic recursive walks should follow these fields.
-  Left  *Node
-  Right *Node
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">
+<span class="token comment">// A Node is a single node in the syntax tree.</span>
+<span class="token comment">// Actually the syntax tree is a syntax DAG, because there is only one</span>
+<span class="token comment">// node with Op=ONAME for a given instance of a variable x.</span>
+<span class="token comment">// The same is true for Op=OTYPE and Op=OLITERAL. See Node.mayBeShared.</span>
+<span class="token keyword">type</span> Node <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">// Tree structure.</span>
+  <span class="token comment">// Generic recursive walks should follow these fields.</span>
+  Left  <span class="token operator">*</span>Node
+  Right <span class="token operator">*</span>Node
   Ninit Nodes
   Nbody Nodes
   List  Nodes
   Rlist Nodes
 
-  // ...
-</code></pre>
+  <span class="token comment">// ...</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>我们首先添加一个新的常量来标识一个<code>until</code>节点：</p>
-<pre><code class="go">// statements
-// ...
-OFALL     // fallthrough
-OFOR      // for Ninit; Left; Right &#123; Nbody &#125;
-OUNTIL    // until Ninit; Left &#123; Nbody &#125;
-</code></pre>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// statements</span>
+<span class="token comment">// ...</span>
+OFALL     <span class="token comment">// fallthrough</span>
+OFOR      <span class="token comment">// for Ninit; Left; Right &#123; Nbody &#125;</span>
+OUNTIL    <span class="token comment">// until Ninit; Left &#123; Nbody &#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>然后我们在<code>gc/syntax.go</code>上再次运行<code>go generate</code>，以生成新节点类型的字符串表示形式：</p>
-<pre><code class="go">// from the gc directory
-GOROOT=&lt;src checkout&gt; go generate syntax.go
-</code></pre>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// from the gc directory</span>
+GOROOT<span class="token operator">=</span><span class="token operator">&lt;</span>src checkout<span class="token operator">></span> <span class="token keyword">go</span> generate syntax<span class="token punctuation">.</span><span class="token keyword">go</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
 <p>更新后<code>gc/op_string.go</code>文件将包含<code>OUNTIL</code>。现在我们需要为的<code>OUNTIL</code>节点类型编写 CST-&gt; AST转换代码。</p>
 <p>转换在<code>gc/noder.go</code>中完成。该文件中的<code>stmtFall</code>方法中包含不同类型的<code>switch</code>分支， 我们在现有的<code>for</code>语句解析之后添加<code>UntilStmt</code>解析分支：</p>
-<pre><code class="go">case *syntax.ForStmt:
-  return p.forStmt(stmt)
-case *syntax.UntilStmt:
-  return p.untilStmt(stmt)
-</code></pre>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">case</span> <span class="token operator">*</span>syntax<span class="token punctuation">.</span>ForStmt<span class="token punctuation">:</span>
+  <span class="token keyword">return</span> p<span class="token punctuation">.</span><span class="token function">forStmt</span><span class="token punctuation">(</span>stmt<span class="token punctuation">)</span>
+<span class="token keyword">case</span> <span class="token operator">*</span>syntax<span class="token punctuation">.</span>UntilStmt<span class="token punctuation">:</span>
+  <span class="token keyword">return</span> p<span class="token punctuation">.</span><span class="token function">untilStmt</span><span class="token punctuation">(</span>stmt<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>然后我们添加新的<code>untilStmt</code>方法添加到<code>noder</code>类型中：</p>
-<pre><code class="go">// untilStmt converts the concrete syntax tree node UntilStmt into an AST
-// node.
-// 输入参数是真实语法树 UntilStmt节点，输出是抽象语法树节点
-func (p *noder) untilStmt(stmt *syntax.UntilStmt) *Node &#123;
-  p.openScope(stmt.Pos())
-  var n *Node
-  n = p.nod(stmt, OUNTIL, nil, nil)
-  if stmt.Init != nil &#123;
-    n.Ninit.Set1(p.stmt(stmt.Init)) //真实语法树 Init 放入抽象语法树节点 Ninit中
-  &#125;
-  if stmt.Cond != nil &#123;
-    n.Left = p.expr(stmt.Cond) //真实语法树 Cond 放入抽象语法树节点 Left中
-  &#125;
-  n.Nbody.Set(p.blockStmt(stmt.Body)) //真实语法树 Body 放入抽象语法树节点 Nbody中
-  p.closeAnotherScope()
-  return n
-&#125;
-</code></pre>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// untilStmt converts the concrete syntax tree node UntilStmt into an AST</span>
+<span class="token comment">// node.</span>
+<span class="token comment">// 输入参数是真实语法树 UntilStmt节点，输出是抽象语法树节点</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>p <span class="token operator">*</span>noder<span class="token punctuation">)</span> <span class="token function">untilStmt</span><span class="token punctuation">(</span>stmt <span class="token operator">*</span>syntax<span class="token punctuation">.</span>UntilStmt<span class="token punctuation">)</span> <span class="token operator">*</span>Node <span class="token punctuation">&#123;</span>
+  p<span class="token punctuation">.</span><span class="token function">openScope</span><span class="token punctuation">(</span>stmt<span class="token punctuation">.</span><span class="token function">Pos</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token keyword">var</span> n <span class="token operator">*</span>Node
+  n <span class="token operator">=</span> p<span class="token punctuation">.</span><span class="token function">nod</span><span class="token punctuation">(</span>stmt<span class="token punctuation">,</span> OUNTIL<span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>
+  <span class="token keyword">if</span> stmt<span class="token punctuation">.</span>Init <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+    n<span class="token punctuation">.</span>Ninit<span class="token punctuation">.</span><span class="token function">Set1</span><span class="token punctuation">(</span>p<span class="token punctuation">.</span><span class="token function">stmt</span><span class="token punctuation">(</span>stmt<span class="token punctuation">.</span>Init<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">//真实语法树 Init 放入抽象语法树节点 Ninit中</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token keyword">if</span> stmt<span class="token punctuation">.</span>Cond <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+    n<span class="token punctuation">.</span>Left <span class="token operator">=</span> p<span class="token punctuation">.</span><span class="token function">expr</span><span class="token punctuation">(</span>stmt<span class="token punctuation">.</span>Cond<span class="token punctuation">)</span> <span class="token comment">//真实语法树 Cond 放入抽象语法树节点 Left中</span>
+  <span class="token punctuation">&#125;</span>
+  n<span class="token punctuation">.</span>Nbody<span class="token punctuation">.</span><span class="token function">Set</span><span class="token punctuation">(</span>p<span class="token punctuation">.</span><span class="token function">blockStmt</span><span class="token punctuation">(</span>stmt<span class="token punctuation">.</span>Body<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">//真实语法树 Body 放入抽象语法树节点 Nbody中</span>
+  p<span class="token punctuation">.</span><span class="token function">closeAnotherScope</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token keyword">return</span> n
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>回想一下上面解释的通用“ Node”字段。在这里，我们将<code>Init</code>字段可选的初始化条件，将<code>Left</code>字段用于条件，并将<code>Nbody</code>字段用于循环体。</p>
 <p>上述是我们为<code>until</code>语句构造AST节点所需要做的一切。完成上述部分后，我们可以得到 <code>untilStmt</code> 的AST节点，结果如下：</p>
-<pre><code class="go">.   .   UNTIL l(13)
-.   .   .   EQ l(13)
-.   .   .   .   NAME-main.i a(true) g(1) l(6) x(0) class(PAUTO)
-.   .   .   .   LITERAL-0 l(13) untyped number
-.   .   UNTIL-body
-.   .   .   ASOP-SUB l(14) implicit(true)
-.   .   .   .   NAME-main.i a(true) g(1) l(6) x(0) class(PAUTO)
-.   .   .   .   LITERAL-1 l(14) untyped number
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token punctuation">.</span>   <span class="token punctuation">.</span>   UNTIL <span class="token function">l</span><span class="token punctuation">(</span><span class="token number">13</span><span class="token punctuation">)</span>
+<span class="token punctuation">.</span>   <span class="token punctuation">.</span>   <span class="token punctuation">.</span>   EQ <span class="token function">l</span><span class="token punctuation">(</span><span class="token number">13</span><span class="token punctuation">)</span>
+<span class="token punctuation">.</span>   <span class="token punctuation">.</span>   <span class="token punctuation">.</span>   <span class="token punctuation">.</span>   NAME<span class="token operator">-</span>main<span class="token punctuation">.</span>i <span class="token function">a</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token function">g</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token function">l</span><span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span> <span class="token function">x</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token function">class</span><span class="token punctuation">(</span>PAUTO<span class="token punctuation">)</span>
+<span class="token punctuation">.</span>   <span class="token punctuation">.</span>   <span class="token punctuation">.</span>   <span class="token punctuation">.</span>   LITERAL<span class="token operator">-</span><span class="token number">0</span> <span class="token function">l</span><span class="token punctuation">(</span><span class="token number">13</span><span class="token punctuation">)</span> untyped number
+<span class="token punctuation">.</span>   <span class="token punctuation">.</span>   UNTIL<span class="token operator">-</span>body
+<span class="token punctuation">.</span>   <span class="token punctuation">.</span>   <span class="token punctuation">.</span>   ASOP<span class="token operator">-</span>SUB <span class="token function">l</span><span class="token punctuation">(</span><span class="token number">14</span><span class="token punctuation">)</span> <span class="token function">implicit</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+<span class="token punctuation">.</span>   <span class="token punctuation">.</span>   <span class="token punctuation">.</span>   <span class="token punctuation">.</span>   NAME<span class="token operator">-</span>main<span class="token punctuation">.</span>i <span class="token function">a</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token function">g</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token function">l</span><span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span> <span class="token function">x</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token function">class</span><span class="token punctuation">(</span>PAUTO<span class="token punctuation">)</span>
+<span class="token punctuation">.</span>   <span class="token punctuation">.</span>   <span class="token punctuation">.</span>   <span class="token punctuation">.</span>   LITERAL<span class="token operator">-</span><span class="token number">1</span> <span class="token function">l</span><span class="token punctuation">(</span><span class="token number">14</span><span class="token punctuation">)</span> untyped number
 
-.   .   .   CALL l(15)
-.   .   .   .   NONAME-fmt.Println a(true) x(0) fmt.Println
-.   .   .   CALL-list
-.   .   .   .   LITERAL-&quot;Hello, until!&quot; l(15) untyped string
-</code></pre>
+<span class="token punctuation">.</span>   <span class="token punctuation">.</span>   <span class="token punctuation">.</span>   CALL <span class="token function">l</span><span class="token punctuation">(</span><span class="token number">15</span><span class="token punctuation">)</span>
+<span class="token punctuation">.</span>   <span class="token punctuation">.</span>   <span class="token punctuation">.</span>   <span class="token punctuation">.</span>   NONAME<span class="token operator">-</span>fmt<span class="token punctuation">.</span>Println <span class="token function">a</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token function">x</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> fmt<span class="token punctuation">.</span>Println
+<span class="token punctuation">.</span>   <span class="token punctuation">.</span>   <span class="token punctuation">.</span>   CALL<span class="token operator">-</span>list
+<span class="token punctuation">.</span>   <span class="token punctuation">.</span>   <span class="token punctuation">.</span>   <span class="token punctuation">.</span>   LITERAL<span class="token operator">-</span><span class="token string">"Hello, until!"</span> <span class="token function">l</span><span class="token punctuation">(</span><span class="token number">15</span><span class="token punctuation">)</span> untyped <span class="token builtin">string</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h2 id="Type-check-类型检查"><a href="#Type-check-类型检查" class="headerlink" title="Type-check 类型检查"></a>Type-check 类型检查</h2><p>当AST转换完成时，编译的下一步是类型检查。除了检测类型错误外，Go中的类型检查还包括<em>类型推断</em>，这使我们可以编写如下语句：</p>
-<pre><code class="go">res, err := func(args)
-</code></pre>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">res<span class="token punctuation">,</span> err <span class="token operator">:=</span> <span class="token keyword">func</span><span class="token punctuation">(</span>args<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
 <p>无需明确声明<code>res</code>和<code>err</code>的类型，Go类型检查器会自动推断。 初次之外，Go类型检查器还执行其他一些任务，例如将标识符链接到它们的声明以及计算编译时常量。该代码在<code>gc/typecheck.go</code>中。再一次，我们在<code>for</code>语句参数检查的分支下添加一个新的分支处理 <code>OUNTIL</code>，我们将这个分支添加到<code>typecheck</code>方法中（Go 1.15 是 <code>typecheck1</code>方法）：</p>
-<pre><code class="go">case OUNTIL:
-  ok |= ctxStmt
-  typecheckslice(n.Ninit.Slice(), ctxStmt)
-  decldepth++
-  n.Left = typecheck(n.Left, ctxExpr)
-  n.Left = defaultlit(n.Left, nil)
-  if n.Left != nil &#123;
-    t := n.Left.Type
-    if t != nil &amp;&amp; !t.IsBoolean() &#123;
-      yyerror(&quot;non-bool %L used as for condition&quot;, n.Left)
-    &#125;
-  &#125;
-  typecheckslice(n.Nbody.Slice(), ctxStmt)
-  decldepth--
-</code></pre>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">case</span> OUNTIL<span class="token punctuation">:</span>
+  ok <span class="token operator">|=</span> ctxStmt
+  <span class="token function">typecheckslice</span><span class="token punctuation">(</span>n<span class="token punctuation">.</span>Ninit<span class="token punctuation">.</span><span class="token function">Slice</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> ctxStmt<span class="token punctuation">)</span>
+  decldepth<span class="token operator">++</span>
+  n<span class="token punctuation">.</span>Left <span class="token operator">=</span> <span class="token function">typecheck</span><span class="token punctuation">(</span>n<span class="token punctuation">.</span>Left<span class="token punctuation">,</span> ctxExpr<span class="token punctuation">)</span>
+  n<span class="token punctuation">.</span>Left <span class="token operator">=</span> <span class="token function">defaultlit</span><span class="token punctuation">(</span>n<span class="token punctuation">.</span>Left<span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>
+  <span class="token keyword">if</span> n<span class="token punctuation">.</span>Left <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+    t <span class="token operator">:=</span> n<span class="token punctuation">.</span>Left<span class="token punctuation">.</span>Type
+    <span class="token keyword">if</span> t <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>t<span class="token punctuation">.</span><span class="token function">IsBoolean</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token function">yyerror</span><span class="token punctuation">(</span><span class="token string">"non-bool %L used as for condition"</span><span class="token punctuation">,</span> n<span class="token punctuation">.</span>Left<span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token function">typecheckslice</span><span class="token punctuation">(</span>n<span class="token punctuation">.</span>Nbody<span class="token punctuation">.</span><span class="token function">Slice</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> ctxStmt<span class="token punctuation">)</span>
+  decldepth<span class="token operator">--</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>它将类型分配给语句的各个部分，还检查条件是否是布尔值。</p>
 <h2 id="Analyze-and-rewrite-AST-分析和重写-AST"><a href="#Analyze-and-rewrite-AST-分析和重写-AST" class="headerlink" title="Analyze and rewrite AST 分析和重写 AST"></a>Analyze and rewrite AST 分析和重写 AST</h2><p>经过类型检查后，编译器将经历AST分析和重写的多个阶段。确切的顺序在<code>gc/main.go</code>的<code>gc.Main</code>函数中列出( 代码中Phase1 , Phase2 等等)。在编译器命名法中，此类阶段通常称为 <em>passes</em>。</p>
 <p>许多 passes 不需要修改就可以支持<code>until</code>，因为它们通常对所有语句类型起作用（在这里，<code>gc.Node</code>的通用结构很有用）。但是，有些passes 需要修改代码以支持<code>until</code>。例如逃逸分析，它试图找到哪些变量“逃逸”了它们的作用域，因此必须在堆而不是栈上进行分配。</p>
 <p>逃逸分析适用于每种语句类型，因此我们必须在<code>Escape.stmt</code>（在 <code>escape.go</code>文件中）中添加以下switch分支：</p>
-<pre><code>case OUNTIL:
+<pre class="line-numbers language-none"><code class="language-none">case OUNTIL:
   e.loopDepth++
   e.discard(n.Left)
   e.stmts(n.Nbody)
-  e.loopDepth--
-</code></pre>
+  e.loopDepth--<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>最后，<code>gc.Main</code>调用可移植代码生成器（<code>gc/pgen.go</code>）来编译分析后的代码。代码生成器通过应用一系列AST转换开始，以将AST降低为更易于编译的形式。这是在<code>compile</code>函数中完成的，该函数首先调用 <code>order</code>。</p>
 <p>这种转换（在<code>gc/order.go</code>中）对语句和表达式进行重新排序，以强制执行评估顺序。例如，它将把<code>foo / = 10</code>重写为<code>foo = foo / 10</code>，用多个单赋值语句替换多赋值语句，依此类推。</p>
 <p>为了支持<code>until</code>语句，我们将其添加到<code>Order.stmt</code>中。</p>
-<pre><code class="go">case OUNTIL:
-  t := o.markTemp()
-  n.Left = o.exprInPlace(n.Left)
-  n.Nbody.Prepend(o.cleanTempNoPop(t)...)
-  orderBlock(&amp;n.Nbody, o.free)
-  o.out = append(o.out, n)
-  o.cleanTemp(t)
-</code></pre>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">case</span> OUNTIL<span class="token punctuation">:</span>
+  t <span class="token operator">:=</span> o<span class="token punctuation">.</span><span class="token function">markTemp</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  n<span class="token punctuation">.</span>Left <span class="token operator">=</span> o<span class="token punctuation">.</span><span class="token function">exprInPlace</span><span class="token punctuation">(</span>n<span class="token punctuation">.</span>Left<span class="token punctuation">)</span>
+  n<span class="token punctuation">.</span>Nbody<span class="token punctuation">.</span><span class="token function">Prepend</span><span class="token punctuation">(</span>o<span class="token punctuation">.</span><span class="token function">cleanTempNoPop</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token operator">...</span><span class="token punctuation">)</span>
+  <span class="token function">orderBlock</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>n<span class="token punctuation">.</span>Nbody<span class="token punctuation">,</span> o<span class="token punctuation">.</span>free<span class="token punctuation">)</span>
+  o<span class="token punctuation">.</span>out <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>o<span class="token punctuation">.</span>out<span class="token punctuation">,</span> n<span class="token punctuation">)</span>
+  o<span class="token punctuation">.</span><span class="token function">cleanTemp</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>在<code>order</code>之后，<code>compile</code>会调用在<code>gc/walk.go</code>中的<code>walk</code>。此过程收集了一堆AST转换，这些转换有助于以后将AST降低到SSA。例如，它使用显式循环变量<a target="_blank" rel="noopener" href="https://eli.thegreenplace.net/2019/go-compiler-internals-adding-a-new-statement-to-go-part-1/#id2">1</a>。它还<a target="_blank" rel="noopener" href="https://dave.cheney.net/2018/05/29/how-the-go-runtime-implements-maps-effectively-without-generics">重写对运行时调用的映射访问</a>等。</p>
 <p>为了在<code>walk</code>中支持新语句，我们必须在<code>walkstmt</code>函数中添加一个switch分支。顺便说一句，我们也在这里将<code>until</code>语句重写成编译器已经知道如何处理的 AST 节点。 （这时因为，<code>until</code>AST节点最终必须编译成SSA 和机器码，第一种方法，我们可以自己写编译成SSA 和机器码的代码；第二种方法将<code>until</code>AST节点重写成已支持的节点）在<code>until</code>的情况下很容易，因为<code>until</code>和 <code>for</code>语句及其相似，我们只需将其重写为具有相反条件的<code>for</code>循环，如文章开头所示。这是转换代码：</p>
-<pre><code class="go">case OUNTIL:
-  if n.Left != nil &#123;
-    walkstmtlist(n.Left.Ninit.Slice())
-    init := n.Left.Ninit
-    n.Left.Ninit.Set(nil)
-    n.Left = nod(ONOT, walkexpr(n.Left, &amp;init), nil)
-    n.Left = addinit(n.Left, init.Slice())
-    n.Op = OFOR
-  &#125;
-  walkstmtlist(n.Nbody.Slice())
-</code></pre>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">case</span> OUNTIL<span class="token punctuation">:</span>
+  <span class="token keyword">if</span> n<span class="token punctuation">.</span>Left <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">walkstmtlist</span><span class="token punctuation">(</span>n<span class="token punctuation">.</span>Left<span class="token punctuation">.</span>Ninit<span class="token punctuation">.</span><span class="token function">Slice</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    init <span class="token operator">:=</span> n<span class="token punctuation">.</span>Left<span class="token punctuation">.</span>Ninit
+    n<span class="token punctuation">.</span>Left<span class="token punctuation">.</span>Ninit<span class="token punctuation">.</span><span class="token function">Set</span><span class="token punctuation">(</span><span class="token boolean">nil</span><span class="token punctuation">)</span>
+    n<span class="token punctuation">.</span>Left <span class="token operator">=</span> <span class="token function">nod</span><span class="token punctuation">(</span>ONOT<span class="token punctuation">,</span> <span class="token function">walkexpr</span><span class="token punctuation">(</span>n<span class="token punctuation">.</span>Left<span class="token punctuation">,</span> <span class="token operator">&amp;</span>init<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>
+    n<span class="token punctuation">.</span>Left <span class="token operator">=</span> <span class="token function">addinit</span><span class="token punctuation">(</span>n<span class="token punctuation">.</span>Left<span class="token punctuation">,</span> init<span class="token punctuation">.</span><span class="token function">Slice</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    n<span class="token punctuation">.</span>Op <span class="token operator">=</span> OFOR
+  <span class="token punctuation">&#125;</span>
+  <span class="token function">walkstmtlist</span><span class="token punctuation">(</span>n<span class="token punctuation">.</span>Nbody<span class="token punctuation">.</span><span class="token function">Slice</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>请注意，我们用包裹旧的<code>n.Left</code>的<code>ONOT</code>类型该条件代表一元运算符！）的新节点替换了旧<code>n.Left</code>，并用<code>OFOR</code>替换了<code>n.Op</code>（关键的一步，使用<code>OFOR</code>逻辑）。 </p>
 <p>如果我们在<code>walk</code>之后再次打印AST，我们将看到<code>OUNTIL</code>节点消失了，而新的<code>OFOR</code>节点取代了它。</p>
 <h2 id="尝试使用"><a href="#尝试使用" class="headerlink" title="尝试使用"></a>尝试使用</h2><p>现在，我们可以尝试使用经过修改的编译器，并运行一个使用<code>until</code>语句的示例程序：</p>
-<pre><code>$ cat useuntil.go
+<pre class="line-numbers language-none"><code class="language-none">$ cat useuntil.go
 package main
 
 import &quot;fmt&quot;
 
 func main() &#123;
-  i := 4
-  until i == 0 &#123;
+  i :&#x3D; 4
+  until i &#x3D;&#x3D; 0 &#123;
     i--
     fmt.Println(&quot;Hello, until!&quot;)
   &#125;
 &#125;
 
-$ &lt;src checkout&gt;/bin/go run useuntil.go
+$ &lt;src checkout&gt;&#x2F;bin&#x2F;go run useuntil.go
 Hello, until!
 Hello, until!
 Hello, until!
-Hello, until!
-</code></pre>
+Hello, until!<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>提醒： <code>&lt;src checkout&gt;</code>是我们 Clone 的 Go 源码目录，对其进行更改并对其进行编译的目录（有关更多详细信息，请参见附录）。</p>
 <h2 id="part-1-总结"><a href="#part-1-总结" class="headerlink" title="part 1 总结"></a>part 1 总结</h2><p>这是第1部分的内容。我们已经在Go编译器中成功实现了一条新语句。我们没有涵盖编译器的所有部分，因为我们可以通过重写<code>until</code>节点的AST来改用<code>for</code>节点来采取捷径。这是一种完全有效的编译策略，并且Go编译器已经进行了许多类似的转换以规范化AST（将许多形式减少为更少的形式，因此最后的编译阶段要做的工作较少）。也就是说，我们仍然有兴趣探索最后两个编译阶段-转换为SSA 和生成机器代码（也就是前面取巧的部分）。这将在[第2部分]中进行介绍。</p>
 <h2 id="附录-构建Go工具链"><a href="#附录-构建Go工具链" class="headerlink" title="附录-构建Go工具链"></a>附录-构建Go工具链</h2><p>请先阅读<a target="_blank" rel="noopener" href="https://golang.org/doc/contribute.html">Go贡献指南</a>。这里有一些有关复制修改的Go编译器的快速说明。</p>
@@ -544,33 +529,20 @@ window._bd_share_config={
     "share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='../../../../../static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
 </script>
  
-<!-- <div id="comments"></div> -->
 <div id="gitalk-container"></div>
 
 <script>
-  //   var gitment = new Gitment({
-  //   id: "Fri Mar 05 2021 15:41:49 GMT+0800",
-  //   owner: "StoneQi",
-  //   repo: "stoneqi.github.io",
-  //   oauth: {
-  //     client_id:"d9f4e8907ec2566c2307",
-  //     client_secret: "2390fe6084c9227566e82de1755e3c3de4a13592",
-  //   }
-  // })
-  // gitment.render('comments')
-
   const gitalk = new Gitalk({
-  clientID: "d9f4e8907ec2566c2307",
-  clientSecret: "2390fe6084c9227566e82de1755e3c3de4a13592",
-  repo: "stoneqi.github.io",      // The repository of store comments,
-  owner: "StoneQi",
-  admin: ["StoneQi"],
-  language: "zh-CN",
-  id: "Fri Mar 05 2021 15:41:49 GMT+0800",      // Ensure uniqueness and length less than 50
-  distractionFreeMode: false  // Facebook-like distraction free mode
-})
-
-gitalk.render('gitalk-container')
+    clientID: "d9f4e8907ec2566c2307",
+    clientSecret: "2390fe6084c9227566e82de1755e3c3de4a13592",
+    repo: "stoneqi.github.io",      // The repository of store comments,
+    owner: "StoneQi",
+    admin: ["StoneQi"],
+    language: "zh-CN",
+    id: "Fri Mar 05 2021 15:41:49 GMT+0800",      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+  gitalk.render('gitalk-container')
 </script>
     </main>
     <a class="not-found">not found!</a>
@@ -580,9 +552,9 @@ gitalk.render('gitalk-container')
         <i class="fa fa-sort-asc fa-2x"></i>
     </a>
     <footer class="footer">
-    <div class="footer-copyright">©️2017
-    <a href="//github.com/Vevlins/toki" class="link" target="_blank">Toki</a>  by Vevlins
-    </div>    
+    <div class="footer-copyright">©️2023
+    <a href="//github.com/stoneqi/hexo-theme-toki" class="link" target="_blank">Toki</a> is updated by Stoneqi based on Vevlins
+    </div>
 </footer>
 
     

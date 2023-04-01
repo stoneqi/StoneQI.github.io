@@ -15,29 +15,14 @@
     
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 
-    <!-- 
-<link rel="stylesheet" href="/css/gitment.css">
- -->
     
 <link rel="stylesheet" href="/css/hljs.min.css">
 
     
 <script src="/js/hljs.min.js"></script>
   
-    <script>
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?8ad9e7d37411eee585b4bd7194806394";
-          var s = document.getElementsByTagName("script")[0]; 
-          s.parentNode.insertBefore(hm, s);
-        })();
-    </script>  
-    <!-- 
-<script src="/js/gitment.browser.js"></script>
-   -->
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> 
 <meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Nick" type="application/atom+xml">
 </head>
 <body>
@@ -65,7 +50,7 @@
                 
             
                 <li class="menu-item">
-                    <a href="/archives" class="menu-item-link">
+                    <a href="/archives/" class="menu-item-link">
                         归档
                     </a>
                 </li>
@@ -73,8 +58,8 @@
                 
             
                 <li class="menu-item">
-                    <a target="_blank" rel="noopener" href="https://github.com/StoneQI" class="menu-item-link">
-                        Github
+                    <a target="_blank" rel="noopener" href="https://github.com/StoneQI/" class="menu-item-link">
+                        GitHub
                     </a>
                 </li>
             
@@ -91,8 +76,8 @@
                 
             
                 <li class="menu-item">
-                    <a href="/category-archive" class="menu-item-link">
-                        目录
+                    <a href="/category-archive/" class="menu-item-link">
+                        分类
                     </a>
                 </li>
             
@@ -100,10 +85,10 @@
                 
                 <li class="menu-item">
                     <a class="menu-item-link search">
-                        Search                   
+                        搜索                   
                         <i class="fa fa-long-arrow-right search-icon" aria-hidden="true"></i>
                     </a>
-                        <input placeholder="Search..." class="search-input" style="display:none;border:none!important;" onkeydown="onEnter(event)" onkeypress="onEnter(event)"></input>
+                        <input placeholder="搜索..." class="search-input" style="display:none;border:none!important;" onkeydown="onEnter(event)" onkeypress="onEnter(event)"></input>
                 </li>
                 
         </ul>
@@ -148,301 +133,301 @@
 <p>一般的测试分为单元测试和集成测试，但是这里我们会模糊这种界限，不做具体区分。下面出现的代码都是为了这篇文章而写的伪代码，没有考虑架构之类的。</p>
 <span id="more"></span>
 <h1 id="项目基本介绍"><a href="#项目基本介绍" class="headerlink" title="项目基本介绍"></a>项目基本介绍</h1><p>为了结合项目介绍测试的方法，在这里，我简单实现了一个基本的业务逻辑框架。分为API层、Service层，基础依赖层有数据库（也就是DAO层）、缓存层（一般也就是Redis）、RPC等。简单代码函数如下：</p>
-<pre><code class="go">// Service 为业务领域。经常变动大，因此不做接口
-type PostService struct&#123;
-    // Service 通过属性保存用到的基础依赖，通过依赖注入进行解藕，一能灵活改变扩展，二也方便测试MOCK
-    // PostDAO 和 RedisClient 皆为接口，变动会很小。
-    postDAO *PostDAO  // 数据库依赖，后面会细讲
-    cacheClient *CacheClient // 缓存层依赖，后面会细讲
-&#125;
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// Service 为业务领域。经常变动大，因此不做接口</span>
+<span class="token keyword">type</span> PostService <span class="token keyword">struct</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">// Service 通过属性保存用到的基础依赖，通过依赖注入进行解藕，一能灵活改变扩展，二也方便测试MOCK</span>
+    <span class="token comment">// PostDAO 和 RedisClient 皆为接口，变动会很小。</span>
+	postDAO <span class="token operator">*</span>PostDAO  <span class="token comment">// 数据库依赖，后面会细讲</span>
+    cacheClient <span class="token operator">*</span>CacheClient <span class="token comment">// 缓存层依赖，后面会细讲</span>
+<span class="token punctuation">&#125;</span>
 
-// 依赖注入，也叫控制反转，
-func NewPostService(postDAO *PostDAO, redisClient *RedisClient)  &#123;
-    return &amp;PostService&#123;
-        postDAO: postDAO,
-        cacheClient: cacheClient,
-    &#125;	
-&#125; 
-// 具体的业务接口
-func (post *PostService)GetAllPost()  &#123;
-    ... 业务逻辑
-    post.postDAO.FindPosts()
-    ....
-&#125; 
+<span class="token comment">// 依赖注入，也叫控制反转，</span>
+<span class="token keyword">func</span> <span class="token function">NewPostService</span><span class="token punctuation">(</span>postDAO <span class="token operator">*</span>PostDAO<span class="token punctuation">,</span> redisClient <span class="token operator">*</span>RedisClient<span class="token punctuation">)</span>  <span class="token punctuation">&#123;</span>
+	<span class="token keyword">return</span> <span class="token operator">&amp;</span>PostService<span class="token punctuation">&#123;</span>
+		postDAO<span class="token punctuation">:</span> postDAO<span class="token punctuation">,</span>
+        cacheClient<span class="token punctuation">:</span> cacheClient<span class="token punctuation">,</span>
+	<span class="token punctuation">&#125;</span>	
+<span class="token punctuation">&#125;</span> 
+<span class="token comment">// 具体的业务接口</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>post <span class="token operator">*</span>PostService<span class="token punctuation">)</span><span class="token function">GetAllPost</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token punctuation">&#123;</span>
+    <span class="token operator">...</span> 业务逻辑
+	post<span class="token punctuation">.</span>postDAO<span class="token punctuation">.</span><span class="token function">FindPosts</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token operator">...</span><span class="token punctuation">.</span>
+<span class="token punctuation">&#125;</span> 
 
-// API层（也可叫Controller层）
-type Server struct&#123;
-    // go 中 http服务器对象
-    ln     net.Listener
-    server *http.Server 
+<span class="token comment">// API层（也可叫Controller层）</span>
+<span class="token keyword">type</span> Server <span class="token keyword">struct</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">// go 中 http服务器对象</span>
+	ln     net<span class="token punctuation">.</span>Listener
+	server <span class="token operator">*</span>http<span class="token punctuation">.</span>Server 
     
-    // 对应的 Service 逻辑，启动应用时实例化
-    postService *PostService
-&#125;
+    <span class="token comment">// 对应的 Service 逻辑，启动应用时实例化</span>
+	postService <span class="token operator">*</span>PostService
+<span class="token punctuation">&#125;</span>
 
-func NewServer(ln net.Listener, server *http.Server )  &#123;
-    return &amp;Server&#123;
-        ln: ln,
-        server: server,
-    &#125;	
-&#125; 
-// 依赖注入 PostService
-func (server *Server)SetPostService(postDAO *PostDAO, redisClient *RedisClient)  &#123;
-    server.postService =  NewPostService(postDAO, redisClient)
-&#125; 
-// API
-func (server *Server)GetPosts(w http.ResponseWriter, r *http.Request)  &#123;
-    ... 请求参数检查
-    server.postService.GetAllPost()
-    ... 返回响应信息
-&#125; 
-</code></pre>
+<span class="token keyword">func</span> <span class="token function">NewServer</span><span class="token punctuation">(</span>ln net<span class="token punctuation">.</span>Listener<span class="token punctuation">,</span> server <span class="token operator">*</span>http<span class="token punctuation">.</span>Server <span class="token punctuation">)</span>  <span class="token punctuation">&#123;</span>
+	<span class="token keyword">return</span> <span class="token operator">&amp;</span>Server<span class="token punctuation">&#123;</span>
+		ln<span class="token punctuation">:</span> ln<span class="token punctuation">,</span>
+        server<span class="token punctuation">:</span> server<span class="token punctuation">,</span>
+	<span class="token punctuation">&#125;</span>	
+<span class="token punctuation">&#125;</span> 
+<span class="token comment">// 依赖注入 PostService</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>server <span class="token operator">*</span>Server<span class="token punctuation">)</span><span class="token function">SetPostService</span><span class="token punctuation">(</span>postDAO <span class="token operator">*</span>PostDAO<span class="token punctuation">,</span> redisClient <span class="token operator">*</span>RedisClient<span class="token punctuation">)</span>  <span class="token punctuation">&#123;</span>
+	server<span class="token punctuation">.</span>postService <span class="token operator">=</span>  <span class="token function">NewPostService</span><span class="token punctuation">(</span>postDAO<span class="token punctuation">,</span> redisClient<span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span> 
+<span class="token comment">// API</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>server <span class="token operator">*</span>Server<span class="token punctuation">)</span><span class="token function">GetPosts</span><span class="token punctuation">(</span>w http<span class="token punctuation">.</span>ResponseWriter<span class="token punctuation">,</span> r <span class="token operator">*</span>http<span class="token punctuation">.</span>Request<span class="token punctuation">)</span>  <span class="token punctuation">&#123;</span>
+	<span class="token operator">...</span> 请求参数检查
+    server<span class="token punctuation">.</span>postService<span class="token punctuation">.</span><span class="token function">GetAllPost</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token operator">...</span> 返回响应信息
+<span class="token punctuation">&#125;</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p> 上面的设计算是一种 领域驱动设计（DDD）（其实和MVC等传统的分层差不了太多），业务逻辑层和所有的其他层进行了解藕，更换底层的数据库，缓存层时，不需要改变业务逻辑代码。常见的架构拆分有模块拆分 和分层拆分，这里不做扩展，简单提供个小经验。大项目可以模块拆分，小项目分层拆分就行，另外由于Go的循环引用限制，大多数情况下分层拆分更好，具体可看 <a href="https://stoneqi.github.io/2021/01/25/tr-packages-as-layers-not-groups/">翻译Packages as layers, not groups</a>。</p>
 <p>上述业务架构机会适合大部分项目，根据代码我们可以将测试分为三部分：一是API层测试；二是Service测试；三是依赖层测试。</p>
 <p>虽然访问是从API到依赖层，但是测试中首先要讲解的便是依赖层。</p>
 <h1 id="基础依赖层测试"><a href="#基础依赖层测试" class="headerlink" title="基础依赖层测试"></a>基础依赖层测试</h1><p>基础依赖层即好测试又不好测试，好测试是应为依赖层不会在依赖其他层，同时代码变动不大，开发完成几乎不会变动。不好测试是因为基础依赖机会都需要开启另一个服务，比如MySQL，Redis同时还的进行初始化。</p>
 <h2 id="DAO-数据库依赖层测试"><a href="#DAO-数据库依赖层测试" class="headerlink" title="DAO 数据库依赖层测试"></a>DAO 数据库依赖层测试</h2><p>测试的基础是DAO层需要解藕，也就是得建立对应的接口文件（由于基层依赖层变动少，因此接口必须仔细设计好，<a href="https://stoneqi.github.io/2021/01/24/tr-common-crud-design-in-go/">翻译Common CRUD Design in Go</a>可以参考），同时进行依赖反转。虽然在Go中不通过接口也能去直接MOCK对应函数，但是极不推荐，本文也不会做详细说明。</p>
 <p>DAO层主要是进行数据库中的表格增删改查的操作。下面实现上述代码的PostDAO接口。</p>
-<pre><code class="go">// 接口文件
-type PostDAO interface &#123;
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// 接口文件</span>
+<span class="token keyword">type</span> PostDAO <span class="token keyword">interface</span> <span class="token punctuation">&#123;</span>
 
-    FindPostByID(ctx context.Context, id int) (*Post, error)
+    <span class="token function">FindPostByID</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> id <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span>Post<span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span>
 
-    FindPosts(ctx context.Context, filter PostFilter) ([]*Post, int, error)
+    <span class="token function">FindPosts</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> filter PostFilter<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">*</span>Post<span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span>
 
-    CreatePost(ctx context.Context, post *Post) error
+    <span class="token function">CreatePost</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> post <span class="token operator">*</span>Post<span class="token punctuation">)</span> <span class="token builtin">error</span>
 
-    UpdatePost(ctx context.Context, id int, upd PostUpdate) (*Post, error)
+    <span class="token function">UpdatePost</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> id <span class="token builtin">int</span><span class="token punctuation">,</span> upd PostUpdate<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span>Post<span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span>
 
-    DeletePost(ctx context.Context, id int) error
-&#125;
+    <span class="token function">DeletePost</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> id <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">error</span>
+<span class="token punctuation">&#125;</span>
 
-// 对应的实现
-type PostMysql struct&#123;
-    db *sql.DB
-&#125;
-// 依赖注入 sql.DB
-func NewPostMysql(db *sql.DB)&#123;
-    return &amp;PostMysql&#123;
-        db: db,
-    &#125;
-&#125;
+<span class="token comment">// 对应的实现</span>
+<span class="token keyword">type</span> PostMysql <span class="token keyword">struct</span><span class="token punctuation">&#123;</span>
+    db <span class="token operator">*</span>sql<span class="token punctuation">.</span>DB
+<span class="token punctuation">&#125;</span>
+<span class="token comment">// 依赖注入 sql.DB</span>
+<span class="token keyword">func</span> <span class="token function">NewPostMysql</span><span class="token punctuation">(</span>db <span class="token operator">*</span>sql<span class="token punctuation">.</span>DB<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token operator">&amp;</span>PostMysql<span class="token punctuation">&#123;</span>
+        db<span class="token punctuation">:</span> db<span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
 
 
-func (s *PostMysql) FindPostByID(ctx context.Context, id int) (*Post, error)&#123;
-    ...
-&#125;
+<span class="token keyword">func</span> <span class="token punctuation">(</span>s <span class="token operator">*</span>PostMysql<span class="token punctuation">)</span> <span class="token function">FindPostByID</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> id <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span>Post<span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token operator">...</span>
+<span class="token punctuation">&#125;</span>
 
-func (s *PostMysql) FindPosts(ctx context.Context, filter PostFilter) ([]*Post, int, error)&#123;
-    s.db.Exec(&quot;...&quot;,...)
-&#125;
+<span class="token keyword">func</span> <span class="token punctuation">(</span>s <span class="token operator">*</span>PostMysql<span class="token punctuation">)</span> <span class="token function">FindPosts</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> filter PostFilter<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">*</span>Post<span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    s<span class="token punctuation">.</span>db<span class="token punctuation">.</span><span class="token function">Exec</span><span class="token punctuation">(</span><span class="token string">"..."</span><span class="token punctuation">,</span><span class="token operator">...</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span>
 
-func (s *PostMysql) CreatePost(ctx context.Context, post *Post) error&#123;
-    ...
-&#125;
+<span class="token keyword">func</span> <span class="token punctuation">(</span>s <span class="token operator">*</span>PostMysql<span class="token punctuation">)</span> <span class="token function">CreatePost</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> post <span class="token operator">*</span>Post<span class="token punctuation">)</span> <span class="token builtin">error</span><span class="token punctuation">&#123;</span>
+    <span class="token operator">...</span>
+<span class="token punctuation">&#125;</span>
 
-func (s *PostMysql) UpdatePost(ctx context.Context, id int, upd PostUpdate) (*Post, error)&#123;
-    ...
-&#125;
+<span class="token keyword">func</span> <span class="token punctuation">(</span>s <span class="token operator">*</span>PostMysql<span class="token punctuation">)</span> <span class="token function">UpdatePost</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> id <span class="token builtin">int</span><span class="token punctuation">,</span> upd PostUpdate<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span>Post<span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token operator">...</span>
+<span class="token punctuation">&#125;</span>
 
-func (s *PostMysql) DeletePost(ctx context.Context, id int) error
-&#123;
-    ...
-&#125;
-</code></pre>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>s <span class="token operator">*</span>PostMysql<span class="token punctuation">)</span> <span class="token function">DeletePost</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> id <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">error</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token operator">...</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>DAO层测试有一个重要的问题值得讨论：应不应该建一个数据库进行测试。建立数据库能最好的模拟真实环境，但是成本巨大。不建立进行Mock（这里的Mock是只mock掉DB数据库，而不是DAO这层）的话，也有问题，一是未在真实环境中进行测试，难免会有问题，而是mock掉一个数据成本不必建立一个数据库大。在这里，我是推荐建立真实数据库的，传统建立数据库麻烦，但是幸好，我们又Docker 和 docker-compose （还不知道docker的可以退群了）。一共三种方案依次介绍</p>
 <ol>
-<li>建立真实数据库，测试最方便。直接上<code>docker-compose.yml</code>代码。通过docker-compose 我们可以一条命令启动我们的测试环境，并且用完就可以删除容器。完美无害</li>
+<li>建立真实数据库，测试最方便。直接上<code>docker-compose.yml</code>代码。通过docker-compose 我们可以一条命令启动我们的测试环境，并且用完就可以删除容器。完美无害<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">"3.9"</span>
+
+<span class="token key atrule">services</span><span class="token punctuation">:</span>
+	<span class="token key atrule">mysql</span><span class="token punctuation">:</span>
+	<span class="token key atrule">networks</span><span class="token punctuation">:</span>
+		<span class="token punctuation">-</span> mysql_net
+	<span class="token key atrule">image</span><span class="token punctuation">:</span> mysql<span class="token punctuation">:</span>5.7.29
+	<span class="token key atrule">restart</span><span class="token punctuation">:</span> always
+	<span class="token key atrule">command</span><span class="token punctuation">:</span> <span class="token punctuation">-</span><span class="token punctuation">-</span>default<span class="token punctuation">-</span>authentication<span class="token punctuation">-</span>plugin=mysql_native_password
+	<span class="token key atrule">environment</span><span class="token punctuation">:</span>
+		<span class="token key atrule">MYSQL_ROOT_PASSWORD</span><span class="token punctuation">:</span> test123
+	<span class="token key atrule">ports</span><span class="token punctuation">:</span>
+		<span class="token punctuation">-</span> 3306<span class="token punctuation">:</span><span class="token number">3306</span>
+	<span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+		<span class="token comment"># mysql 初始化脚本目录，可以将init.sql放入该目录，容器初始化时会自动执行。</span>
+		<span class="token punctuation">-</span> <span class="token string">"./docker/init_sql:/docker-entrypoint-initdb.d/"</span>
+
+	<span class="token comment"># 查看mysql 工具，网页访问 8080 可查看数据库内容。</span>
+	<span class="token key atrule">adminer</span><span class="token punctuation">:</span>
+	<span class="token key atrule">networks</span><span class="token punctuation">:</span>
+		<span class="token punctuation">-</span> mysql_net
+	<span class="token key atrule">image</span><span class="token punctuation">:</span> adminer
+	<span class="token key atrule">restart</span><span class="token punctuation">:</span> always
+	<span class="token key atrule">ports</span><span class="token punctuation">:</span>
+		<span class="token punctuation">-</span> 8080<span class="token punctuation">:</span><span class="token number">8080</span>
+<span class="token key atrule">networks</span><span class="token punctuation">:</span>
+	<span class="token key atrule">mysql_net</span><span class="token punctuation">:</span>
+	<span class="token key atrule">name</span><span class="token punctuation">:</span> mysql_net
+	<span class="token key atrule">driver</span><span class="token punctuation">:</span> bridge
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+测试代码</li>
 </ol>
-<pre><code class="yml">version: &quot;3.9&quot;
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">TestPostMysql</span><span class="token punctuation">(</span>t <span class="token operator">*</span>testing<span class="token punctuation">.</span>T<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
 
-services:
-    mysql:
-    networks:
-        - mysql_net
-    image: mysql:5.7.29
-    restart: always
-    command: --default-authentication-plugin=mysql_native_password
-    environment:
-        MYSQL_ROOT_PASSWORD: test123
-    ports:
-        - 3306:3306
-    volumes:
-        # mysql 初始化脚本目录，可以将init.sql放入该目录，容器初始化时会自动执行。
-        - &quot;./docker/init_sql:/docker-entrypoint-initdb.d/&quot;
+<span class="token comment">// 连接 docker 数据库</span>
+conn_str <span class="token operator">:=</span> <span class="token string">"root:test123@tcp(localhost:3306)/dataname?autocommit=1&amp;timeout=200ms&amp;readTimeout=2s&amp;writeTimeout=2s"</span>
+db<span class="token punctuation">,</span> err <span class="token operator">:=</span> sql<span class="token punctuation">.</span><span class="token function">Open</span><span class="token punctuation">(</span><span class="token string">"mysql"</span><span class="token punctuation">,</span>conn_str<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+		log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token keyword">defer</span> db<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	
+	postMysql <span class="token operator">:=</span> <span class="token function">NewPostMysql</span><span class="token punctuation">(</span>db<span class="token punctuation">)</span>
+	<span class="token comment">// 使用了Convey 框架</span>
+convey<span class="token punctuation">.</span><span class="token function">Convey</span><span class="token punctuation">(</span><span class="token string">"PostMysql 测试"</span><span class="token punctuation">,</span>t<span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	post <span class="token operator">:=</span> <span class="token operator">&amp;</span>Post<span class="token punctuation">&#123;</span>
+				<span class="token operator">...</span>
+		<span class="token punctuation">&#125;</span>
+	convey<span class="token punctuation">.</span><span class="token function">Convey</span><span class="token punctuation">(</span><span class="token string">"添加->查找->删除测试"</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		convey<span class="token punctuation">.</span><span class="token function">Convey</span><span class="token punctuation">(</span><span class="token string">"添加数据"</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+			postNew <span class="token operator">:=</span> post
+			err <span class="token operator">:=</span> postMysql<span class="token punctuation">.</span><span class="token function">CreatePost</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> postNew<span class="token punctuation">)</span>
+			convey<span class="token punctuation">.</span><span class="token function">So</span><span class="token punctuation">(</span>err<span class="token punctuation">,</span> convey<span class="token punctuation">.</span>ShouldEqual<span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>
 
-    # 查看mysql 工具，网页访问 8080 可查看数据库内容。
-    adminer:
-    networks:
-        - mysql_net
-    image: adminer
-    restart: always
-    ports:
-        - 8080:8080
-networks:
-    mysql_net:
-    name: mysql_net
-    driver: bridge
-</code></pre>
-<p>   测试代码</p>
-<pre><code class="go">func TestPostMysql(t *testing.T) &#123;
+			convey<span class="token punctuation">.</span><span class="token function">Convey</span><span class="token punctuation">(</span><span class="token string">"查找"</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+				res<span class="token punctuation">,</span> err <span class="token operator">:=</span>postMysql<span class="token punctuation">.</span><span class="token function">FindPostByID</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>postNew<span class="token punctuation">.</span>PostId<span class="token punctuation">)</span>
+				convey<span class="token punctuation">.</span><span class="token function">So</span><span class="token punctuation">(</span>err<span class="token punctuation">,</span>convey<span class="token punctuation">.</span>ShouldEqual<span class="token punctuation">,</span><span class="token boolean">nil</span><span class="token punctuation">)</span>
+				convey<span class="token punctuation">.</span><span class="token function">So</span><span class="token punctuation">(</span><span class="token operator">*</span>res<span class="token punctuation">,</span>convey<span class="token punctuation">.</span>ShouldResemble<span class="token punctuation">,</span>postNew<span class="token punctuation">)</span>
 
-// 连接 docker 数据库
-conn_str := &quot;root:test123@tcp(localhost:3306)/dataname?autocommit=1&amp;timeout=200ms&amp;readTimeout=2s&amp;writeTimeout=2s&quot;
-db, err := sql.Open(&quot;mysql&quot;,conn_str)
-    if err != nil &#123;
-        log.Fatal(err)
-    &#125;
-    defer db.Close()
-    
-    postMysql := NewPostMysql(db)
-    // 使用了Convey 框架
-convey.Convey(&quot;PostMysql 测试&quot;,t, func() &#123;
-    post := &amp;Post&#123;
-                ...
-        &#125;
-    convey.Convey(&quot;添加-&gt;查找-&gt;删除测试&quot;, func() &#123;
-        convey.Convey(&quot;添加数据&quot;, func() &#123;
-            postNew := post
-            err := postMysql.CreatePost(context.Background(), postNew)
-            convey.So(err, convey.ShouldEqual, nil)
+				convey<span class="token punctuation">.</span><span class="token function">Convey</span><span class="token punctuation">(</span><span class="token string">"删除"</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+					err <span class="token operator">=</span> postMysql<span class="token punctuation">.</span><span class="token function">DeletePost</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>postNew<span class="token punctuation">.</span>PostId<span class="token punctuation">)</span>
+					convey<span class="token punctuation">.</span><span class="token function">So</span><span class="token punctuation">(</span>err<span class="token punctuation">,</span> convey<span class="token punctuation">.</span>ShouldEqual<span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>
 
-            convey.Convey(&quot;查找&quot;, func() &#123;
-                res, err :=postMysql.FindPostByID(context.Background(),postNew.PostId)
-                convey.So(err,convey.ShouldEqual,nil)
-                convey.So(*res,convey.ShouldResemble,postNew)
+						convey<span class="token punctuation">.</span><span class="token function">Convey</span><span class="token punctuation">(</span><span class="token string">"再查找试试"</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+						<span class="token boolean">_</span><span class="token punctuation">,</span> err <span class="token operator">:=</span>postMysql<span class="token punctuation">.</span><span class="token function">FindPostByID</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>postNew<span class="token punctuation">.</span>PostId<span class="token punctuation">)</span>
+						convey<span class="token punctuation">.</span><span class="token function">So</span><span class="token punctuation">(</span>err<span class="token punctuation">,</span>convey<span class="token punctuation">.</span>ShouldBeError<span class="token punctuation">)</span>
+				<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+			<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
 
-                convey.Convey(&quot;删除&quot;, func() &#123;
-                    err = postMysql.DeletePost(context.Background(),postNew.PostId)
-                    convey.So(err, convey.ShouldEqual, nil)
+		<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
 
-                        convey.Convey(&quot;再查找试试&quot;, func() &#123;
-                        _, err :=postMysql.FindPostByID(context.Background(),postNew.PostId)
-                        convey.So(err,convey.ShouldBeError)
-                &#125;)
-            &#125;)
-
-        &#125;)
-    &#125;)
-
-&#125;)
-&#125;
-</code></pre>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>测试代码例子， <code>docker-compose.yml</code>都给出来了，相信大家都能看懂，也就不多说了。<br>2. 第二种方法是用内存数据库，在Java中有h2内存数据库，不见建立第三方服务，且兼容大部分Mysql语法。在Go里面，由于 <code>database/sql</code>是一个接口层，因此，我们可以采用Sqlite的驱动实例化一个<code>sql.DB</code>出来，但是还是会有兼容问题，因此极不推荐。使用在上述代码中改个驱动就行了，也就不详细说明了。<br>3. 第三种方法是Go独有的，也是因为<code>database/sql</code>是一个接口层，有一个包<code>go-sqlmock</code>，其实和第二种也是一样的，只是需要自己模拟输入输出，具体可以看官网用法。也不推荐。</p>
 <h2 id="缓存层、RPC层等基础依赖"><a href="#缓存层、RPC层等基础依赖" class="headerlink" title="缓存层、RPC层等基础依赖"></a>缓存层、RPC层等基础依赖</h2><p>在应用中缓存层是少不了的。现在的缓存大部分都是Redis，类似一个内存数据库，因此测试方法和上述一样，推荐在Docker中真实的建立一个Redis服务，如果实在不能建立，可以考虑使用 <a target="_blank" rel="noopener" href="https://github.com/alicebob/miniredis">miniredis</a>项目，和上述DAO中的第二种方法类似，模拟了一个小的Redis，兼容大部分常见命令。</p>
 <p>在这里值得说的是RPC等依赖。在微服务中，一个服务调用多个服务是很常见的情况。而这些服务我们又不可能在本地建立一个真实的环境。因此只能想办法去Mock掉。方法也很简单，就是根据服务提供的API抽象出一个接口文件，然后使用适配器模式或代理模式进行Wrap一层。</p>
 <h1 id="Service层测试"><a href="#Service层测试" class="headerlink" title="Service层测试"></a>Service层测试</h1><p>Sevice层通常是业务逻辑的地方，这里的测试容易与否主要看基础依赖层和Service是否完全解藕，如果解藕，Service层的测试将会变得非常容易。</p>
 <p>这里也有一个问题，是否要对基础依赖层进行Mock，有人可能问，不Mock的话直接设计接口这一套是干嘛呢，不如直接搭建环境。这里的主要不Mock的原因是我们想尽量真实的模拟线上环境。而且有些基础设计是只能Mock的。同时，这里可以不Mock的另一个前提是，我们的解藕做的很好，同时基层依赖层的测试也做的很好。不然的话我们只能进行Mock了。</p>
 <p>常用的Mock工具是 <code>go-mock</code>具体用法不多介绍了，可以直接看文档。我简单说下，我的做法，由于解藕做的很好，所以我的测试实现中会自动判断是否数据库能连接成功，如何可以的话用数据库实例的基础依赖层测试，否则用<code>go-mock</code>生成的基础依赖层进行测试。具体代码如下</p>
-<pre><code class="go">
-func TestGetAllPost(t1 *testing.T) &#123;
-    postDAO,issql:= GetPostDAO(t1)
-    if !issql &#123;
-        ... mock 配置
-    &#125;
-    // redisClient 的获取方法一样，不写代码
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">
+<span class="token keyword">func</span> <span class="token function">TestGetAllPost</span><span class="token punctuation">(</span>t1 <span class="token operator">*</span>testing<span class="token punctuation">.</span>T<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	postDAO<span class="token punctuation">,</span>issql<span class="token operator">:=</span> <span class="token function">GetPostDAO</span><span class="token punctuation">(</span>t1<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> <span class="token operator">!</span>issql <span class="token punctuation">&#123;</span>
+        <span class="token operator">...</span> mock 配置
+	<span class="token punctuation">&#125;</span>
+    <span class="token comment">// redisClient 的获取方法一样，不写代码</span>
 
-    edisClient,isTrue:= GetRedisClient(t)
-    if !isTrue &#123;
-        ... mock 初使化
-        
-    &#125;
-    postService := NewPostService(postDAO, redisClient)
-    Convey(&quot;TestGetAllPost&quot;, t1, func() &#123;
-        postServie.GetAllPost()
-        ...
-    &#125;)
-&#125;
+    edisClient<span class="token punctuation">,</span>isTrue<span class="token operator">:=</span> <span class="token function">GetRedisClient</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> <span class="token operator">!</span>isTrue <span class="token punctuation">&#123;</span>
+		<span class="token operator">...</span> mock 初使化
+		
+	<span class="token punctuation">&#125;</span>
+	postService <span class="token operator">:=</span> <span class="token function">NewPostService</span><span class="token punctuation">(</span>postDAO<span class="token punctuation">,</span> redisClient<span class="token punctuation">)</span>
+	<span class="token function">Convey</span><span class="token punctuation">(</span><span class="token string">"TestGetAllPost"</span><span class="token punctuation">,</span> t1<span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        postServie<span class="token punctuation">.</span><span class="token function">GetAllPost</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token operator">...</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span>
 
-func GetPostDAO(t1 *testing.T) (PostDao,bool)&#123;
-    conn_str := &quot;root:test123@tcp(localhost:3306)/rule?autocommit=1&amp;timeout=200ms&amp;readTimeout=2s&amp;writeTimeout=2s&quot;
-    db, err := sql.Open(&quot;mysql&quot;,conn_str)
-    if err != nil &#123;
-        log.Fatal(err)
-    &#125;
-    if err := conn.Ping(); err != nil &#123;
-        return nil,false
-    &#125;
+<span class="token keyword">func</span> <span class="token function">GetPostDAO</span><span class="token punctuation">(</span>t1 <span class="token operator">*</span>testing<span class="token punctuation">.</span>T<span class="token punctuation">)</span> <span class="token punctuation">(</span>PostDao<span class="token punctuation">,</span><span class="token builtin">bool</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+	conn_str <span class="token operator">:=</span> <span class="token string">"root:test123@tcp(localhost:3306)/rule?autocommit=1&amp;timeout=200ms&amp;readTimeout=2s&amp;writeTimeout=2s"</span>
+	db<span class="token punctuation">,</span> err <span class="token operator">:=</span> sql<span class="token punctuation">.</span><span class="token function">Open</span><span class="token punctuation">(</span><span class="token string">"mysql"</span><span class="token punctuation">,</span>conn_str<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+        log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">if</span> err <span class="token operator">:=</span> conn<span class="token punctuation">.</span><span class="token function">Ping</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+		<span class="token keyword">return</span> <span class="token boolean">nil</span><span class="token punctuation">,</span><span class="token boolean">false</span>
+	<span class="token punctuation">&#125;</span>
 
-    if falg &#123;
-        t1.Log(&quot;数据库开启，使用数据库进行测试&quot;)
-        return NewPostMysql(db),true
-    &#125;else &#123;
-        t1.Log(&quot;数据库未开启，使用MOCK DAO层测试&quot;)
-        ctl := gomock.NewController(t1)
-        defer ctl.Finish()
-        PostDaoMock := mock.NewMockPostDao(ctl)
-        //TemplateId := 123456
-        //MustMockCreateTemplate(templateDaoMock,TemplateId)
-        return PostDao,false
-    &#125;
+	<span class="token keyword">if</span> falg <span class="token punctuation">&#123;</span>
+		t1<span class="token punctuation">.</span><span class="token function">Log</span><span class="token punctuation">(</span><span class="token string">"数据库开启，使用数据库进行测试"</span><span class="token punctuation">)</span>
+		<span class="token keyword">return</span> <span class="token function">NewPostMysql</span><span class="token punctuation">(</span>db<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token boolean">true</span>
+	<span class="token punctuation">&#125;</span><span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+		t1<span class="token punctuation">.</span><span class="token function">Log</span><span class="token punctuation">(</span><span class="token string">"数据库未开启，使用MOCK DAO层测试"</span><span class="token punctuation">)</span>
+		ctl <span class="token operator">:=</span> gomock<span class="token punctuation">.</span><span class="token function">NewController</span><span class="token punctuation">(</span>t1<span class="token punctuation">)</span>
+		<span class="token keyword">defer</span> ctl<span class="token punctuation">.</span><span class="token function">Finish</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+		PostDaoMock <span class="token operator">:=</span> mock<span class="token punctuation">.</span><span class="token function">NewMockPostDao</span><span class="token punctuation">(</span>ctl<span class="token punctuation">)</span>
+		<span class="token comment">//TemplateId := 123456</span>
+		<span class="token comment">//MustMockCreateTemplate(templateDaoMock,TemplateId)</span>
+		<span class="token keyword">return</span> PostDao<span class="token punctuation">,</span><span class="token boolean">false</span>
+	<span class="token punctuation">&#125;</span>
 
-&#125;
+<span class="token punctuation">&#125;</span>
 
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h1 id="API层测试"><a href="#API层测试" class="headerlink" title="API层测试"></a>API层测试</h1><p>API层测试可以说是集成测试了，一般开发人员开发后，测试人员主要会对这部分接口进行测试。而且这部分测试一般都需要建立HTTP请求，因此耗时费力，开发人员大部分只会进行简单的访问看看能够跑通。然而Go给我们提供了方便的http测试工具，使用这些工具不但能方便测试，还能保存复用，不必每次在浏览器测试。下面代码举个例子。</p>
-<pre><code class="go">func setupServerPostHandler(t *testing.T) *gin.Engine &#123;
-    engine := gin.New()
-    //engine.Use(middleware.Logger())
-    engine.Use(gin.Recovery())
-    PostDaoMock,issql:= GetPostDAO(t)
-    if !issql &#123;
-        ... mock 初使化
-        
-    &#125;
-    RedisClient,isTrue:= GetRedisClient(t)
-    if !isTrue &#123;
-        ... mock 初使化
-        
-    &#125;
-    server := NewServer()
-    // 唯一依赖
-    server.SetPostService(PostDaoMock,RedisClient)
-    
-    engine.POST(&quot;/AddPost&quot;, server.GetPosts)
-    return engine
-&#125;
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">setupServerPostHandler</span><span class="token punctuation">(</span>t <span class="token operator">*</span>testing<span class="token punctuation">.</span>T<span class="token punctuation">)</span> <span class="token operator">*</span>gin<span class="token punctuation">.</span>Engine <span class="token punctuation">&#123;</span>
+	engine <span class="token operator">:=</span> gin<span class="token punctuation">.</span><span class="token function">New</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token comment">//engine.Use(middleware.Logger())</span>
+	engine<span class="token punctuation">.</span><span class="token function">Use</span><span class="token punctuation">(</span>gin<span class="token punctuation">.</span><span class="token function">Recovery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	PostDaoMock<span class="token punctuation">,</span>issql<span class="token operator">:=</span> <span class="token function">GetPostDAO</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> <span class="token operator">!</span>issql <span class="token punctuation">&#123;</span>
+		<span class="token operator">...</span> mock 初使化
+		
+	<span class="token punctuation">&#125;</span>
+    RedisClient<span class="token punctuation">,</span>isTrue<span class="token operator">:=</span> <span class="token function">GetRedisClient</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> <span class="token operator">!</span>isTrue <span class="token punctuation">&#123;</span>
+		<span class="token operator">...</span> mock 初使化
+		
+	<span class="token punctuation">&#125;</span>
+	server <span class="token operator">:=</span> <span class="token function">NewServer</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token comment">// 唯一依赖</span>
+	server<span class="token punctuation">.</span><span class="token function">SetPostService</span><span class="token punctuation">(</span>PostDaoMock<span class="token punctuation">,</span>RedisClient<span class="token punctuation">)</span>
+	
+	engine<span class="token punctuation">.</span><span class="token function">POST</span><span class="token punctuation">(</span><span class="token string">"/AddPost"</span><span class="token punctuation">,</span> server<span class="token punctuation">.</span>GetPosts<span class="token punctuation">)</span>
+	<span class="token keyword">return</span> engine
+<span class="token punctuation">&#125;</span>
 
-func TestPostHandler(t *testing.T) &#123;
-    router := setupServerPostHandler(t)
-    Convey(&quot;Post Handler接口测试&quot;,t, func() &#123;
-        req_content := &amp;Post&#123;
-            ... 内容
-        &#125;
-        type Data_resp struct &#123;
-            Post_id int `json:Post_id`
-        &#125;
-        type resp_json struct &#123;
-            Data  Data_resp `json:data`
-            Err_msg  string `json:err_msg`
-            Err_no   int `json:err_no`
-        &#125;
+<span class="token keyword">func</span> <span class="token function">TestPostHandler</span><span class="token punctuation">(</span>t <span class="token operator">*</span>testing<span class="token punctuation">.</span>T<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	router <span class="token operator">:=</span> <span class="token function">setupServerPostHandler</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span>
+	<span class="token function">Convey</span><span class="token punctuation">(</span><span class="token string">"Post Handler接口测试"</span><span class="token punctuation">,</span>t<span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		req_content <span class="token operator">:=</span> <span class="token operator">&amp;</span>Post<span class="token punctuation">&#123;</span>
+			<span class="token operator">...</span> 内容
+		<span class="token punctuation">&#125;</span>
+		<span class="token keyword">type</span> Data_resp <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+			Post_id <span class="token builtin">int</span> <span class="token string">`json:Post_id`</span>
+		<span class="token punctuation">&#125;</span>
+		<span class="token keyword">type</span> resp_json <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+			Data  Data_resp <span class="token string">`json:data`</span>
+			Err_msg  <span class="token builtin">string</span> <span class="token string">`json:err_msg`</span>
+			Err_no   <span class="token builtin">int</span> <span class="token string">`json:err_no`</span>
+		<span class="token punctuation">&#125;</span>
 
-        req_content.Type = &quot;AddPost&quot;
-        Convey(&quot;AddPost 测试&quot;, func() &#123;
+		req_content<span class="token punctuation">.</span>Type <span class="token operator">=</span> <span class="token string">"AddPost"</span>
+		<span class="token function">Convey</span><span class="token punctuation">(</span><span class="token string">"AddPost 测试"</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
 
-            Convey(&quot;AddPost 测试1&quot;, func() &#123;
+			<span class="token function">Convey</span><span class="token punctuation">(</span><span class="token string">"AddPost 测试1"</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
 
-                req_new := req_content
-                req_string, _ := json.Marshal(req_new)
-                req := httptest.NewRequest(http.MethodPost, &quot;/AddPost&quot;, strings.NewReader(string(req_string)))
-                req.Header[global.HEADER_TRACEID] = []string&#123;&quot;testTrace&quot;&#125;
-                req.Header[global.HEADER_SPANID] = []string&#123;&quot;testSpan&quot;&#125;
-                req.Header[global.HEADER_USER] = []string&#123;&quot;testUser&quot;&#125;
-                req.Header.Set(&quot;Content-Type&quot;,&quot;application/json&quot;)
+				req_new <span class="token operator">:=</span> req_content
+				req_string<span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">:=</span> json<span class="token punctuation">.</span><span class="token function">Marshal</span><span class="token punctuation">(</span>req_new<span class="token punctuation">)</span>
+				req <span class="token operator">:=</span> httptest<span class="token punctuation">.</span><span class="token function">NewRequest</span><span class="token punctuation">(</span>http<span class="token punctuation">.</span>MethodPost<span class="token punctuation">,</span> <span class="token string">"/AddPost"</span><span class="token punctuation">,</span> strings<span class="token punctuation">.</span><span class="token function">NewReader</span><span class="token punctuation">(</span><span class="token function">string</span><span class="token punctuation">(</span>req_string<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+				req<span class="token punctuation">.</span>Header<span class="token punctuation">[</span>global<span class="token punctuation">.</span>HEADER_TRACEID<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">&#123;</span><span class="token string">"testTrace"</span><span class="token punctuation">&#125;</span>
+				req<span class="token punctuation">.</span>Header<span class="token punctuation">[</span>global<span class="token punctuation">.</span>HEADER_SPANID<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">&#123;</span><span class="token string">"testSpan"</span><span class="token punctuation">&#125;</span>
+				req<span class="token punctuation">.</span>Header<span class="token punctuation">[</span>global<span class="token punctuation">.</span>HEADER_USER<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">&#123;</span><span class="token string">"testUser"</span><span class="token punctuation">&#125;</span>
+				req<span class="token punctuation">.</span>Header<span class="token punctuation">.</span><span class="token function">Set</span><span class="token punctuation">(</span><span class="token string">"Content-Type"</span><span class="token punctuation">,</span><span class="token string">"application/json"</span><span class="token punctuation">)</span>
 
-                w := httptest.NewRecorder()
-                router.ServeHTTP(w, req)
-                resp := w.Result()
-                resp_json1 := &amp;resp_json&#123;&#125;
-                _ = json.Unmarshal(w.Body.Bytes(), resp_json1)
-                So(resp_json1.Data.Post_id,ShouldHaveSameTypeAs,1)
-                So(resp.StatusCode,ShouldEqual,http.StatusOK)
-            &#125;)
-        &#125;)
-    &#125;)
-&#125;
-</code></pre>
+				w <span class="token operator">:=</span> httptest<span class="token punctuation">.</span><span class="token function">NewRecorder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+				router<span class="token punctuation">.</span><span class="token function">ServeHTTP</span><span class="token punctuation">(</span>w<span class="token punctuation">,</span> req<span class="token punctuation">)</span>
+				resp <span class="token operator">:=</span> w<span class="token punctuation">.</span><span class="token function">Result</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+				resp_json1 <span class="token operator">:=</span> <span class="token operator">&amp;</span>resp_json<span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+				<span class="token boolean">_</span> <span class="token operator">=</span> json<span class="token punctuation">.</span><span class="token function">Unmarshal</span><span class="token punctuation">(</span>w<span class="token punctuation">.</span>Body<span class="token punctuation">.</span><span class="token function">Bytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> resp_json1<span class="token punctuation">)</span>
+				<span class="token function">So</span><span class="token punctuation">(</span>resp_json1<span class="token punctuation">.</span>Data<span class="token punctuation">.</span>Post_id<span class="token punctuation">,</span>ShouldHaveSameTypeAs<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span>
+				<span class="token function">So</span><span class="token punctuation">(</span>resp<span class="token punctuation">.</span>StatusCode<span class="token punctuation">,</span>ShouldEqual<span class="token punctuation">,</span>http<span class="token punctuation">.</span>StatusOK<span class="token punctuation">)</span>
+			<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+		<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>相信代码已经足够清晰，因此不在赘述。</p>
 <h1 id="一些测试问题"><a href="#一些测试问题" class="headerlink" title="一些测试问题"></a>一些测试问题</h1><h2 id="多个函数调用如何写测试"><a href="#多个函数调用如何写测试" class="headerlink" title="多个函数调用如何写测试"></a>多个函数调用如何写测试</h2><p>通常函数直接是相互调用的，比如API层调用Service层，接着调用基础服务层。一个请求在多个函数中经过。这种情况各个测试的侧重点如何写呢。</p>
 <p>有个简单做法，各自函数着重测试自己的实现逻辑。比如一般在API层，我们会进行参数检测，那在这一步我们就着重测试参数检测的测试用例。而在Service，此时我们只需要提供正确的参数就行，不必在提供错误的请求参数。而在基础依赖层，我们也就不必测试ID小于0，或参数类型，范围的错误用例了。</p>
@@ -527,33 +512,20 @@ window._bd_share_config={
     "share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='../../../../../static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
 </script>
  
-<!-- <div id="comments"></div> -->
 <div id="gitalk-container"></div>
 
 <script>
-  //   var gitment = new Gitment({
-  //   id: "Mon Feb 22 2021 00:50:58 GMT+0800",
-  //   owner: "StoneQi",
-  //   repo: "stoneqi.github.io",
-  //   oauth: {
-  //     client_id:"d9f4e8907ec2566c2307",
-  //     client_secret: "2390fe6084c9227566e82de1755e3c3de4a13592",
-  //   }
-  // })
-  // gitment.render('comments')
-
   const gitalk = new Gitalk({
-  clientID: "d9f4e8907ec2566c2307",
-  clientSecret: "2390fe6084c9227566e82de1755e3c3de4a13592",
-  repo: "stoneqi.github.io",      // The repository of store comments,
-  owner: "StoneQi",
-  admin: ["StoneQi"],
-  language: "zh-CN",
-  id: "Mon Feb 22 2021 00:50:58 GMT+0800",      // Ensure uniqueness and length less than 50
-  distractionFreeMode: false  // Facebook-like distraction free mode
-})
-
-gitalk.render('gitalk-container')
+    clientID: "d9f4e8907ec2566c2307",
+    clientSecret: "2390fe6084c9227566e82de1755e3c3de4a13592",
+    repo: "stoneqi.github.io",      // The repository of store comments,
+    owner: "StoneQi",
+    admin: ["StoneQi"],
+    language: "zh-CN",
+    id: "Mon Feb 22 2021 00:50:58 GMT+0800",      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+  gitalk.render('gitalk-container')
 </script>
     </main>
     <a class="not-found">not found!</a>
@@ -563,9 +535,9 @@ gitalk.render('gitalk-container')
         <i class="fa fa-sort-asc fa-2x"></i>
     </a>
     <footer class="footer">
-    <div class="footer-copyright">©️2017
-    <a href="//github.com/Vevlins/toki" class="link" target="_blank">Toki</a>  by Vevlins
-    </div>    
+    <div class="footer-copyright">©️2023
+    <a href="//github.com/stoneqi/hexo-theme-toki" class="link" target="_blank">Toki</a> is updated by Stoneqi based on Vevlins
+    </div>
 </footer>
 
     

@@ -15,29 +15,14 @@
     
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 
-    <!-- 
-<link rel="stylesheet" href="/css/gitment.css">
- -->
     
 <link rel="stylesheet" href="/css/hljs.min.css">
 
     
 <script src="/js/hljs.min.js"></script>
   
-    <script>
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?8ad9e7d37411eee585b4bd7194806394";
-          var s = document.getElementsByTagName("script")[0]; 
-          s.parentNode.insertBefore(hm, s);
-        })();
-    </script>  
-    <!-- 
-<script src="/js/gitment.browser.js"></script>
-   -->
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> 
 <meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Nick" type="application/atom+xml">
 </head>
 <body>
@@ -65,7 +50,7 @@
                 
             
                 <li class="menu-item">
-                    <a href="/archives" class="menu-item-link">
+                    <a href="/archives/" class="menu-item-link">
                         归档
                     </a>
                 </li>
@@ -73,8 +58,8 @@
                 
             
                 <li class="menu-item">
-                    <a target="_blank" rel="noopener" href="https://github.com/StoneQI" class="menu-item-link">
-                        Github
+                    <a target="_blank" rel="noopener" href="https://github.com/StoneQI/" class="menu-item-link">
+                        GitHub
                     </a>
                 </li>
             
@@ -91,8 +76,8 @@
                 
             
                 <li class="menu-item">
-                    <a href="/category-archive" class="menu-item-link">
-                        目录
+                    <a href="/category-archive/" class="menu-item-link">
+                        分类
                     </a>
                 </li>
             
@@ -100,10 +85,10 @@
                 
                 <li class="menu-item">
                     <a class="menu-item-link search">
-                        Search                   
+                        搜索                   
                         <i class="fa fa-long-arrow-right search-icon" aria-hidden="true"></i>
                     </a>
-                        <input placeholder="Search..." class="search-input" style="display:none;border:none!important;" onkeydown="onEnter(event)" onkeypress="onEnter(event)"></input>
+                        <input placeholder="搜索..." class="search-input" style="display:none;border:none!important;" onkeydown="onEnter(event)" onkeypress="onEnter(event)"></input>
                 </li>
                 
         </ul>
@@ -210,7 +195,7 @@
 </tbody></table>
 <p>值得注意的是 <code>struct</code>类型和数组类型零值不是<code>nil</code>。<code>Struct</code> 是各字段值为对应类型的零值，数组类型是各元素类型的零值。且不能将<code>struct</code>类型和数组类型和与nil&#96;进行等值判断，语法校验不通过。</p>
 <h3 id="不同类型变量的声明与初始化"><a href="#不同类型变量的声明与初始化" class="headerlink" title="不同类型变量的声明与初始化"></a>不同类型变量的声明与初始化</h3><p>基本类型声明时就会初始化为默认零值。组合类型则分为声明和初始化两阶段。因此只需要讨论组合类型。统一的理解是，只声明未初始化的组合类型变量都是<code>nil</code>。不过其中还有一些区别，下面一一讲解。</p>
-<pre><code class="gedcom">// 声明
+<pre class="line-numbers language-gedcom" data-language="gedcom"><code class="language-gedcom">// 声明
 var a *int
 var b *string
 var c []int
@@ -228,17 +213,17 @@ e := make(chan int)
 
 
 c := []int&#123;1,2,3,4&#125;
-d := map[string]string&#123;&quot;aaa&quot;:&quot;bbb&quot;&#125;
+d := map[string]string&#123;"aaa":"bbb"&#125;
 
 c := &amp;[]int&#123;1,2,3,4&#125;
-d := &amp;map[string]string&#123;&quot;aaa&quot;:&quot;bbb&quot;&#125;
-</code></pre>
-<h2 id="组合类型nil值"><a href="#组合类型nil值" class="headerlink" title="组合类型nil值"></a>组合类型<code>nil</code>值</h2><h3 id="nil-pointer"><a href="#nil-pointer" class="headerlink" title="nil pointer"></a>nil pointer</h3><pre><code class="go">var w *int  //对应汇编 MOVQ    $0, &quot;&quot;.w+48(SP)
-// 此时未初始化。 w为nil
-if w == nil &#123;
-    fmt.Println(&quot;w is nil&quot;)
-&#125;
-</code></pre>
+d := &amp;map[string]string&#123;"aaa":"bbb"&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="组合类型nil值"><a href="#组合类型nil值" class="headerlink" title="组合类型nil值"></a>组合类型<code>nil</code>值</h2><h3 id="nil-pointer"><a href="#nil-pointer" class="headerlink" title="nil pointer"></a>nil pointer</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">var</span> w <span class="token operator">*</span><span class="token builtin">int</span>  <span class="token comment">//对应汇编 MOVQ    $0, "".w+48(SP)</span>
+<span class="token comment">// 此时未初始化。 w为nil</span>
+<span class="token keyword">if</span> w <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"w is nil"</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>从汇编中可以看到 nil pointer 其实就是指向内存为0的指针。</p>
 <p>对指针的操作有两种</p>
 <ol>
@@ -253,51 +238,52 @@ if w == nil &#123;
 <p>一般都会区分两个概念，<code>nil slice</code> 和 <code>empty slice</code></p>
 <p><code>nil slice</code> ，其中<code>ptr</code>声明未初始化，为<code>nil</code>。 和<code>nil</code>比较为<code>true</code></p>
 <p><code>empty slice</code>，其中<code>ptr</code>声明并初始化，但是指向空间未分配。和<code>nil</code>比较为<code>false</code></p>
-<pre><code class="go">var w []int
-// 汇编代码
-// 设置 ptr 为0
-// MOVQ    $0, &quot;&quot;.w+112(SP)
-// XORPS   X0, X0
-// 设置 len 和 cap 为0
-// MOVUPS  X0, &quot;&quot;.w+120(SP)
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">var</span> w <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span>
+<span class="token comment">// 汇编代码</span>
+<span class="token comment">// 设置 ptr 为0</span>
+<span class="token comment">// MOVQ    $0, "".w+112(SP)</span>
+<span class="token comment">// XORPS   X0, X0</span>
+<span class="token comment">// 设置 len 和 cap 为0</span>
+<span class="token comment">// MOVUPS  X0, "".w+120(SP)</span>
 
-w == nil 为 true
+w <span class="token operator">==</span> <span class="token boolean">nil</span> 为 <span class="token boolean">true</span>
 
-w1 := make([]int, 0)
-// 汇编代码，功能同上
-// MOVQ    AX, &quot;&quot;.w1+88(SP)
-// XORPS   X0, X0
-// MOVUPS  X0, &quot;&quot;.w1+96(SP)
+w1 <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+<span class="token comment">// 汇编代码，功能同上</span>
+<span class="token comment">// MOVQ    AX, "".w1+88(SP)</span>
+<span class="token comment">// XORPS   X0, X0</span>
+<span class="token comment">// MOVUPS  X0, "".w1+96(SP)</span>
 
 
-w1 == nil 为 false
-</code></pre>
+w1 <span class="token operator">==</span> <span class="token boolean">nil</span> 为 <span class="token boolean">false</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>从汇编代码能清晰的看到，<code>nil slice</code>和<code>empty slice</code>都初始化了slice结构，只是ptr的值不同。所以 声明一个<code>nil slice</code>后 可以直接使用</p>
 <p><code>nil slice</code>的操作，和<code>empty slice</code>相同：</p>
 <p> 可以进行<code> len</code>、<code>cap</code>、 <code>for range</code>、<code>append</code>。注意<code>slice</code>没有删除元素的方法，只能通过在此<code>slice</code>上新建<code>slice</code>来完成</p>
-<pre><code class="go">// nil slices
-var s []int
-len(s)  // 0
-cap(s)  // 0
-for range s  // iterates zero times
-s[i]  // panic: index out of range
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// nil slices</span>
+<span class="token keyword">var</span> s <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span>
+<span class="token function">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>  <span class="token comment">// 0</span>
+<span class="token function">cap</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>  <span class="token comment">// 0</span>
+<span class="token keyword">for</span> <span class="token keyword">range</span> s  <span class="token comment">// iterates zero times</span>
+s<span class="token punctuation">[</span>i<span class="token punctuation">]</span>  <span class="token comment">// panic: index out of range</span>
 
-append(s,1) // no eror
-</code></pre>
+<span class="token function">append</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment">// no eror</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h3 id="nil-map"><a href="#nil-map" class="headerlink" title="nil map"></a><code>nil map</code></h3><p>和上述一样，也有两个概念<code>nil map</code>和<code>empty map</code></p>
 <ul>
 <li>map声明后初始化前，此时为<code>nil map</code></li>
 <li>map声明后不能进行赋值，只有初始化后才能进行赋值操作，初始化后为<code>empty map</code></li>
 </ul>
-<pre><code class="go">var w map[int]string   // nil map
-// 汇编
-// MOVQ    $0, &quot;&quot;.w+64(SP)
-w == nil 为 true
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">var</span> w <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token builtin">string</span>   <span class="token comment">// nil map</span>
+<span class="token comment">// 汇编</span>
+<span class="token comment">// MOVQ    $0, "".w+64(SP)</span>
+w <span class="token operator">==</span> <span class="token boolean">nil</span> 为 <span class="token boolean">true</span>
 
-w1 := map[int]string&#123;&#125; // empty map
-// 汇编代码太长，省略
-w1 == nil 为 false
-</code></pre>
+w1 <span class="token operator">:=</span> <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span> <span class="token comment">// empty map</span>
+<span class="token comment">// 汇编代码太长，省略</span>
+w1 <span class="token operator">==</span> <span class="token boolean">nil</span> 为 <span class="token boolean">false</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>从汇编中可以发现，<code>nil map</code>仅仅声明了一个指针，并置为nil，而<code>empty map</code>则是声明了对应的数据结构。</p>
 <p>因此 <code>nil map</code>在进行赋值操作前，必须初始化，这是与slice的不同点。</p>
 <p><code>nil map</code>和<code>empty map</code>可进行的操作：</p>
@@ -323,124 +309,127 @@ w1 == nil 为 false
 </ul>
 </li>
 </ul>
-<pre><code class="go">// nil maps
-var m map[t]u // nil map
-m2 := map[t]u&#123;&#125; // empty map
-len(m)  // 0
-for range m // iterates zero times
-v, ok := m[i] // zero(u), false
-m[i] = x // panic: assignment to entry in nil map
-</code></pre>
-<h3 id="nil-channel"><a href="#nil-channel" class="headerlink" title="nil channel"></a><code>nil channel</code></h3><pre><code class="go">var w chan int       // nil chan
-// 汇编代码
-// MOVQ    $0, &quot;&quot;.w+56(SP)
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// nil maps</span>
+<span class="token keyword">var</span> m <span class="token keyword">map</span><span class="token punctuation">[</span>t<span class="token punctuation">]</span>u <span class="token comment">// nil map</span>
+m2 <span class="token operator">:=</span> <span class="token keyword">map</span><span class="token punctuation">[</span>t<span class="token punctuation">]</span>u<span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span> <span class="token comment">// empty map</span>
+<span class="token function">len</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span>  <span class="token comment">// 0</span>
+<span class="token keyword">for</span> <span class="token keyword">range</span> m <span class="token comment">// iterates zero times</span>
+v<span class="token punctuation">,</span> ok <span class="token operator">:=</span> m<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token comment">// zero(u), false</span>
+m<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> x <span class="token comment">// panic: assignment to entry in nil map</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-w1 := make(chan int) 
-// 汇编代码
-// LEAQ    type.chan int(SB), AX
-// MOVQ    AX, (SP)
-// MOVQ    $0, 8(SP)
-// PCDATA  $1, $1
-// CALL    runtime.makechan(SB)
-// MOVQ    16(SP), AX
-// MOVQ    AX, &quot;&quot;.w1+48(SP)
-</code></pre>
+<h3 id="nil-channel"><a href="#nil-channel" class="headerlink" title="nil channel"></a><code>nil channel</code></h3><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">var</span> w <span class="token keyword">chan</span> <span class="token builtin">int</span>       <span class="token comment">// nil chan</span>
+<span class="token comment">// 汇编代码</span>
+<span class="token comment">// MOVQ    $0, "".w+56(SP)</span>
+
+w1 <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">chan</span> <span class="token builtin">int</span><span class="token punctuation">)</span> 
+<span class="token comment">// 汇编代码</span>
+<span class="token comment">// LEAQ    type.chan int(SB), AX</span>
+<span class="token comment">// MOVQ    AX, (SP)</span>
+<span class="token comment">// MOVQ    $0, 8(SP)</span>
+<span class="token comment">// PCDATA  $1, $1</span>
+<span class="token comment">// CALL    runtime.makechan(SB)</span>
+<span class="token comment">// MOVQ    16(SP), AX</span>
+<span class="token comment">// MOVQ    AX, "".w1+48(SP)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>从汇编可以看到 <code>channel</code> 也需要声明和初始化。<code>nil chan</code> 仅仅只是创建了一个为<code>nil</code>指针，初始化才会创建具体的结构体。</p>
 <p><code>nil chan</code> 的操作:</p>
 <ol>
 <li>读 写 都会无限阻塞</li>
 <li>close 会发生<code>panic</code></li>
 </ol>
-<pre><code class="go">// nil channels
-var c chan t 
-&lt;- c      // blocks forever
-c &lt;- x    // blocks forever
-close(c)  // panic: close of nil channel
-</code></pre>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// nil channels</span>
+<span class="token keyword">var</span> c <span class="token keyword">chan</span> t 
+<span class="token operator">&lt;-</span> c      <span class="token comment">// blocks forever</span>
+c <span class="token operator">&lt;-</span> x    <span class="token comment">// blocks forever</span>
+<span class="token function">close</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span>  <span class="token comment">// panic: close of nil channel</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h3 id="nil-func"><a href="#nil-func" class="headerlink" title="nil func"></a><code>nil func</code></h3><p><code>map</code>、<code>channel</code>、<code>function</code>的本质都是指向具体实现的指针，而对应类型的nil则是不指向任何地址。因此不做具体介绍</p>
 <h3 id="nil-interface"><a href="#nil-interface" class="headerlink" title="nil interface"></a><code>nil interface</code></h3><p>interface底层由两部分组成：类型、值(type, value)，当二者均为nil时，此时interface才为nil。</p>
-<pre><code class="go">var w io.Reader 此时为(nil,nil)
-// 汇编
-// XORPS   X0, X0
-// MOVUPS  X0, &quot;&quot;.w+40(SP)
-w == nil  // true 
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">var</span> w io<span class="token punctuation">.</span>Reader 此时为<span class="token punctuation">(</span><span class="token boolean">nil</span><span class="token punctuation">,</span><span class="token boolean">nil</span><span class="token punctuation">)</span>
+<span class="token comment">// 汇编</span>
+<span class="token comment">// XORPS   X0, X0</span>
+<span class="token comment">// MOVUPS  X0, "".w+40(SP)</span>
+w <span class="token operator">==</span> <span class="token boolean">nil</span>  <span class="token comment">// true </span>
 
-var a *strings.Reader 此时为(*strings.Reader,nil)
-w = a
-// 汇编
-MOVQ    $0, &quot;&quot;..autotmp_2+32(SP)
-LEAQ    go.itab.*strings.Reader,io.Reader(SB), AX
-MOVQ    AX, &quot;&quot;.w+40(SP)  // _type 为 *strings.Reader
-MOVQ    $0, &quot;&quot;.w+48(SP)  // datac 为  nil
-
-
-w = strings.NewReader(&quot;1234&quot;)  此时为(*strings.Reader, 对应数据地址)
-// 汇编
-LEAQ    go.string.&quot;1234&quot;(SB), AX
-MOVQ    AX, (SP)
-MOVQ    $4, 8(SP)
-PCDATA  $1, $0
-CALL    strings.NewReader(SB)
-MOVQ    16(SP), AX    //strings.NewReader(SB) 返回的地址 放入 AX
-MOVQ    AX, &quot;&quot;..autotmp_1+32(SP)
-LEAQ    go.itab.*strings.Reader,io.Reader(SB), CX
-MOVQ    CX, &quot;&quot;.w+40(SP) // _type 为 *strings.Reader
-MOVQ    AX, &quot;&quot;.w+48(SP) // datac 为 strings.NewReader(SB) 返回的地址
-
-var s Write // Write 此时 s 为nil，为一个纯接口
-
-var p *Person           // nil of type *Person
-var s Write = p  // 赋值后，s 带有了p的类型信息，但是 p 为nil，所以值为nil
+<span class="token keyword">var</span> a <span class="token operator">*</span>strings<span class="token punctuation">.</span>Reader 此时为<span class="token punctuation">(</span><span class="token operator">*</span>strings<span class="token punctuation">.</span>Reader<span class="token punctuation">,</span><span class="token boolean">nil</span><span class="token punctuation">)</span>
+w <span class="token operator">=</span> a
+<span class="token comment">// 汇编</span>
+MOVQ    $<span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">.</span><span class="token punctuation">.</span>autotmp_2<span class="token operator">+</span><span class="token function">32</span><span class="token punctuation">(</span>SP<span class="token punctuation">)</span>
+LEAQ    <span class="token keyword">go</span><span class="token punctuation">.</span>itab<span class="token punctuation">.</span><span class="token operator">*</span>strings<span class="token punctuation">.</span>Reader<span class="token punctuation">,</span>io<span class="token punctuation">.</span><span class="token function">Reader</span><span class="token punctuation">(</span>SB<span class="token punctuation">)</span><span class="token punctuation">,</span> AX
+MOVQ    AX<span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">.</span>w<span class="token operator">+</span><span class="token function">40</span><span class="token punctuation">(</span>SP<span class="token punctuation">)</span>  <span class="token comment">// _type 为 *strings.Reader</span>
+MOVQ    $<span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">.</span>w<span class="token operator">+</span><span class="token function">48</span><span class="token punctuation">(</span>SP<span class="token punctuation">)</span>  <span class="token comment">// datac 为  nil</span>
 
 
-</code></pre>
+w <span class="token operator">=</span> strings<span class="token punctuation">.</span><span class="token function">NewReader</span><span class="token punctuation">(</span><span class="token string">"1234"</span><span class="token punctuation">)</span>  此时为<span class="token punctuation">(</span><span class="token operator">*</span>strings<span class="token punctuation">.</span>Reader<span class="token punctuation">,</span> 对应数据地址<span class="token punctuation">)</span>
+<span class="token comment">// 汇编</span>
+LEAQ    <span class="token keyword">go</span><span class="token punctuation">.</span><span class="token builtin">string</span><span class="token punctuation">.</span><span class="token string">"1234"</span><span class="token punctuation">(</span>SB<span class="token punctuation">)</span><span class="token punctuation">,</span> AX
+MOVQ    AX<span class="token punctuation">,</span> <span class="token punctuation">(</span>SP<span class="token punctuation">)</span>
+MOVQ    $<span class="token number">4</span><span class="token punctuation">,</span> <span class="token function">8</span><span class="token punctuation">(</span>SP<span class="token punctuation">)</span>
+PCDATA  $<span class="token number">1</span><span class="token punctuation">,</span> $<span class="token number">0</span>
+CALL    strings<span class="token punctuation">.</span><span class="token function">NewReader</span><span class="token punctuation">(</span>SB<span class="token punctuation">)</span>
+MOVQ    <span class="token function">16</span><span class="token punctuation">(</span>SP<span class="token punctuation">)</span><span class="token punctuation">,</span> AX    <span class="token comment">//strings.NewReader(SB) 返回的地址 放入 AX</span>
+MOVQ    AX<span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">.</span><span class="token punctuation">.</span>autotmp_1<span class="token operator">+</span><span class="token function">32</span><span class="token punctuation">(</span>SP<span class="token punctuation">)</span>
+LEAQ    <span class="token keyword">go</span><span class="token punctuation">.</span>itab<span class="token punctuation">.</span><span class="token operator">*</span>strings<span class="token punctuation">.</span>Reader<span class="token punctuation">,</span>io<span class="token punctuation">.</span><span class="token function">Reader</span><span class="token punctuation">(</span>SB<span class="token punctuation">)</span><span class="token punctuation">,</span> CX
+MOVQ    CX<span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">.</span>w<span class="token operator">+</span><span class="token function">40</span><span class="token punctuation">(</span>SP<span class="token punctuation">)</span> <span class="token comment">// _type 为 *strings.Reader</span>
+MOVQ    AX<span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">.</span>w<span class="token operator">+</span><span class="token function">48</span><span class="token punctuation">(</span>SP<span class="token punctuation">)</span> <span class="token comment">// datac 为 strings.NewReader(SB) 返回的地址</span>
+
+<span class="token keyword">var</span> s Write <span class="token comment">// Write 此时 s 为nil，为一个纯接口</span>
+
+<span class="token keyword">var</span> p <span class="token operator">*</span>Person           <span class="token comment">// nil of type *Person</span>
+<span class="token keyword">var</span> s Write <span class="token operator">=</span> p  <span class="token comment">// 赋值后，s 带有了p的类型信息，但是 p 为nil，所以值为nil</span>
+
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>有可得，当interface 为 nil时，变量为一个nil的指针；当不为nil值时，会实例化为下面一种结构体。</p>
-<pre><code class="go">type eface struct &#123; // 16 字节 不包含任何方法的接口
-    _type *_type
-    data  unsafe.Pointer
-&#125;
-</code></pre>
-<pre><code class="go">type iface struct &#123; // 16 字节 包含方法的接口
-    tab  *itab
-    data unsafe.Pointer
-&#125;
-</code></pre>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">type</span> eface <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span> <span class="token comment">// 16 字节 不包含任何方法的接口</span>
+    _type <span class="token operator">*</span>_type
+    data  unsafe<span class="token punctuation">.</span>Pointer
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">type</span> iface <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span> <span class="token comment">// 16 字节 包含方法的接口</span>
+    tab  <span class="token operator">*</span>itab
+    data unsafe<span class="token punctuation">.</span>Pointer
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h4 id="不要返回具体的错误类型，而应直接返回nil"><a href="#不要返回具体的错误类型，而应直接返回nil" class="headerlink" title="不要返回具体的错误类型，而应直接返回nil"></a>不要返回具体的错误类型，而应直接返回<code>nil</code></h4><p>下面展示返回类型为interface时的差异：</p>
 <p>错误示例：</p>
-<pre><code class="go">func do() error &#123;   // error(*doError, nil)
-  var err *doError
-  return err  // nil of type *doError
-&#125;
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">do</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">error</span> <span class="token punctuation">&#123;</span>   <span class="token comment">// error(*doError, nil)</span>
+  <span class="token keyword">var</span> err <span class="token operator">*</span>doError
+  <span class="token keyword">return</span> err  <span class="token comment">// nil of type *doError</span>
+<span class="token punctuation">&#125;</span>
 
-func main() &#123;
-  err := do()             // error(*doError, nil)
-  fmt.Println(err == nil) // false
-&#125;
-</code></pre>
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  err <span class="token operator">:=</span> <span class="token function">do</span><span class="token punctuation">(</span><span class="token punctuation">)</span>             <span class="token comment">// error(*doError, nil)</span>
+  fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>err <span class="token operator">==</span> <span class="token boolean">nil</span><span class="token punctuation">)</span> <span class="token comment">// false</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>正确示例：</p>
-<pre><code class="go">func do() *doError &#123;   // nil of type *doError
-  return nil
-&#125;
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">do</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span>doError <span class="token punctuation">&#123;</span>   <span class="token comment">// nil of type *doError</span>
+  <span class="token keyword">return</span> <span class="token boolean">nil</span>
+<span class="token punctuation">&#125;</span>
 
-func main() &#123;
-  err := do()             // nil of type *doError
-  fmt.Println(err == nil) // true
-&#125;
-</code></pre>
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  err <span class="token operator">:=</span> <span class="token function">do</span><span class="token punctuation">(</span><span class="token punctuation">)</span>             <span class="token comment">// nil of type *doError</span>
+  fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>err <span class="token operator">==</span> <span class="token boolean">nil</span><span class="token punctuation">)</span> <span class="token comment">// true</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>再看下面这段代码，虽然<code>do()</code>返回nil，但<code>wrapDo()</code>返回依然是接口，也就是<code>类型为*doError，值为nil</code>的接口，此时拿到的返回值并不等于nil。</p>
-<pre><code class="go">func do() *doError &#123;  // nil of type *doError
-  return nil
-&#125;
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">do</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span>doError <span class="token punctuation">&#123;</span>  <span class="token comment">// nil of type *doError</span>
+  <span class="token keyword">return</span> <span class="token boolean">nil</span>
+<span class="token punctuation">&#125;</span>
 
-func wrapDo() error &#123; // error (*doError, nil)
-  return do()       // nil of type *doError
-&#125;
+<span class="token keyword">func</span> <span class="token function">wrapDo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">error</span> <span class="token punctuation">&#123;</span> <span class="token comment">// error (*doError, nil)</span>
+  <span class="token keyword">return</span> <span class="token function">do</span><span class="token punctuation">(</span><span class="token punctuation">)</span>       <span class="token comment">// nil of type *doError</span>
+<span class="token punctuation">&#125;</span>
 
-func main() &#123;
-  err := wrapDo()   // error  (*doError, nil)
-  fmt.Println(err == nil) // false
-&#125;
-</code></pre>
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  err <span class="token operator">:=</span> <span class="token function">wrapDo</span><span class="token punctuation">(</span><span class="token punctuation">)</span>   <span class="token comment">// error  (*doError, nil)</span>
+  fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>err <span class="token operator">==</span> <span class="token boolean">nil</span><span class="token punctuation">)</span> <span class="token comment">// false</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h3 id="nil的有效利用"><a href="#nil的有效利用" class="headerlink" title="nil的有效利用"></a><code>nil</code>的有效利用</h3><ul>
 <li><code>nil</code>类型接收者是可以正确调用方法的 <code>nil reveivers are userful</code></li>
 <li><code>Keep nil (pointer) useful if possible, if not NewX()</code></li>
@@ -453,270 +442,271 @@ func main() &#123;
 <h2 id="nil的一些常见用法"><a href="#nil的一些常见用法" class="headerlink" title="nil的一些常见用法"></a>nil的一些常见用法</h2><h3 id="nil-pointer用法"><a href="#nil-pointer用法" class="headerlink" title="nil pointer用法"></a><code>nil pointer</code>用法</h3><ul>
 <li><code>nil pointer</code>用来和nil比较确认是否为零值</li>
 </ul>
-<pre><code>var p *int
-p == nil // true
-*p // panic: runtime error: invalid memory address or nil pointer dereference
-</code></pre>
+<pre class="line-numbers language-none"><code class="language-none">var p *int
+p &#x3D;&#x3D; nil &#x2F;&#x2F; true
+*p &#x2F;&#x2F; panic: runtime error: invalid memory address or nil pointer dereference<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
 <p>来看看，如何实现二叉树树的求和操作：</p>
-<pre><code>type tree &#123;
+<pre class="line-numbers language-none"><code class="language-none">type tree &#123;
   v int
   l *tree
   r *tree
 &#125;
 
-func (t *tree) Sum() int
-</code></pre>
+func (t *tree) Sum() int<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>第一种方案，有两个问题：</p>
 <ul>
 <li>代码冗余，重复的<code>if v != nil &#123;v.m()&#125;</code></li>
 <li>当<code>t</code>为nil时，会发生<code>panic</code></li>
 </ul>
-<pre><code>var t *tree // nil of type *tree
-sum := t.Sum() // panic
-// 实现方案1
+<pre class="line-numbers language-none"><code class="language-none">var t *tree &#x2F;&#x2F; nil of type *tree
+sum :&#x3D; t.Sum() &#x2F;&#x2F; panic
+&#x2F;&#x2F; 实现方案1
 func (t *tree) Sum() int &#123;
-  sum := t.v
-  if t.l != nil &#123;
-    sum += t.l.Sum()
+  sum :&#x3D; t.v
+  if t.l !&#x3D; nil &#123;
+    sum +&#x3D; t.l.Sum()
   &#125;
-  if t.r != nil &#123;
-    sum += t.r.Sum()
+  if t.r !&#x3D; nil &#123;
+    sum +&#x3D; t.r.Sum()
   &#125;
   return sum
-&#125;
-</code></pre>
-<p><code>nil</code>接收者，也可以正确调用方法，所以可以利用这一点，改造出方案2：</p>
-<pre><code class="go">// 方案2：代码简洁、可断性提高很多
-func (t *tree) Sum() int &#123;
-  if t == nil &#123;
-    return 0
-  &#125;
-  return v + t.l.Sum() + t.r.Sum()
-&#125;
-</code></pre>
-<p>通过利用类型的nil，可以灵活实现是否为空的处理，已经便捷实现扩展函数：</p>
-<pre><code class="go">func (t *tree) String() string &#123;
-  if t == nil &#123;
-    return &quot;&quot;
-  &#125;
-  return fmt.Sprint(t.l, t.v, t.r)
-&#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-func (t *tree) Find(v int) bool &#123;
-  if t == nil &#123;
-    return false
-  &#125;
-  return t.v go== v || t.l.Find(v) || t.r.Find(v)
-&#125;
-</code></pre>
+<p><code>nil</code>接收者，也可以正确调用方法，所以可以利用这一点，改造出方案2：</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// 方案2：代码简洁、可断性提高很多</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>t <span class="token operator">*</span>tree<span class="token punctuation">)</span> <span class="token function">Sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">if</span> t <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token keyword">return</span> v <span class="token operator">+</span> t<span class="token punctuation">.</span>l<span class="token punctuation">.</span><span class="token function">Sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> t<span class="token punctuation">.</span>r<span class="token punctuation">.</span><span class="token function">Sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>通过利用类型的nil，可以灵活实现是否为空的处理，已经便捷实现扩展函数：</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token punctuation">(</span>t <span class="token operator">*</span>tree<span class="token punctuation">)</span> <span class="token function">String</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">string</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">if</span> t <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token string">""</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token keyword">return</span> fmt<span class="token punctuation">.</span><span class="token function">Sprint</span><span class="token punctuation">(</span>t<span class="token punctuation">.</span>l<span class="token punctuation">,</span> t<span class="token punctuation">.</span>v<span class="token punctuation">,</span> t<span class="token punctuation">.</span>r<span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span>t <span class="token operator">*</span>tree<span class="token punctuation">)</span> <span class="token function">Find</span><span class="token punctuation">(</span>v <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">bool</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">if</span> t <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token keyword">return</span> t<span class="token punctuation">.</span>v <span class="token keyword">go</span><span class="token operator">==</span> v <span class="token operator">||</span> t<span class="token punctuation">.</span>l<span class="token punctuation">.</span><span class="token function">Find</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span> <span class="token operator">||</span> t<span class="token punctuation">.</span>r<span class="token punctuation">.</span><span class="token function">Find</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h3 id="nil-slices用法"><a href="#nil-slices用法" class="headerlink" title="nil slices用法"></a><code>nil slices</code>用法</h3><ul>
 <li>不能对<code>nil slice</code>进行取值，否则会发生panic</li>
 <li>可通过<code>append</code>函数对<code>nil slice</code>进行增加元素操作</li>
 </ul>
-<pre><code class="go">var s []int
-len(s) // 0
-cap(s) // 0
-for range s // 执行0次
-s[i] // panic: index out of range
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">var</span> s <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span>
+<span class="token function">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token comment">// 0</span>
+<span class="token function">cap</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token comment">// 0</span>
+<span class="token keyword">for</span> <span class="token keyword">range</span> s <span class="token comment">// 执行0次</span>
+s<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token comment">// panic: index out of range</span>
 
-for i := 0; i &lt;10; i++ &#123;
-  fmt.Printf(&quot;len: %2d, cap: %2d\n&quot;, len(s), cap(s))
-  s = append(s, i)
-&#125;
-</code></pre>
+<span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span><span class="token number">10</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">&#123;</span>
+  fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"len: %2d, cap: %2d\n"</span><span class="token punctuation">,</span> <span class="token function">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">cap</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  s <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> i<span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h3 id="nil-map用法"><a href="#nil-map用法" class="headerlink" title="nil map用法"></a><code>nil map</code>用法</h3><ul>
 <li><code>nil map</code>不能进行增加元素操作，因它还没有进行初始化</li>
 <li>将<code>nil map</code>作为只读的空map</li>
 </ul>
-<pre><code class="go">var m map[t]u
-len(m) // 0
-for range m // 执行0次
-v, ok := m[i] // v=zero(u), ok=false
-m[i] = x      // panic: assignment to entry in nil map
-// 有个nil map有用的例子
-func NewGet(url string, headers map[string]string)(*http.Request, error)  &#123;
-  req, err := http.NewRequest(http.MethodGet, url, nil)
-  if err != nil &#123;
-    return nil, err
-  &#125;
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">var</span> m <span class="token keyword">map</span><span class="token punctuation">[</span>t<span class="token punctuation">]</span>u
+<span class="token function">len</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span> <span class="token comment">// 0</span>
+<span class="token keyword">for</span> <span class="token keyword">range</span> m <span class="token comment">// 执行0次</span>
+v<span class="token punctuation">,</span> ok <span class="token operator">:=</span> m<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token comment">// v=zero(u), ok=false</span>
+m<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> x      <span class="token comment">// panic: assignment to entry in nil map</span>
+<span class="token comment">// 有个nil map有用的例子</span>
+<span class="token keyword">func</span> <span class="token function">NewGet</span><span class="token punctuation">(</span>url <span class="token builtin">string</span><span class="token punctuation">,</span> headers <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token operator">*</span>http<span class="token punctuation">.</span>Request<span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span>  <span class="token punctuation">&#123;</span>
+  req<span class="token punctuation">,</span> err <span class="token operator">:=</span> http<span class="token punctuation">.</span><span class="token function">NewRequest</span><span class="token punctuation">(</span>http<span class="token punctuation">.</span>MethodGet<span class="token punctuation">,</span> url<span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>
+  <span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token boolean">nil</span><span class="token punctuation">,</span> err
+  <span class="token punctuation">&#125;</span>
 
-  for k, v := range headers &#123;
-    req.Header.Set(k, v)
-  &#125;
-  return req, nil
-&#125;
+  <span class="token keyword">for</span> k<span class="token punctuation">,</span> v <span class="token operator">:=</span> <span class="token keyword">range</span> headers <span class="token punctuation">&#123;</span>
+    req<span class="token punctuation">.</span>Header<span class="token punctuation">.</span><span class="token function">Set</span><span class="token punctuation">(</span>k<span class="token punctuation">,</span> v<span class="token punctuation">)</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token keyword">return</span> req<span class="token punctuation">,</span> <span class="token boolean">nil</span>
+<span class="token punctuation">&#125;</span>
 
-// 调用时，传递headers
-NewGet(
-  &quot;http://google.com&quot;,
-  map[string]string&#123;
-    &quot;USER_AGENT&quot;:&quot;google/gopher&quot;,
-  &#125;,  // go语言五十度灰，如果参数和)之间换行形式，参数尾部需追加,逗号
-)
+<span class="token comment">// 调用时，传递headers</span>
+<span class="token function">NewGet</span><span class="token punctuation">(</span>
+  <span class="token string">"http://google.com"</span><span class="token punctuation">,</span>
+  <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">&#123;</span>
+    <span class="token string">"USER_AGENT"</span><span class="token punctuation">:</span><span class="token string">"google/gopher"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>  <span class="token comment">// go语言五十度灰，如果参数和)之间换行形式，参数尾部需追加,逗号</span>
+<span class="token punctuation">)</span>
 
-// 调用时，不传递headers，可以传递一个empty map空map
-NewGet(
-  &quot;http://google.com&quot;,
-  map[string]string&#123;&#125;, // 传递空map，empty map
-)
+<span class="token comment">// 调用时，不传递headers，可以传递一个empty map空map</span>
+<span class="token function">NewGet</span><span class="token punctuation">(</span>
+  <span class="token string">"http://google.com"</span><span class="token punctuation">,</span>
+  <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token comment">// 传递空map，empty map</span>
+<span class="token punctuation">)</span>
 
-// 调用时，不传递headers，可以传递一个nil map
-NewGet(
-  &quot;http://google.com&quot;,
-  nil, // 传递nil map，也是合法的
-)
-</code></pre>
+<span class="token comment">// 调用时，不传递headers，可以传递一个nil map</span>
+<span class="token function">NewGet</span><span class="token punctuation">(</span>
+  <span class="token string">"http://google.com"</span><span class="token punctuation">,</span>
+  <span class="token boolean">nil</span><span class="token punctuation">,</span> <span class="token comment">// 传递nil map，也是合法的</span>
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h3 id="nil-channel用法"><a href="#nil-channel用法" class="headerlink" title="nil channel用法"></a><code>nil channel</code>用法</h3><ul>
 <li>不能对<code>nil channel</code>进行<code>close()</code>操作，发触发<code>panic: close of nil channel</code></li>
 <li>不能对channel进行多次<code>close</code>，会触发 <code>panic: close of closed channel</code></li>
 <li>关闭channel，在select&#x2F;case中将依然能获取到值，但nil channel将阻塞读操作来失效select&#x2F;case中逻辑</li>
 </ul>
-<pre><code class="go">var c chan t // nil of type chan t
-// nil channel操作时
-&lt;- c // block forever，持续阻塞
-c &lt;- x // block forever，持续阻塞
-close(c) // panic: close of nil channel，关闭nil channel发生panic
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">var</span> c <span class="token keyword">chan</span> t <span class="token comment">// nil of type chan t</span>
+<span class="token comment">// nil channel操作时</span>
+<span class="token operator">&lt;-</span> c <span class="token comment">// block forever，持续阻塞</span>
+c <span class="token operator">&lt;-</span> x <span class="token comment">// block forever，持续阻塞</span>
+<span class="token function">close</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token comment">// panic: close of nil channel，关闭nil channel发生panic</span>
 
-// 对于已关闭的channel，将发生如下现象
-v := &lt;- c  //closed channel是可以被消费者继续读取的，在读完了有意义的数据之后，将读到一堆空值。比如这里的int类型就是0。
-v, ok := &lt;-c  // zero(t), false 不会阻塞，返回零值和False
-c &lt;-x // panic: send to close channel
-close(x) // panic: close of closed channel，备注原文中错误
-</code></pre>
+<span class="token comment">// 对于已关闭的channel，将发生如下现象</span>
+v <span class="token operator">:=</span> <span class="token operator">&lt;-</span> c  <span class="token comment">//closed channel是可以被消费者继续读取的，在读完了有意义的数据之后，将读到一堆空值。比如这里的int类型就是0。</span>
+v<span class="token punctuation">,</span> ok <span class="token operator">:=</span> <span class="token operator">&lt;-</span>c  <span class="token comment">// zero(t), false 不会阻塞，返回零值和False</span>
+c <span class="token operator">&lt;-</span>x <span class="token comment">// panic: send to close channel</span>
+<span class="token function">close</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token comment">// panic: close of closed channel，备注原文中错误</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>现在假设要实现一个合并函数，实现从两个通道中获取数据，然后写入out输出通道：</p>
-<pre><code class="go">
-func merge(out chan&lt;- int, a,b &lt;-chan int)  &#123;
-  for &#123;
-    select &#123;
-      case v:= &lt;-a: // 当a/b通道关闭时，这里将持续获取到0
-        out &lt;-v
-      case v:= &lt;-b
-        out &lt;-v
-    &#125;
-  &#125;
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">
+<span class="token keyword">func</span> <span class="token function">merge</span><span class="token punctuation">(</span>out <span class="token keyword">chan</span><span class="token operator">&lt;-</span> <span class="token builtin">int</span><span class="token punctuation">,</span> a<span class="token punctuation">,</span>b <span class="token operator">&lt;-</span><span class="token keyword">chan</span> <span class="token builtin">int</span><span class="token punctuation">)</span>  <span class="token punctuation">&#123;</span>
+  <span class="token keyword">for</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">select</span> <span class="token punctuation">&#123;</span>
+      <span class="token keyword">case</span> v<span class="token operator">:=</span> <span class="token operator">&lt;-</span>a<span class="token punctuation">:</span> <span class="token comment">// 当a/b通道关闭时，这里将持续获取到0</span>
+        out <span class="token operator">&lt;-</span>v
+      <span class="token keyword">case</span> v<span class="token operator">:=</span> <span class="token operator">&lt;-</span>b
+        out <span class="token operator">&lt;-</span>v
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
 
-&#125;
+<span class="token punctuation">&#125;</span>
 
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>改造代码后如下：</p>
-<pre><code class="go">func merge(out chan&lt;- int, a,b &lt;-chan int)  &#123;
-  var aClosed, bClosed bool
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">merge</span><span class="token punctuation">(</span>out <span class="token keyword">chan</span><span class="token operator">&lt;-</span> <span class="token builtin">int</span><span class="token punctuation">,</span> a<span class="token punctuation">,</span>b <span class="token operator">&lt;-</span><span class="token keyword">chan</span> <span class="token builtin">int</span><span class="token punctuation">)</span>  <span class="token punctuation">&#123;</span>
+  <span class="token keyword">var</span> aClosed<span class="token punctuation">,</span> bClosed <span class="token builtin">bool</span>
 
-  for !aClosed || !bClosed &#123;
-    select &#123;
-    case v,ok := &lt;-a: // 此时通道关闭后，就不会再进行获取了
-      if !ok &#123;
-        aClosed = true
-        fmt.Println(&quot;a is closed&quot;)
-        continue
-      &#125;
-      out &lt;-v
-    case v,ok := &lt;-b:
-      if !ok &#123;
-        bClosed = true
-        fmt.Println(&quot;b is closed&quot;)
-        continue
-      &#125;
-      out &lt;-v
-    &#125;
-  &#125;
-  close(out) // 需要在不使用后进行close操作
-&#125;
-</code></pre>
+  <span class="token keyword">for</span> <span class="token operator">!</span>aClosed <span class="token operator">||</span> <span class="token operator">!</span>bClosed <span class="token punctuation">&#123;</span>
+    <span class="token keyword">select</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">case</span> v<span class="token punctuation">,</span>ok <span class="token operator">:=</span> <span class="token operator">&lt;-</span>a<span class="token punctuation">:</span> <span class="token comment">// 此时通道关闭后，就不会再进行获取了</span>
+      <span class="token keyword">if</span> <span class="token operator">!</span>ok <span class="token punctuation">&#123;</span>
+        aClosed <span class="token operator">=</span> <span class="token boolean">true</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"a is closed"</span><span class="token punctuation">)</span>
+        <span class="token keyword">continue</span>
+      <span class="token punctuation">&#125;</span>
+      out <span class="token operator">&lt;-</span>v
+    <span class="token keyword">case</span> v<span class="token punctuation">,</span>ok <span class="token operator">:=</span> <span class="token operator">&lt;-</span>b<span class="token punctuation">:</span>
+      <span class="token keyword">if</span> <span class="token operator">!</span>ok <span class="token punctuation">&#123;</span>
+        bClosed <span class="token operator">=</span> <span class="token boolean">true</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"b is closed"</span><span class="token punctuation">)</span>
+        <span class="token keyword">continue</span>
+      <span class="token punctuation">&#125;</span>
+      out <span class="token operator">&lt;-</span>v
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token function">close</span><span class="token punctuation">(</span>out<span class="token punctuation">)</span> <span class="token comment">// 需要在不使用后进行close操作</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>终于搞定了，提交代码，转交给测试吧！你会发现“a is closed” 和 “b is closed”可能会执行多次，为什么？因为外部逻辑如果关闭了a&#x2F;b，此时还能够读取。此时上述代码中会有空转的逻辑，运行下，看看打印输出：</p>
-<pre><code>a is closed
+<pre class="line-numbers language-none"><code class="language-none">a is closed
 a is closed
 a is closed
 a is closed
-a is closed // 很多次无用的空转逻辑
-b is closed // 最后一次，a/b都未空时才结束循环
-</code></pre>
+a is closed &#x2F;&#x2F; 很多次无用的空转逻辑
+b is closed &#x2F;&#x2F; 最后一次，a&#x2F;b都未空时才结束循环<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>可能看到这里已经有些蒙了，但要明白，无论是否关闭一个chanel，都可以从中读取到值，而如果不需要对channel取值操作了，那么可以将其改为nil，这样会永远阻塞读，防止再发生读操作；同时应在入口增加非nil判断。</p>
-<pre><code>func merge(out chan&lt;- int, a, b &lt;-chan int) &#123;
-    for a != nil || b != nil &#123;
+<pre class="line-numbers language-none"><code class="language-none">func merge(out chan&lt;- int, a, b &lt;-chan int) &#123;
+    for a !&#x3D; nil || b !&#x3D; nil &#123;
         select &#123;
-        case v, ok := &lt;-a: // 此时通道关闭后，a == nil，在读取会永远阻塞
+        case v, ok :&#x3D; &lt;-a: &#x2F;&#x2F; 此时通道关闭后，a &#x3D;&#x3D; nil，在读取会永远阻塞
             if !ok &#123;
-                a = nil
+                a &#x3D; nil
                 fmt.Println(&quot;a is closed&quot;)
                 continue
             &#125;
             out &lt;- v
-        case v, ok := &lt;-b:
+        case v, ok :&#x3D; &lt;-b:
             if !ok &#123;
-                b = nil
+                b &#x3D; nil
                 fmt.Println(&quot;b is closed&quot;)
                 continue
             &#125;
             out &lt;- v
         &#125;
     &#125;
-    close(out) // 需要再不使用后进行close操作
-&#125;
-</code></pre>
+    close(out) &#x2F;&#x2F; 需要再不使用后进行close操作
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h3 id="nil-func用法"><a href="#nil-func用法" class="headerlink" title="nil func用法"></a><code>nil func</code>用法</h3><ul>
 <li>go中函数是一等公民</li>
 <li>函数可以作为struct结构体的字段，缺省值则为nil</li>
 </ul>
-<pre><code>type Foo struct &#123;
-  f func() error // f is type of func() error
+<pre class="line-numbers language-none"><code class="language-none">type Foo struct &#123;
+  f func() error &#x2F;&#x2F; f is type of func() error
 &#125;
 
-// 常见用法，传输函数为nil，增加缺省处理
+&#x2F;&#x2F; 常见用法，传输函数为nil，增加缺省处理
 func NewServer(logger func(string, ...interface&#123;&#125;)) &#123;
-  if logger == nil &#123;
-    logger = log.Printf
+  if logger &#x3D;&#x3D; nil &#123;
+    logger &#x3D; log.Printf
   &#125;
   logger.Printf(&quot;initializng %s&quot;, os.Getenv(&quot;hostname&quot;))
-&#125;
-</code></pre>
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h3 id="nil-interface用法"><a href="#nil-interface用法" class="headerlink" title="nil interface用法"></a><code>nil interface</code>用法</h3><ul>
 <li>将<code>nil interface</code>作为一种信号来使用</li>
 <li>nil指针，不等于nil接口</li>
 </ul>
-<pre><code class="go">if err != nil &#123;
-  ...
-&#125;
-type Summer interface &#123;
-  Sum() int
-&#125;
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">type</span> Summer <span class="token keyword">interface</span> <span class="token punctuation">&#123;</span>
+  <span class="token function">Sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">int</span>
+<span class="token punctuation">&#125;</span>
 
-var t *tree // nil of type *tree
-var s Summer = t // nil指针，可以是合法的interface类型的值
-// 此时，对接接口类型变量s而言，其类型为*tree，值为nil，也就是说(*tree, nil)行的interface
+<span class="token keyword">var</span> t <span class="token operator">*</span>tree <span class="token comment">// nil of type *tree</span>
+<span class="token keyword">var</span> s Summer <span class="token operator">=</span> t <span class="token comment">// nil指针，可以是合法的interface类型的值</span>
+<span class="token comment">// 此时，对接接口类型变量s而言，其类型为*tree，值为nil，也就是说(*tree, nil)行的interface</span>
 
-fmt.Println(t==nil, s.Sum()) // true, 0
+fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>t<span class="token operator">==</span><span class="token boolean">nil</span><span class="token punctuation">,</span> s<span class="token punctuation">.</span><span class="token function">Sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// true, 0</span>
 
-type ints []int
-func (i ints) Sum() int &#123;
-  s := 0
-  for _, v := range i&#123;
-    s += v
-  &#125;
-  return s
-&#125;
+<span class="token keyword">type</span> ints <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>i ints<span class="token punctuation">)</span> <span class="token function">Sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">&#123;</span>
+  s <span class="token operator">:=</span> <span class="token number">0</span>
+  <span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> v <span class="token operator">:=</span> <span class="token keyword">range</span> i<span class="token punctuation">&#123;</span>
+    s <span class="token operator">+=</span> v
+  <span class="token punctuation">&#125;</span>
+  <span class="token keyword">return</span> s
+<span class="token punctuation">&#125;</span>
 
-var i ints
-var s Summer = i // summer 为([]int,i)
-fmt.Println(s==nil, s.Sum()) // false, 0
-// 通过判断接口为nil，来给定缺省值
-func doSum(s Summer) int &#123;
-  if s == nil &#123;
-    return 0
-  &#125;
-  return s.Sum()
-&#125;
+<span class="token keyword">var</span> i ints
+<span class="token keyword">var</span> s Summer <span class="token operator">=</span> i <span class="token comment">// summer 为([]int,i)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>s<span class="token operator">==</span><span class="token boolean">nil</span><span class="token punctuation">,</span> s<span class="token punctuation">.</span><span class="token function">Sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// false, 0</span>
+<span class="token comment">// 通过判断接口为nil，来给定缺省值</span>
+<span class="token keyword">func</span> <span class="token function">doSum</span><span class="token punctuation">(</span>s Summer<span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">if</span> s <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token keyword">return</span> s<span class="token punctuation">.</span><span class="token function">Sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span>
 
-var t *tree
-doSum(t) // interface的类型和值分别为：(*tree, nil)
+<span class="token keyword">var</span> t <span class="token operator">*</span>tree
+<span class="token function">doSum</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span> <span class="token comment">// interface的类型和值分别为：(*tree, nil)</span>
 
-var i ints
-doSum(i) // (ints, nil)
+<span class="token keyword">var</span> i ints
+<span class="token function">doSum</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token comment">// (ints, nil)</span>
 
-doSum(nil) // (nil, nil)
+<span class="token function">doSum</span><span class="token punctuation">(</span><span class="token boolean">nil</span><span class="token punctuation">)</span> <span class="token comment">// (nil, nil)</span>
 
-http.HandleFunc(&quot;localhost:8080&quot;, nil) // 传递nil，则使用缺省处理
-</code></pre>
+http<span class="token punctuation">.</span><span class="token function">HandleFunc</span><span class="token punctuation">(</span><span class="token string">"localhost:8080"</span><span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">)</span> <span class="token comment">// 传递nil，则使用缺省处理</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h2 id="参考阅读"><a href="#参考阅读" class="headerlink" title="参考阅读"></a>参考阅读</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://fivezh.github.io/2020/03/09/golang-nil/">理解Golang中的 nil | 小武的博客 (fivezh.github.io)</a></li>
 </ul>
@@ -796,33 +786,20 @@ window._bd_share_config={
     "share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='../../../../../static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
 </script>
  
-<!-- <div id="comments"></div> -->
 <div id="gitalk-container"></div>
 
 <script>
-  //   var gitment = new Gitment({
-  //   id: "Thu Mar 04 2021 10:41:36 GMT+0800",
-  //   owner: "StoneQi",
-  //   repo: "stoneqi.github.io",
-  //   oauth: {
-  //     client_id:"d9f4e8907ec2566c2307",
-  //     client_secret: "2390fe6084c9227566e82de1755e3c3de4a13592",
-  //   }
-  // })
-  // gitment.render('comments')
-
   const gitalk = new Gitalk({
-  clientID: "d9f4e8907ec2566c2307",
-  clientSecret: "2390fe6084c9227566e82de1755e3c3de4a13592",
-  repo: "stoneqi.github.io",      // The repository of store comments,
-  owner: "StoneQi",
-  admin: ["StoneQi"],
-  language: "zh-CN",
-  id: "Thu Mar 04 2021 10:41:36 GMT+0800",      // Ensure uniqueness and length less than 50
-  distractionFreeMode: false  // Facebook-like distraction free mode
-})
-
-gitalk.render('gitalk-container')
+    clientID: "d9f4e8907ec2566c2307",
+    clientSecret: "2390fe6084c9227566e82de1755e3c3de4a13592",
+    repo: "stoneqi.github.io",      // The repository of store comments,
+    owner: "StoneQi",
+    admin: ["StoneQi"],
+    language: "zh-CN",
+    id: "Thu Mar 04 2021 10:41:36 GMT+0800",      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+  gitalk.render('gitalk-container')
 </script>
     </main>
     <a class="not-found">not found!</a>
@@ -832,9 +809,9 @@ gitalk.render('gitalk-container')
         <i class="fa fa-sort-asc fa-2x"></i>
     </a>
     <footer class="footer">
-    <div class="footer-copyright">©️2017
-    <a href="//github.com/Vevlins/toki" class="link" target="_blank">Toki</a>  by Vevlins
-    </div>    
+    <div class="footer-copyright">©️2023
+    <a href="//github.com/stoneqi/hexo-theme-toki" class="link" target="_blank">Toki</a> is updated by Stoneqi based on Vevlins
+    </div>
 </footer>
 
     

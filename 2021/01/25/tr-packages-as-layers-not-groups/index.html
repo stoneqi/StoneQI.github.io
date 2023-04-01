@@ -15,29 +15,14 @@
     
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 
-    <!-- 
-<link rel="stylesheet" href="/css/gitment.css">
- -->
     
 <link rel="stylesheet" href="/css/hljs.min.css">
 
     
 <script src="/js/hljs.min.js"></script>
   
-    <script>
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?8ad9e7d37411eee585b4bd7194806394";
-          var s = document.getElementsByTagName("script")[0]; 
-          s.parentNode.insertBefore(hm, s);
-        })();
-    </script>  
-    <!-- 
-<script src="/js/gitment.browser.js"></script>
-   -->
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> 
 <meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Nick" type="application/atom+xml">
 </head>
 <body>
@@ -65,7 +50,7 @@
                 
             
                 <li class="menu-item">
-                    <a href="/archives" class="menu-item-link">
+                    <a href="/archives/" class="menu-item-link">
                         归档
                     </a>
                 </li>
@@ -73,8 +58,8 @@
                 
             
                 <li class="menu-item">
-                    <a target="_blank" rel="noopener" href="https://github.com/StoneQI" class="menu-item-link">
-                        Github
+                    <a target="_blank" rel="noopener" href="https://github.com/StoneQI/" class="menu-item-link">
+                        GitHub
                     </a>
                 </li>
             
@@ -91,8 +76,8 @@
                 
             
                 <li class="menu-item">
-                    <a href="/category-archive" class="menu-item-link">
-                        目录
+                    <a href="/category-archive/" class="menu-item-link">
+                        分类
                     </a>
                 </li>
             
@@ -100,10 +85,10 @@
                 
                 <li class="menu-item">
                     <a class="menu-item-link search">
-                        Search                   
+                        搜索                   
                         <i class="fa fa-long-arrow-right search-icon" aria-hidden="true"></i>
                     </a>
-                        <input placeholder="Search..." class="search-input" style="display:none;border:none!important;" onkeydown="onEnter(event)" onkeypress="onEnter(event)"></input>
+                        <input placeholder="搜索..." class="search-input" style="display:none;border:none!important;" onkeydown="onEnter(event)" onkeypress="onEnter(event)"></input>
                 </li>
                 
         </ul>
@@ -170,68 +155,69 @@
 <p>在这里，我使用了软件包（<code>wtf</code>）保存我们的业务逻辑。因为它是我们应用程序的名称，并且它是新开发人员打开代码库时首先要看的地方。 其中的数据类型现在更恰当地命名为<code>wtf.User</code>和<code>wtf.Dial</code>。</p>
 <p><img src="/img/tr-packages-as-layers-not-groups/2021-01-25-11-36-11.png"></p>
 <p>下面是<code>wtf.Dial</code>类型的一个例子:</p>
-<pre><code class="go">// dial.go#L14-50
-type Dial struct &#123;
-    ID int `json:&quot;id&quot;`
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// dial.go#L14-50</span>
+<span class="token keyword">type</span> Dial <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+	ID <span class="token builtin">int</span> <span class="token string">`json:"id"`</span>
 
-    // Owner of the dial. Only the owner may delete the dial.
-    UserID int   `json:&quot;userID&quot;`
-    User   *User `json:&quot;user&quot;`
+	<span class="token comment">// Owner of the dial. Only the owner may delete the dial.</span>
+	UserID <span class="token builtin">int</span>   <span class="token string">`json:"userID"`</span>
+	User   <span class="token operator">*</span>User <span class="token string">`json:"user"`</span>
 
-    // Human-readable name of the dial.
-    Name string `json:&quot;name&quot;`
+	<span class="token comment">// Human-readable name of the dial.</span>
+	Name <span class="token builtin">string</span> <span class="token string">`json:"name"`</span>
 
-    // Code used to share the dial with other users.
-    // It allows the creation of a shareable link without
-    // explicitly inviting users.
-    InviteCode string `json:&quot;inviteCode,omitempty&quot;`
+	<span class="token comment">// Code used to share the dial with other users.</span>
+	<span class="token comment">// It allows the creation of a shareable link without</span>
+	<span class="token comment">// explicitly inviting users.</span>
+	InviteCode <span class="token builtin">string</span> <span class="token string">`json:"inviteCode,omitempty"`</span>
 
-    // Aggregate WTF level for the dial.
-    Value int `json:&quot;value&quot;`
+	<span class="token comment">// Aggregate WTF level for the dial.</span>
+	Value <span class="token builtin">int</span> <span class="token string">`json:"value"`</span>
 
-    // Timestamps for dial creation &amp; last update.
-    CreatedAt time.Time `json:&quot;createdAt&quot;`
-    UpdatedAt time.Time `json:&quot;updatedAt&quot;`
+	<span class="token comment">// Timestamps for dial creation &amp; last update.</span>
+	CreatedAt time<span class="token punctuation">.</span>Time <span class="token string">`json:"createdAt"`</span>
+	UpdatedAt time<span class="token punctuation">.</span>Time <span class="token string">`json:"updatedAt"`</span>
 
-    // List of associated members and their contributing WTF level.
-    // This is only set when returning a single dial.
-    Memberships []*DialMembership `json:&quot;memberships,omitempty&quot;`
-&#125;
-</code></pre>
+	<span class="token comment">// List of associated members and their contributing WTF level.</span>
+	<span class="token comment">// This is only set when returning a single dial.</span>
+	Memberships <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">*</span>DialMembership <span class="token string">`json:"memberships,omitempty"`</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>在此代码中，没有引用任何实现细节，仅是原始数据类型和<code>time.Time</code>。 为了方便起见，添加了<code>JSON</code>标签。</p>
 <h2 id="通过接口删除依赖项"><a href="#通过接口删除依赖项" class="headerlink" title="通过接口删除依赖项"></a>通过接口删除依赖项</h2><p>我们的应用程序结构现在看起来更好，但是<code>HTTP</code>依赖<code>SQLite</code>仍然很奇怪。 我们的<code>HTTP</code>服务器希望从基础数据存储中获取数据，它并不特别关心是否为   <code>SQLite</code>。</p>
 <p>为了解决这个问题，我们为业务模型域中的服务创建接口。 这些服务通常是创建&#x2F;读取&#x2F;更新&#x2F;删除（CRUD），但可以扩展到其他操作。</p>
-<pre><code class="go">// dial.go#L81-L122
-// DialService represents a service for managing dials.
-type DialService interface &#123;
-    // Retrieves a single dial by ID along with associated memberships. Only
-    // the dial owner &amp; members can see a dial. Returns ENOTFOUND if dial does
-    // not exist or user does not have permission to view it.
-    FindDialByID(ctx context.Context, id int) (*Dial, error)
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// dial.go#L81-L122</span>
+<span class="token comment">// DialService represents a service for managing dials.</span>
+<span class="token keyword">type</span> DialService <span class="token keyword">interface</span> <span class="token punctuation">&#123;</span>
+	<span class="token comment">// Retrieves a single dial by ID along with associated memberships. Only</span>
+	<span class="token comment">// the dial owner &amp; members can see a dial. Returns ENOTFOUND if dial does</span>
+	<span class="token comment">// not exist or user does not have permission to view it.</span>
+	<span class="token function">FindDialByID</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> id <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span>Dial<span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span>
 
-    // Retrieves a list of dials based on a filter. Only returns dials that
-    // the user owns or is a member of. Also returns a count of total matching
-    // dials which may different from the number of returned dials if the
-    // &quot;Limit&quot; field is set.
-    FindDials(ctx context.Context, filter DialFilter) ([]*Dial, int, error)
+	<span class="token comment">// Retrieves a list of dials based on a filter. Only returns dials that</span>
+	<span class="token comment">// the user owns or is a member of. Also returns a count of total matching</span>
+	<span class="token comment">// dials which may different from the number of returned dials if the</span>
+	<span class="token comment">// "Limit" field is set.</span>
+	<span class="token function">FindDials</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> filter DialFilter<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">*</span>Dial<span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span>
 
-    // Creates a new dial and assigns the current user as the owner.
-    // The owner will automatically be added as a member of the new dial.
-    CreateDial(ctx context.Context, dial *Dial) error
+	<span class="token comment">// Creates a new dial and assigns the current user as the owner.</span>
+	<span class="token comment">// The owner will automatically be added as a member of the new dial.</span>
+	<span class="token function">CreateDial</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> dial <span class="token operator">*</span>Dial<span class="token punctuation">)</span> <span class="token builtin">error</span>
 
-    // Updates an existing dial by ID. Only the dial owner can update a dial.
-    // Returns the new dial state even if there was an error during update.
-    //
-    // Returns ENOTFOUND if dial does not exist. Returns EUNAUTHORIZED if user
-    // is not the dial owner.
-    UpdateDial(ctx context.Context, id int, upd DialUpdate) (*Dial, error)
+	<span class="token comment">// Updates an existing dial by ID. Only the dial owner can update a dial.</span>
+	<span class="token comment">// Returns the new dial state even if there was an error during update.</span>
+	<span class="token comment">//</span>
+	<span class="token comment">// Returns ENOTFOUND if dial does not exist. Returns EUNAUTHORIZED if user</span>
+	<span class="token comment">// is not the dial owner.</span>
+	<span class="token function">UpdateDial</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> id <span class="token builtin">int</span><span class="token punctuation">,</span> upd DialUpdate<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span>Dial<span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span>
 
-    // Permanently removes a dial by ID. Only the dial owner may delete a dial.
-    // Returns ENOTFOUND if dial does not exist. Returns EUNAUTHORIZED if user
-    // is not the dial owner.
-    DeleteDial(ctx context.Context, id int) error
-&#125;
-</code></pre>
+	<span class="token comment">// Permanently removes a dial by ID. Only the dial owner may delete a dial.</span>
+	<span class="token comment">// Returns ENOTFOUND if dial does not exist. Returns EUNAUTHORIZED if user</span>
+	<span class="token comment">// is not the dial owner.</span>
+	<span class="token function">DeleteDial</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> id <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">error</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>现在，我们的业务模型包（wtf）不仅指定了数据结构，而且还指定了接口规范，以说明我们的各层如何相互通信。 这使我们的程序包层次结构变得平坦，因此所有程序包现在都依赖于业务模型程序包。 这使我们可以打破包之间的直接依赖关系，并引入替代实现，例如<code>mock</code>。</p>
 <p><img src="/img/tr-packages-as-layers-not-groups/2021-01-25-11-46-43.png"></p>
 <h2 id="重新包装packages"><a href="#重新包装packages" class="headerlink" title="重新包装packages"></a>重新包装<code>packages</code></h2><p>Repackaging packages</p>
@@ -316,33 +302,20 @@ window._bd_share_config={
     "share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='../../../../../static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
 </script>
  
-<!-- <div id="comments"></div> -->
 <div id="gitalk-container"></div>
 
 <script>
-  //   var gitment = new Gitment({
-  //   id: "Mon Jan 25 2021 20:16:37 GMT+0800",
-  //   owner: "StoneQi",
-  //   repo: "stoneqi.github.io",
-  //   oauth: {
-  //     client_id:"d9f4e8907ec2566c2307",
-  //     client_secret: "2390fe6084c9227566e82de1755e3c3de4a13592",
-  //   }
-  // })
-  // gitment.render('comments')
-
   const gitalk = new Gitalk({
-  clientID: "d9f4e8907ec2566c2307",
-  clientSecret: "2390fe6084c9227566e82de1755e3c3de4a13592",
-  repo: "stoneqi.github.io",      // The repository of store comments,
-  owner: "StoneQi",
-  admin: ["StoneQi"],
-  language: "zh-CN",
-  id: "Mon Jan 25 2021 20:16:37 GMT+0800",      // Ensure uniqueness and length less than 50
-  distractionFreeMode: false  // Facebook-like distraction free mode
-})
-
-gitalk.render('gitalk-container')
+    clientID: "d9f4e8907ec2566c2307",
+    clientSecret: "2390fe6084c9227566e82de1755e3c3de4a13592",
+    repo: "stoneqi.github.io",      // The repository of store comments,
+    owner: "StoneQi",
+    admin: ["StoneQi"],
+    language: "zh-CN",
+    id: "Mon Jan 25 2021 20:16:37 GMT+0800",      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+  gitalk.render('gitalk-container')
 </script>
     </main>
     <a class="not-found">not found!</a>
@@ -352,9 +325,9 @@ gitalk.render('gitalk-container')
         <i class="fa fa-sort-asc fa-2x"></i>
     </a>
     <footer class="footer">
-    <div class="footer-copyright">©️2017
-    <a href="//github.com/Vevlins/toki" class="link" target="_blank">Toki</a>  by Vevlins
-    </div>    
+    <div class="footer-copyright">©️2023
+    <a href="//github.com/stoneqi/hexo-theme-toki" class="link" target="_blank">Toki</a> is updated by Stoneqi based on Vevlins
+    </div>
 </footer>
 
     

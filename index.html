@@ -15,29 +15,14 @@
     
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 
-    <!-- 
-<link rel="stylesheet" href="/css/gitment.css">
- -->
     
 <link rel="stylesheet" href="/css/hljs.min.css">
 
     
 <script src="/js/hljs.min.js"></script>
   
-    <script>
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?8ad9e7d37411eee585b4bd7194806394";
-          var s = document.getElementsByTagName("script")[0]; 
-          s.parentNode.insertBefore(hm, s);
-        })();
-    </script>  
-    <!-- 
-<script src="/js/gitment.browser.js"></script>
-   -->
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> 
 <meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Nick" type="application/atom+xml">
 </head>
 <body>
@@ -65,7 +50,7 @@
                 
             
                 <li class="menu-item">
-                    <a href="/archives" class="menu-item-link">
+                    <a href="/archives/" class="menu-item-link">
                         归档
                     </a>
                 </li>
@@ -73,8 +58,8 @@
                 
             
                 <li class="menu-item">
-                    <a target="_blank" rel="noopener" href="https://github.com/StoneQI" class="menu-item-link">
-                        Github
+                    <a target="_blank" rel="noopener" href="https://github.com/StoneQI/" class="menu-item-link">
+                        GitHub
                     </a>
                 </li>
             
@@ -91,8 +76,8 @@
                 
             
                 <li class="menu-item">
-                    <a href="/category-archive" class="menu-item-link">
-                        目录
+                    <a href="/category-archive/" class="menu-item-link">
+                        分类
                     </a>
                 </li>
             
@@ -100,10 +85,10 @@
                 
                 <li class="menu-item">
                     <a class="menu-item-link search">
-                        Search                   
+                        搜索                   
                         <i class="fa fa-long-arrow-right search-icon" aria-hidden="true"></i>
                     </a>
-                        <input placeholder="Search..." class="search-input" style="display:none;border:none!important;" onkeydown="onEnter(event)" onkeypress="onEnter(event)"></input>
+                        <input placeholder="搜索..." class="search-input" style="display:none;border:none!important;" onkeydown="onEnter(event)" onkeypress="onEnter(event)"></input>
                 </li>
                 
         </ul>
@@ -146,40 +131,40 @@
 <p>注：一个Go程序元素只有包、类型、函数、变量和常量 （packages, types, functions, variables and constants）这五种。ssa定义了的他们的数据结构，使用函数体的静态单赋值（ssa）形式中间表示（IR）。</p>
 <p>SSA是什么意思？为什么编译器会将AST转为SSA？让我们从第一个问题开始；我建议阅读上面链接的SSA维基百科页面和其他资源，但这是一个快速说明。</p>
 <p>静态单赋值意味着IR中分配的每个变量仅赋值一次。考虑以下伪IR：</p>
-<pre><code>x = 1
-y = 7
-// do stuff with x and y
-x = y
-y = func()
-// do more stuff with x and y
-</code></pre>
+<pre class="line-numbers language-none"><code class="language-none">x &#x3D; 1
+y &#x3D; 7
+&#x2F;&#x2F; do stuff with x and y
+x &#x3D; y
+y &#x3D; func()
+&#x2F;&#x2F; do more stuff with x and y<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>这不是SSA，因为名称x和y被多次赋值。如果将此代码段转换为SSA，我们可能会得到类似以下内容的信息：</p>
-<pre><code>x = 1
-y = 7
-// do stuff with x and y
-x_1 = y
-y_1 = func()
-// do more stuff with x_1 and y_1
-</code></pre>
+<pre class="line-numbers language-none"><code class="language-none">x &#x3D; 1
+y &#x3D; 7
+&#x2F;&#x2F; do stuff with x and y
+x_1 &#x3D; y
+y_1 &#x3D; func()
+&#x2F;&#x2F; do more stuff with x_1 and y_1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>请注意，每个赋值如何获得唯一的变量名。当<code>x</code>被重新分配了一个不同的值时，一个新的名字<code>x_1</code>被创建了。您可能想知道这在一般情况下是如何工作的……类似的代码会发生什么：</p>
-<pre><code>x = 1
-if condition: x = 2
-use(x)
-</code></pre>
+<pre class="line-numbers language-none"><code class="language-none">x &#x3D; 1
+if condition: x &#x3D; 2
+use(x)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
 <p>如果我们只是简单地将第二个赋值重命名为<code>x_1 = 2</code>，那么<code>use</code>将会使用 <code>x</code>或<code>x_1</code>或…？为了处理这种重要情况，SSA形式的IR具有特殊的 phi （最初为 phony ）功能，可以根据其来自的代码路径来选择一个值。它看起来像这样：</p>
 <p><img src="/../img/2023-04-02-01-56-21.png"></p>
 <p>当分析和优化此类IR时，编译器使用该phi节点来维护SSA，并在以后的阶段用实际的机器代码代替。</p>
 <p>SSA名称的static 部分起着与 static类型中类似的作用；这意味着在查看源代码时（在编译时或静态），每个名称的赋值都是唯一的，但是在运行时可能会多次发生。例如上面显示的代码示例处于循环中，则实际的<code>x_1 = 2</code>赋值可能会发生多次。</p>
 <p>既然我们对什么是SSA有一个基本的了解，那么下一个问题就是为什么编译器会将AST转为SSA。</p>
 <p>优化是编译器后端的最重要部分，因此后端通常是专门为促进有效和高效的优化而构建的。再次查看此代码段：</p>
-<pre><code>x = 1
-if condition: x = 2
-use(x)
-</code></pre>
+<pre class="line-numbers language-none"><code class="language-none">x &#x3D; 1
+if condition: x &#x3D; 2
+use(x)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
 <p>并假设编译器要运行一个非常通用的优化-<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%B8%B8%E6%95%B8%E6%8A%98%E7%96%8A">常数传播</a> （ <em>constant propagation</em>），该优化希望在<code>x = 1</code>赋值后用1替换所有使用<code>x</code>的地方。这需要怎么做呢？它不能在赋值之后找到对<code>x</code>的所有引用进行替换，因为<code>x</code>可以重写为其他内容（<code>x = 2</code>）。</p>
 <p>请考虑以下代码段：</p>
-<pre><code class="go">z = x + y
-</code></pre>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">z <span class="token operator">=</span> x <span class="token operator">+</span> y<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
 <p>在一般情况下，编译器必须执行<em>数据流分析</em>才能找到：</p>
 <ol>
 <li><p><code>x</code>和<code>y</code>在什么地方定义的。在存在控制流的情况下，这并不容易，需要进行“优势”分析。 </p>
@@ -192,43 +177,43 @@ use(x)
 <h2 id="Go-编译器中的SSA"><a href="#Go-编译器中的SSA" class="headerlink" title="Go 编译器中的SSA"></a>Go 编译器中的SSA</h2><p>我们继续介绍如何在Go编译器中SSA是如何构造和使用的。 SSA是<a target="_blank" rel="noopener" href="https://blog.golang.org/go1.7">Go的相对较新的新增功能</a>。除了将AST转换为SSA的大量代码（位于<code>gc/ssa.go</code>）外，其大部分代码都保存在<code>ssa/</code>中。 <code>ssa</code>目录中的<code>README</code>文件是Go SSA的非常有用的说明（务必查看）！</p>
 <p>Go SSA实现还具有一些我见过的最好的编译器工具。通过设置环境变量<code>GOSSAFUNC</code>，我们可以获得一个HTML页面，其中包含所有编译阶段以及每个编译阶段之后的IR，因此，如果需要，我们可以轻松地检测出哪个优化出错了。附加设置可以绘制每次<code>pass</code>时的控制流图。</p>
 <p>让我们研究一下如何从下述代码的AST中创建初始SSA：</p>
-<pre><code class="go">func usefor() &#123;
-  i := 4
-  for !(i == 0) &#123;
-    i--
-    sayhi()
-  &#125;
-&#125;
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">usefor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  i <span class="token operator">:=</span> <span class="token number">4</span>
+  <span class="token keyword">for</span> <span class="token operator">!</span><span class="token punctuation">(</span>i <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    i<span class="token operator">--</span>
+    <span class="token function">sayhi</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
 
-func sayhi() &#123;
-  fmt.Println(&quot;Hello, for!&quot;)
-&#125;
-</code></pre>
+<span class="token keyword">func</span> <span class="token function">sayhi</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Hello, for!"</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>我将<code>fmt.Println(&quot;Hello, for!&quot;)</code>打印输出移至其<code>sayhi()</code>的原因是为了使结果SSA更加整洁。使用<code>-l</code>进行编译以禁用内联，这会留下一个对<code>sayhi()</code>的微小调用（而由于常量字符串，对<code>fmt.Println</code>的调用会生成更多代码）。</p>
 <p>产生的SSA为：</p>
-<pre><code class="GO">b1:
+<pre class="line-numbers language-GO" data-language="GO"><code class="language-GO">b1:
 
-        v1 (?) = InitMem &lt;mem&gt;
-        v2 (?) = SP &lt;uintptr&gt;
-        v3 (?) = SB &lt;uintptr&gt;
-        v4 (?) = Const64 &lt;int&gt; [4] (i[int])
-        v6 (?) = Const64 &lt;int&gt; [0]
-        v9 (?) = Const64 &lt;int&gt; [1]
+        v1 (?) &#x3D; InitMem &lt;mem&gt;
+        v2 (?) &#x3D; SP &lt;uintptr&gt;
+        v3 (?) &#x3D; SB &lt;uintptr&gt;
+        v4 (?) &#x3D; Const64 &lt;int&gt; [4] (i[int])
+        v6 (?) &#x3D; Const64 &lt;int&gt; [0]
+        v9 (?) &#x3D; Const64 &lt;int&gt; [1]
     Plain → b2 (10)
 
     b2: ← b1 b4
 
-        v5 (10) = Phi &lt;int&gt; v4 v10 (i[int]) // 第一次循环，选择V4
-        v14 (14) = Phi &lt;mem&gt; v1 v12
-        v7 (10) = Eq64 &lt;bool&gt; v5 v6
+        v5 (10) &#x3D; Phi &lt;int&gt; v4 v10 (i[int]) &#x2F;&#x2F; 第一次循环，选择V4
+        v14 (14) &#x3D; Phi &lt;mem&gt; v1 v12
+        v7 (10) &#x3D; Eq64 &lt;bool&gt; v5 v6
     If v7 → b5 b3 (unlikely) (10)
 
     b3: ← b2
 
-        v8 (11) = Copy &lt;int&gt; v5 (i[int])
-        v10 (11) = Sub64 &lt;int&gt; v8 v9 (i[int])
-        v11 (12) = Copy &lt;mem&gt; v14
-        v12 (12) = StaticCall &lt;mem&gt; &#123;&quot;&quot;.sayhi&#125; v11
+        v8 (11) &#x3D; Copy &lt;int&gt; v5 (i[int])
+        v10 (11) &#x3D; Sub64 &lt;int&gt; v8 v9 (i[int])
+        v11 (12) &#x3D; Copy &lt;mem&gt; v14
+        v12 (12) &#x3D; StaticCall &lt;mem&gt; &#123;&quot;&quot;.sayhi&#125; v11
     Plain → b4 (12)
 
     b4: ← b3
@@ -236,9 +221,9 @@ func sayhi() &#123;
 
     b5: ← b2
 
-        v13 (14) = Copy &lt;mem&gt; v14
-    Ret v13
-</code></pre>
+        v13 (14) &#x3D; Copy &lt;mem&gt; v14
+    Ret v13<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>这里要注意的有趣部分是：</p>
 <ul>
 <li><code>bN</code> 是控制流程图的基本块（一个作用域）.</li>
@@ -249,81 +234,81 @@ func sayhi() &#123;
 <h2 id="转换-until-AST-节点到-SSA"><a href="#转换-until-AST-节点到-SSA" class="headerlink" title="转换 until AST 节点到 SSA"></a>转换 <code>until</code> AST 节点到 SSA</h2><p>像往常一样，我们的代码将以<code>for</code>语句的处理为模型。首先，让我们开始看下<code>until</code>语句的控制流图 ：</p>
 <p><img src="/../img/2023-04-02-01-56-46.png"></p>
 <p>现在，我们只需要用代码构建此控制流图 。提醒：我们在<a target="_blank" rel="noopener" href="https://eli.thegreenplace.net/2019/go-compiler-internals-adding-a-new-statement-to-go-part-1/">第1部分</a>中添加了新的AST节点类型<code>OUNTIL</code>。我们将在<code>gc/ssa.go</code>中的<code>state.stmt</code>方法中添加一个新的<code>switch</code>分支，以将<code>OUNTIL</code>的AST节点转换为SSA。代码块和注释的命名应使代码易于阅读，并与上面显示的控制流图中命名相关。</p>
-<pre><code class="go">case OUNTIL:
-  // OUNTIL: until Ninit; Left &#123; Nbody &#125;
-  // cond (Left); body (Nbody)
-  bCond := s.f.NewBlock(ssa.BlockPlain)
-  bBody := s.f.NewBlock(ssa.BlockPlain)
-  bEnd := s.f.NewBlock(ssa.BlockPlain)
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">case</span> OUNTIL<span class="token punctuation">:</span>
+  <span class="token comment">// OUNTIL: until Ninit; Left &#123; Nbody &#125;</span>
+  <span class="token comment">// cond (Left); body (Nbody)</span>
+  bCond <span class="token operator">:=</span> s<span class="token punctuation">.</span>f<span class="token punctuation">.</span><span class="token function">NewBlock</span><span class="token punctuation">(</span>ssa<span class="token punctuation">.</span>BlockPlain<span class="token punctuation">)</span>
+  bBody <span class="token operator">:=</span> s<span class="token punctuation">.</span>f<span class="token punctuation">.</span><span class="token function">NewBlock</span><span class="token punctuation">(</span>ssa<span class="token punctuation">.</span>BlockPlain<span class="token punctuation">)</span>
+  bEnd <span class="token operator">:=</span> s<span class="token punctuation">.</span>f<span class="token punctuation">.</span><span class="token function">NewBlock</span><span class="token punctuation">(</span>ssa<span class="token punctuation">.</span>BlockPlain<span class="token punctuation">)</span>
 
-  bBody.Pos = n.Pos
+  bBody<span class="token punctuation">.</span>Pos <span class="token operator">=</span> n<span class="token punctuation">.</span>Pos
 
-  // 首先 ，上一个 Block结束块 连接到当前的 CondBlock块
-  // first, entry jump to the condition
-  b := s.endBlock()
-  b.AddEdgeTo(bCond)
-  // 开始生成 CondBlock
-  // generate code to test condition
-  s.startBlock(bCond)
-  if n.Left != nil &#123;
-    // left 不为空，直接使用condBranch，if for 都使用这个函数
-    s.condBranch(n.Left, bEnd, bBody, 1)
-  &#125; else &#123;
-    // left 为空 无限循环。直接结束生成代码
-    b := s.endBlock() 
-    b.Kind = ssa.BlockPlain
-    b.AddEdgeTo(bBody) // 添加到 Body的连接
-  &#125;
+  <span class="token comment">// 首先 ，上一个 Block结束块 连接到当前的 CondBlock块</span>
+  <span class="token comment">// first, entry jump to the condition</span>
+  b <span class="token operator">:=</span> s<span class="token punctuation">.</span><span class="token function">endBlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  b<span class="token punctuation">.</span><span class="token function">AddEdgeTo</span><span class="token punctuation">(</span>bCond<span class="token punctuation">)</span>
+  <span class="token comment">// 开始生成 CondBlock</span>
+  <span class="token comment">// generate code to test condition</span>
+  s<span class="token punctuation">.</span><span class="token function">startBlock</span><span class="token punctuation">(</span>bCond<span class="token punctuation">)</span>
+  <span class="token keyword">if</span> n<span class="token punctuation">.</span>Left <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// left 不为空，直接使用condBranch，if for 都使用这个函数</span>
+    s<span class="token punctuation">.</span><span class="token function">condBranch</span><span class="token punctuation">(</span>n<span class="token punctuation">.</span>Left<span class="token punctuation">,</span> bEnd<span class="token punctuation">,</span> bBody<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+  <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// left 为空 无限循环。直接结束生成代码</span>
+    b <span class="token operator">:=</span> s<span class="token punctuation">.</span><span class="token function">endBlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+    b<span class="token punctuation">.</span>Kind <span class="token operator">=</span> ssa<span class="token punctuation">.</span>BlockPlain
+    b<span class="token punctuation">.</span><span class="token function">AddEdgeTo</span><span class="token punctuation">(</span>bBody<span class="token punctuation">)</span> <span class="token comment">// 添加到 Body的连接</span>
+  <span class="token punctuation">&#125;</span>
 
-  // 设置 continue/break 
-  // set up for continue/break in body
-  prevContinue := s.continueTo
-  prevBreak := s.breakTo
-  s.continueTo = bCond
-  s.breakTo = bEnd
-  lab := s.labeledNodes[n]
-  if lab != nil &#123;
-    // labeled until loop
-    lab.continueTarget = bCond
-    lab.breakTarget = bEnd
-  &#125;
+  <span class="token comment">// 设置 continue/break </span>
+  <span class="token comment">// set up for continue/break in body</span>
+  prevContinue <span class="token operator">:=</span> s<span class="token punctuation">.</span>continueTo
+  prevBreak <span class="token operator">:=</span> s<span class="token punctuation">.</span>breakTo
+  s<span class="token punctuation">.</span>continueTo <span class="token operator">=</span> bCond
+  s<span class="token punctuation">.</span>breakTo <span class="token operator">=</span> bEnd
+  lab <span class="token operator">:=</span> s<span class="token punctuation">.</span>labeledNodes<span class="token punctuation">[</span>n<span class="token punctuation">]</span>
+  <span class="token keyword">if</span> lab <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// labeled until loop</span>
+    lab<span class="token punctuation">.</span>continueTarget <span class="token operator">=</span> bCond
+    lab<span class="token punctuation">.</span>breakTarget <span class="token operator">=</span> bEnd
+  <span class="token punctuation">&#125;</span>
 
-  // 开始 生成 Body代码
-  // generate body
-  s.startBlock(bBody)
-  s.stmtList(n.Nbody)
+  <span class="token comment">// 开始 生成 Body代码</span>
+  <span class="token comment">// generate body</span>
+  s<span class="token punctuation">.</span><span class="token function">startBlock</span><span class="token punctuation">(</span>bBody<span class="token punctuation">)</span>
+  s<span class="token punctuation">.</span><span class="token function">stmtList</span><span class="token punctuation">(</span>n<span class="token punctuation">.</span>Nbody<span class="token punctuation">)</span>
   
-  // 拆除 continue/break，这里是置为上一个 prevContinue和 prevBreak
-  // 因为有循环嵌套
-  // tear down continue/break
-  s.continueTo = prevContinue
-  s.breakTo = prevBreak
-  if lab != nil &#123;
-    lab.continueTarget = nil
-    lab.breakTarget = nil
-  &#125;
+  <span class="token comment">// 拆除 continue/break，这里是置为上一个 prevContinue和 prevBreak</span>
+  <span class="token comment">// 因为有循环嵌套</span>
+  <span class="token comment">// tear down continue/break</span>
+  s<span class="token punctuation">.</span>continueTo <span class="token operator">=</span> prevContinue
+  s<span class="token punctuation">.</span>breakTo <span class="token operator">=</span> prevBreak
+  <span class="token keyword">if</span> lab <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+    lab<span class="token punctuation">.</span>continueTarget <span class="token operator">=</span> <span class="token boolean">nil</span>
+    lab<span class="token punctuation">.</span>breakTarget <span class="token operator">=</span> <span class="token boolean">nil</span>
+  <span class="token punctuation">&#125;</span>
 
-  // done with body, goto cond
-  if b := s.endBlock(); b != nil &#123;
-    b.AddEdgeTo(bCond)
-  &#125;
-  // 生成结束代码
-  s.startBlock(bEnd)
-</code></pre>
+  <span class="token comment">// done with body, goto cond</span>
+  <span class="token keyword">if</span> b <span class="token operator">:=</span> s<span class="token punctuation">.</span><span class="token function">endBlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> b <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+    b<span class="token punctuation">.</span><span class="token function">AddEdgeTo</span><span class="token punctuation">(</span>bCond<span class="token punctuation">)</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token comment">// 生成结束代码</span>
+  s<span class="token punctuation">.</span><span class="token function">startBlock</span><span class="token punctuation">(</span>bEnd<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>如果您想知道<code>n.Ninit</code>在哪里处理-它在<code>switch</code>之前完成，对于所有节点类型都是统一的。</p>
 <p>实际上，这是我们在编译器的最后阶段处理 <code>until</code>语句的全部工作！如果我们运行编译器，像以前一样打印出下述代码的SSA：</p>
-<pre><code class="go">func useuntil() &#123;
-  i := 4
-  until i == 0 &#123;
-    i--
-    sayhi()
-  &#125;
-&#125;
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">useuntil</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  i <span class="token operator">:=</span> <span class="token number">4</span>
+  until i <span class="token operator">==</span> <span class="token number">0</span> <span class="token punctuation">&#123;</span>
+    i<span class="token operator">--</span>
+    <span class="token function">sayhi</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
 
-func sayhi() &#123;
-  fmt.Println(&quot;Hello, for!&quot;)
-&#125;
-</code></pre>
+<span class="token keyword">func</span> <span class="token function">sayhi</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Hello, for!"</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>如预期的那样，我们将得到SSA，该SSA在结构上等同于条件为 <code>for</code>的循环所用的SSA。</p>
 <h2 id="SSA-transformations-变换"><a href="#SSA-transformations-变换" class="headerlink" title="SSA transformations 变换"></a>SSA transformations 变换</h2><p>构造了初始SSA之后，编译器会在SSA IR上执行以下一系列漫长的遍历操作：</p>
 <ol>
@@ -334,7 +319,7 @@ func sayhi() &#123;
 <p>有关这些 passes 的更多详细信息，请参见<a target="_blank" rel="noopener" href="https://github.com/golang/go/blob/master/src/cmd/compile/internal/ssa/README.md">SSA README</a>和<a target="_blank" rel="noopener" href="https://quasilyte.dev/blog/post/go_ssa_rules/">this post</a>，其中详细介绍了如何指定SSA优化规则。</p>
 <h2 id="生成机器码"><a href="#生成机器码" class="headerlink" title="生成机器码"></a>生成机器码</h2><p>最后，编译器调用<code>genssa</code>（在<code>gc/ssa.go</code>中）从SSA IR中生成机器代码。我们不必修改任何代码，因为我们为<code>until</code>语句生成的SSA构造块，是编译器已经实现的，我们不添加新的指令类型。</p>
 <p>但是，研究<code>useuntil</code>函数生成的机器代码是有学习知道意义的。 Go具有<a target="_blank" rel="noopener" href="https://golang.org/doc/asm">自己的汇编语法</a>。我不会在这里讨论所有细节，但是下面是带注释的（带有<code>＃注释</code>）汇编实现，应该很容易阅读。我删除了一些垃圾回收器（garbage collector）的指令（<code>PCDATA</code>和<code> FUNCDATA</code>），以使输出变小。</p>
-<pre><code class="assembly">&quot;&quot;.useuntil STEXT size=76 args=0x0 locals=0x10
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">&quot;&quot;.useuntil STEXT size&#x3D;76 args&#x3D;0x0 locals&#x3D;0x10
   0x0000 00000 (useuntil.go:5)  TEXT  &quot;&quot;.useuntil(SB), ABIInternal, $16-0
 
   # Function prologue
@@ -370,7 +355,7 @@ func sayhi() &#123;
   0x0037 00055 (useuntil.go:8)  MOVQ  &quot;&quot;.i(SP), AX
   0x003b 00059 (useuntil.go:8)  DECQ  AX
 
-  # The cond block is here. AX == 0 is tested, and if it&#39;s true, jump to
+  # The cond block is here. AX &#x3D;&#x3D; 0 is tested, and if it&#39;s true, jump to
   # the end block. Otherwise, it jumps to the loop body.
 
   0x003e 00062 (useuntil.go:7)  TESTQ  AX, AX
@@ -378,21 +363,19 @@ func sayhi() &#123;
   0x0043 00067 (useuntil.go:7)  JMP  46
   0x0045 00069 (useuntil.go:7)  NOP
   0x0045 00069 (useuntil.go:5)  CALL  runtime.morestack_noctxt(SB)
-  0x004a 00074 (useuntil.go:5)  JMP  0
-</code></pre>
+  0x004a 00074 (useuntil.go:5)  JMP  0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>您可能已经注意到<code>cond</code>块移到了函数的末尾，而不是它最初在SSA表示中的位置。这是为什么?</p>
 <p>答案是最后阶段在SSA上运行的<code>loop rotate</code> pass。此 pass 会对块进行重新排序，以使 body flows直接流入cond，从而避免每次迭代产生额外的跳跃。如果您有兴趣，请参见<code>ssa/looprotate.go</code>了解更多详细信息。</p>
 <h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>在这两篇文章中，我们以两种不同的方式实现了一条新语句，从而了解了Go编译器的一些内部结构。当然，这只是冰山一角，但我希望它为您自己开始探索提供了一个良好的起点。</p>
 <p>最后一点：我们在这里构建了一个可运行的编译器，但是Go工具都无法识别新的<code>until</code>关键字。不幸的是，此时Go工具使用了完全不同的方法来解析Go代码，并且没有与Go编译器本身共享此代码（例如gopls ，golint，所以不能针对新关键字自动实现自动补全之类的功能）。我将在以后的文章中详细介绍如何使用工具处理Go代码。</p>
 <h2 id="附录-复现这些结果"><a href="#附录-复现这些结果" class="headerlink" title="附录-复现这些结果"></a>附录-复现这些结果</h2><p>要重现我们最终在此处使用的Go工具链的版本，您可以从<a target="_blank" rel="noopener" href="https://eli.thegreenplace.net/2019/go-compiler-internals-adding-a-new-statement-to-go-part-1/">第1部分</a>开始，在<code> walk.go</code>中还原 AST 转换代码，然后添加上述 AST-&gt; SSA转换。或者，您也可以从我的仓库上抓取<a target="_blank" rel="noopener" href="https://github.com/eliben/go/tree/adduntil2">adduntil2分支</a>。</p>
 <p>要获得从所有SSA的<code>until</code>SSA，并在单个方便的HTML文件中传递代码生成，请在构建新编译器后运行以下命令：</p>
-<pre><code class="go">GOSSAFUNC=useuntil &lt;src checkout&gt;/bin/go tool compile -l useuntil.go
-</code></pre>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">GOSSAFUNC<span class="token operator">=</span>useuntil <span class="token operator">&lt;</span>src checkout<span class="token operator">></span><span class="token operator">/</span>bin<span class="token operator">/</span><span class="token keyword">go</span> tool compile <span class="token operator">-</span>l useuntil<span class="token punctuation">.</span><span class="token keyword">go</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
 <p>然后在浏览器中打开<code>ssa.html</code>。如果您还想查看控制流图的某些 pass，请在函数名后添加 pass 名，并以<code>:</code>分隔。 例如 <code>GOSSAFUNC=useuntil:number_lines</code>.</p>
 <p>要获取机器代码，请运行：</p>
-<pre><code class="go">&lt;src checkout&gt;/bin/go tool compile -l -S useuntil.go
-</code></pre>
-
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token operator">&lt;</span>src checkout<span class="token operator">></span><span class="token operator">/</span>bin<span class="token operator">/</span><span class="token keyword">go</span> tool compile <span class="token operator">-</span>l <span class="token operator">-</span>S useuntil<span class="token punctuation">.</span><span class="token keyword">go</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
                 
             </div>
             <div class="continue">
@@ -835,9 +818,9 @@ func sayhi() &#123;
         <i class="fa fa-sort-asc fa-2x"></i>
     </a>
     <footer class="footer">
-    <div class="footer-copyright">©️2017
-    <a href="//github.com/Vevlins/toki" class="link" target="_blank">Toki</a>  by Vevlins
-    </div>    
+    <div class="footer-copyright">©️2023
+    <a href="//github.com/stoneqi/hexo-theme-toki" class="link" target="_blank">Toki</a> is updated by Stoneqi based on Vevlins
+    </div>
 </footer>
 
     

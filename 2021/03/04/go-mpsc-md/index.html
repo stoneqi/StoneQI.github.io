@@ -15,29 +15,14 @@
     
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 
-    <!-- 
-<link rel="stylesheet" href="/css/gitment.css">
- -->
     
 <link rel="stylesheet" href="/css/hljs.min.css">
 
     
 <script src="/js/hljs.min.js"></script>
   
-    <script>
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?8ad9e7d37411eee585b4bd7194806394";
-          var s = document.getElementsByTagName("script")[0]; 
-          s.parentNode.insertBefore(hm, s);
-        })();
-    </script>  
-    <!-- 
-<script src="/js/gitment.browser.js"></script>
-   -->
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> 
 <meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Nick" type="application/atom+xml">
 </head>
 <body>
@@ -65,7 +50,7 @@
                 
             
                 <li class="menu-item">
-                    <a href="/archives" class="menu-item-link">
+                    <a href="/archives/" class="menu-item-link">
                         归档
                     </a>
                 </li>
@@ -73,8 +58,8 @@
                 
             
                 <li class="menu-item">
-                    <a target="_blank" rel="noopener" href="https://github.com/StoneQI" class="menu-item-link">
-                        Github
+                    <a target="_blank" rel="noopener" href="https://github.com/StoneQI/" class="menu-item-link">
+                        GitHub
                     </a>
                 </li>
             
@@ -91,8 +76,8 @@
                 
             
                 <li class="menu-item">
-                    <a href="/category-archive" class="menu-item-link">
-                        目录
+                    <a href="/category-archive/" class="menu-item-link">
+                        分类
                     </a>
                 </li>
             
@@ -100,10 +85,10 @@
                 
                 <li class="menu-item">
                     <a class="menu-item-link search">
-                        Search                   
+                        搜索                   
                         <i class="fa fa-long-arrow-right search-icon" aria-hidden="true"></i>
                     </a>
-                        <input placeholder="Search..." class="search-input" style="display:none;border:none!important;" onkeydown="onEnter(event)" onkeypress="onEnter(event)"></input>
+                        <input placeholder="搜索..." class="search-input" style="display:none;border:none!important;" onkeydown="onEnter(event)" onkeypress="onEnter(event)"></input>
                 </li>
                 
         </ul>
@@ -200,188 +185,190 @@
 </tr>
 </tbody></table>
 <span id="more"></span>
-<pre><code class="go">
-package main
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">
+<span class="token keyword">package</span> main
 
-import (
-    &quot;fmt&quot;
-    &quot;runtime&quot;
-    &quot;sync&quot;
-    &quot;sync/atomic&quot;
-    &quot;time&quot;
-    &quot;unsafe&quot;
-)
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">"fmt"</span>
+	<span class="token string">"runtime"</span>
+	<span class="token string">"sync"</span>
+	<span class="token string">"sync/atomic"</span>
+	<span class="token string">"time"</span>
+	<span class="token string">"unsafe"</span>
+<span class="token punctuation">)</span>
 
-type TaskNode struct &#123;
-    Data interface&#123;&#125; `json:&quot;data&quot;`
-    Next *TaskNode   `json:&quot;Next&quot;`
-&#125;
+<span class="token keyword">type</span> TaskNode <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+	Data <span class="token keyword">interface</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span> <span class="token string">`json:"data"`</span>
+	Next <span class="token operator">*</span>TaskNode   <span class="token string">`json:"Next"`</span>
+<span class="token punctuation">&#125;</span>
 
-var UNCONNECTED *TaskNode = new(TaskNode)
+<span class="token keyword">var</span> UNCONNECTED <span class="token operator">*</span>TaskNode <span class="token operator">=</span> <span class="token function">new</span><span class="token punctuation">(</span>TaskNode<span class="token punctuation">)</span>
 
-func NewExecutionQueue(_func func(interface&#123;&#125;)) *ExecutionQueue &#123;
-    return &amp;ExecutionQueue&#123;
-        Head:          nil,
-        _execute_func: _func,
-        locker:        sync.Mutex&#123;&#125;,
-        pool: &amp;sync.Pool&#123;New: func() interface&#123;&#125; &#123;
-            return new(TaskNode)
-        &#125;&#125;,
-    &#125;
-&#125;
+<span class="token keyword">func</span> <span class="token function">NewExecutionQueue</span><span class="token punctuation">(</span>_func <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token keyword">interface</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">*</span>ExecutionQueue <span class="token punctuation">&#123;</span>
+	<span class="token keyword">return</span> <span class="token operator">&amp;</span>ExecutionQueue<span class="token punctuation">&#123;</span>
+		Head<span class="token punctuation">:</span>          <span class="token boolean">nil</span><span class="token punctuation">,</span>
+		_execute_func<span class="token punctuation">:</span> _func<span class="token punctuation">,</span>
+		locker<span class="token punctuation">:</span>        sync<span class="token punctuation">.</span>Mutex<span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+		pool<span class="token punctuation">:</span> <span class="token operator">&amp;</span>sync<span class="token punctuation">.</span>Pool<span class="token punctuation">&#123;</span>New<span class="token punctuation">:</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">interface</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span> <span class="token punctuation">&#123;</span>
+			<span class="token keyword">return</span> <span class="token function">new</span><span class="token punctuation">(</span>TaskNode<span class="token punctuation">)</span>
+		<span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
 
-type ExecutionQueue struct &#123;
-    Head          *TaskNode         `json:&quot;Head&quot;`
-    _execute_func func(interface&#123;&#125;) `json:&quot;-&quot;` // 消费者函数
-    locker        sync.Mutex        `json:&quot;-&quot;`
-    pool          *sync.Pool        `json:&quot;-&quot;`
-&#125;
+<span class="token keyword">type</span> ExecutionQueue <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+	Head          <span class="token operator">*</span>TaskNode         <span class="token string">`json:"Head"`</span>
+	_execute_func <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token keyword">interface</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span> <span class="token string">`json:"-"`</span> <span class="token comment">// 消费者函数</span>
+	locker        sync<span class="token punctuation">.</span>Mutex        <span class="token string">`json:"-"`</span>
+	pool          <span class="token operator">*</span>sync<span class="token punctuation">.</span>Pool        <span class="token string">`json:"-"`</span>
+<span class="token punctuation">&#125;</span>
 
-func (ex *ExecutionQueue) AddTaskNode(data interface&#123;&#125;) &#123;
-    node := ex.pool.Get().(*TaskNode)
-    node.Data = data
-    node.Next = UNCONNECTED
+<span class="token keyword">func</span> <span class="token punctuation">(</span>ex <span class="token operator">*</span>ExecutionQueue<span class="token punctuation">)</span> <span class="token function">AddTaskNode</span><span class="token punctuation">(</span>data <span class="token keyword">interface</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	node <span class="token operator">:=</span> ex<span class="token punctuation">.</span>pool<span class="token punctuation">.</span><span class="token function">Get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token operator">*</span>TaskNode<span class="token punctuation">)</span>
+	node<span class="token punctuation">.</span>Data <span class="token operator">=</span> data
+	node<span class="token punctuation">.</span>Next <span class="token operator">=</span> UNCONNECTED
 
-    preHead := atomic.SwapPointer((*unsafe.Pointer)(unsafe.Pointer(&amp;ex.Head)), unsafe.Pointer(node))
+	preHead <span class="token operator">:=</span> atomic<span class="token punctuation">.</span><span class="token function">SwapPointer</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">*</span>unsafe<span class="token punctuation">.</span>Pointer<span class="token punctuation">)</span><span class="token punctuation">(</span>unsafe<span class="token punctuation">.</span><span class="token function">Pointer</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>ex<span class="token punctuation">.</span>Head<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unsafe<span class="token punctuation">.</span><span class="token function">Pointer</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">)</span>
 
-    if preHead != nil &#123;
-        node.Next = (*TaskNode)(preHead)
-        return
-    &#125;
+	<span class="token keyword">if</span> preHead <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+		node<span class="token punctuation">.</span>Next <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token operator">*</span>TaskNode<span class="token punctuation">)</span><span class="token punctuation">(</span>preHead<span class="token punctuation">)</span>
+		<span class="token keyword">return</span>
+	<span class="token punctuation">&#125;</span>
 
-    node.Next = nil
-    // 任务不多直接执行，防止线程切换
-    ex._execute_func(node.Data)
-    if !ex.moreTasks(node) &#123;
-        return
-    &#125;
-    go ex.exectueTasks(node)
+	node<span class="token punctuation">.</span>Next <span class="token operator">=</span> <span class="token boolean">nil</span>
+	<span class="token comment">// 任务不多直接执行，防止线程切换</span>
+	ex<span class="token punctuation">.</span><span class="token function">_execute_func</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>Data<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> <span class="token operator">!</span>ex<span class="token punctuation">.</span><span class="token function">moreTasks</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		<span class="token keyword">return</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token keyword">go</span> ex<span class="token punctuation">.</span><span class="token function">exectueTasks</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span>
 
-&#125;
+<span class="token punctuation">&#125;</span>
 
-func (ex *ExecutionQueue) moreTasks(oldNode *TaskNode) bool &#123;
+<span class="token keyword">func</span> <span class="token punctuation">(</span>ex <span class="token operator">*</span>ExecutionQueue<span class="token punctuation">)</span> <span class="token function">moreTasks</span><span class="token punctuation">(</span>oldNode <span class="token operator">*</span>TaskNode<span class="token punctuation">)</span> <span class="token builtin">bool</span> <span class="token punctuation">&#123;</span>
 
-    newHead := oldNode
+	newHead <span class="token operator">:=</span> oldNode
 
-    if atomic.CompareAndSwapPointer((*unsafe.Pointer)(unsafe.Pointer(&amp;ex.Head)), unsafe.Pointer(newHead), nil) &#123;
-        return false
-    &#125;
-    newHead = (*TaskNode)(atomic.LoadPointer((*unsafe.Pointer)(unsafe.Pointer(&amp;ex.Head))))
-    var tail *TaskNode
-    p := newHead
-    for &#123;
-        for &#123;
-            if p.Next != UNCONNECTED &#123;
-                break
-            &#125; else &#123;
-                runtime.Gosched()
-            &#125;
-        &#125;
-        saved_next := p.Next
-        p.Next = tail
-        tail = p
-        p = saved_next
+	<span class="token keyword">if</span> atomic<span class="token punctuation">.</span><span class="token function">CompareAndSwapPointer</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">*</span>unsafe<span class="token punctuation">.</span>Pointer<span class="token punctuation">)</span><span class="token punctuation">(</span>unsafe<span class="token punctuation">.</span><span class="token function">Pointer</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>ex<span class="token punctuation">.</span>Head<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unsafe<span class="token punctuation">.</span><span class="token function">Pointer</span><span class="token punctuation">(</span>newHead<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		<span class="token keyword">return</span> <span class="token boolean">false</span>
+	<span class="token punctuation">&#125;</span>
+	newHead <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token operator">*</span>TaskNode<span class="token punctuation">)</span><span class="token punctuation">(</span>atomic<span class="token punctuation">.</span><span class="token function">LoadPointer</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">*</span>unsafe<span class="token punctuation">.</span>Pointer<span class="token punctuation">)</span><span class="token punctuation">(</span>unsafe<span class="token punctuation">.</span><span class="token function">Pointer</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>ex<span class="token punctuation">.</span>Head<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token keyword">var</span> tail <span class="token operator">*</span>TaskNode
+	p <span class="token operator">:=</span> newHead
+	<span class="token keyword">for</span> <span class="token punctuation">&#123;</span>
+		<span class="token keyword">for</span> <span class="token punctuation">&#123;</span>
+			<span class="token keyword">if</span> p<span class="token punctuation">.</span>Next <span class="token operator">!=</span> UNCONNECTED <span class="token punctuation">&#123;</span>
+				<span class="token keyword">break</span>
+			<span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+				runtime<span class="token punctuation">.</span><span class="token function">Gosched</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+			<span class="token punctuation">&#125;</span>
+		<span class="token punctuation">&#125;</span>
+		saved_next <span class="token operator">:=</span> p<span class="token punctuation">.</span>Next
+		p<span class="token punctuation">.</span>Next <span class="token operator">=</span> tail
+		tail <span class="token operator">=</span> p
+		p <span class="token operator">=</span> saved_next
 
-        if p == oldNode &#123;
-            oldNode.Next = tail
-            return true
-        &#125;
-    &#125;
-&#125;
+		<span class="token keyword">if</span> p <span class="token operator">==</span> oldNode <span class="token punctuation">&#123;</span>
+			oldNode<span class="token punctuation">.</span>Next <span class="token operator">=</span> tail
+			<span class="token keyword">return</span> <span class="token boolean">true</span>
+		<span class="token punctuation">&#125;</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
 
-func (ex *ExecutionQueue) exectueTasks(taskNode *TaskNode) &#123;
-    for &#123;
-        tmp := taskNode
+<span class="token keyword">func</span> <span class="token punctuation">(</span>ex <span class="token operator">*</span>ExecutionQueue<span class="token punctuation">)</span> <span class="token function">exectueTasks</span><span class="token punctuation">(</span>taskNode <span class="token operator">*</span>TaskNode<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token keyword">for</span> <span class="token punctuation">&#123;</span>
+		tmp <span class="token operator">:=</span> taskNode
 
-        taskNode = taskNode.Next
-        tmp.Next = nil
-        ex.pool.Put(tmp)
-        ex._execute_func(taskNode.Data)
+		taskNode <span class="token operator">=</span> taskNode<span class="token punctuation">.</span>Next
+		tmp<span class="token punctuation">.</span>Next <span class="token operator">=</span> <span class="token boolean">nil</span>
+		ex<span class="token punctuation">.</span>pool<span class="token punctuation">.</span><span class="token function">Put</span><span class="token punctuation">(</span>tmp<span class="token punctuation">)</span>
+		ex<span class="token punctuation">.</span><span class="token function">_execute_func</span><span class="token punctuation">(</span>taskNode<span class="token punctuation">.</span>Data<span class="token punctuation">)</span>
 
-        if taskNode.Next == nil &amp;&amp; !ex.moreTasks(taskNode) &#123;
-            return
-        &#125;
-    &#125;
-&#125;
+		<span class="token keyword">if</span> taskNode<span class="token punctuation">.</span>Next <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>ex<span class="token punctuation">.</span><span class="token function">moreTasks</span><span class="token punctuation">(</span>taskNode<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+			<span class="token keyword">return</span>
+		<span class="token punctuation">&#125;</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
 
-var count int64 = 0
+<span class="token keyword">var</span> count <span class="token builtin">int64</span> <span class="token operator">=</span> <span class="token number">0</span>
 
-func print(data interface&#123;&#125;) &#123;
-    // a := count
-    // _ = a
-    _ = data.(int) * data.(int)
-    atomic.AddInt64(&amp;count, 1)
-    // fmt.Println(data.(int))
-&#125;
-func Test1() &#123;
-    var singalexit = sync.WaitGroup&#123;&#125;
-    ex := NewExecutionQueue(print)
-    start := time.Now()
-    var s string
-    for k := 0; k &lt; 20; k++ &#123;
-        for i := 0; i &lt; 10000; i++ &#123;
-            singalexit.Add(1)
-            go func(i int, singalexit *sync.WaitGroup) &#123;
-                defer singalexit.Done()
-                for j := 0; j &lt; 90; j++ &#123;
-                    ex.AddTaskNode(i*100 + j)
-                &#125;
-            &#125;(i, &amp;singalexit)
-            _ = s
+<span class="token keyword">func</span> <span class="token function">print</span><span class="token punctuation">(</span>data <span class="token keyword">interface</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token comment">// a := count</span>
+	<span class="token comment">// _ = a</span>
+	<span class="token boolean">_</span> <span class="token operator">=</span> data<span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token operator">*</span> data<span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token builtin">int</span><span class="token punctuation">)</span>
+	atomic<span class="token punctuation">.</span><span class="token function">AddInt64</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>count<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+	<span class="token comment">// fmt.Println(data.(int))</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">func</span> <span class="token function">Test1</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token keyword">var</span> singalexit <span class="token operator">=</span> sync<span class="token punctuation">.</span>WaitGroup<span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+	ex <span class="token operator">:=</span> <span class="token function">NewExecutionQueue</span><span class="token punctuation">(</span><span class="token builtin">print</span><span class="token punctuation">)</span>
+	start <span class="token operator">:=</span> time<span class="token punctuation">.</span><span class="token function">Now</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">var</span> s <span class="token builtin">string</span>
+	<span class="token keyword">for</span> k <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> k <span class="token operator">&lt;</span> <span class="token number">20</span><span class="token punctuation">;</span> k<span class="token operator">++</span> <span class="token punctuation">&#123;</span>
+		<span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10000</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">&#123;</span>
+			singalexit<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+			<span class="token keyword">go</span> <span class="token keyword">func</span><span class="token punctuation">(</span>i <span class="token builtin">int</span><span class="token punctuation">,</span> singalexit <span class="token operator">*</span>sync<span class="token punctuation">.</span>WaitGroup<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+				<span class="token keyword">defer</span> singalexit<span class="token punctuation">.</span><span class="token function">Done</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+				<span class="token keyword">for</span> j <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> <span class="token number">90</span><span class="token punctuation">;</span> j<span class="token operator">++</span> <span class="token punctuation">&#123;</span>
+					ex<span class="token punctuation">.</span><span class="token function">AddTaskNode</span><span class="token punctuation">(</span>i<span class="token operator">*</span><span class="token number">100</span> <span class="token operator">+</span> j<span class="token punctuation">)</span>
+				<span class="token punctuation">&#125;</span>
+			<span class="token punctuation">&#125;</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> <span class="token operator">&amp;</span>singalexit<span class="token punctuation">)</span>
+			<span class="token boolean">_</span> <span class="token operator">=</span> s
 
-        &#125;
-    &#125;
-    singalexit.Wait()
-    elapsed := time.Since(start)
-    fmt.Println(&quot;该函数执行完成耗时：&quot;, elapsed/20)
-    time.Sleep(2 * time.Second)
-    fmt.Println(atomic.LoadInt64(&amp;count))
-&#125;
+		<span class="token punctuation">&#125;</span>
+	<span class="token punctuation">&#125;</span>
+	singalexit<span class="token punctuation">.</span><span class="token function">Wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	elapsed <span class="token operator">:=</span> time<span class="token punctuation">.</span><span class="token function">Since</span><span class="token punctuation">(</span>start<span class="token punctuation">)</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"该函数执行完成耗时："</span><span class="token punctuation">,</span> elapsed<span class="token operator">/</span><span class="token number">20</span><span class="token punctuation">)</span>
+	time<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span><span class="token number">2</span> <span class="token operator">*</span> time<span class="token punctuation">.</span>Second<span class="token punctuation">)</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>atomic<span class="token punctuation">.</span><span class="token function">LoadInt64</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>count<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span>
 
-func Test2() &#123;
-    var singalexit sync.WaitGroup
-    data := make(chan int, 2000)
-    var count1 int64 = 0
-    go func() &#123;
-        for &#123;
-            &lt;-data
-            atomic.AddInt64(&amp;count1, 1)
-        &#125;
+<span class="token keyword">func</span> <span class="token function">Test2</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token keyword">var</span> singalexit sync<span class="token punctuation">.</span>WaitGroup
+	data <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">chan</span> <span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span>
+	<span class="token keyword">var</span> count1 <span class="token builtin">int64</span> <span class="token operator">=</span> <span class="token number">0</span>
+	<span class="token keyword">go</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		<span class="token keyword">for</span> <span class="token punctuation">&#123;</span>
+			<span class="token operator">&lt;-</span>data
+			atomic<span class="token punctuation">.</span><span class="token function">AddInt64</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>count1<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+		<span class="token punctuation">&#125;</span>
 
-    &#125;()
-    start := time.Now()
-    func() &#123;
-        for i := 0; i &lt; 10000; i++ &#123;
-            singalexit.Add(1)
-            go func(i int) &#123;
+	<span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	start <span class="token operator">:=</span> time<span class="token punctuation">.</span><span class="token function">Now</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		<span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10000</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">&#123;</span>
+			singalexit<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+			<span class="token keyword">go</span> <span class="token keyword">func</span><span class="token punctuation">(</span>i <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
 
-                defer singalexit.Done()
-                for j := 0; j &lt; 90; j++ &#123;
-                    data &lt;- (i*100 + j)
-                &#125;
-            &#125;(i)
-        &#125;
-    &#125;()
-    singalexit.Wait()
-    elapsed := time.Since(start)
-    fmt.Println(&quot;该函数执行完成耗时：&quot;, elapsed)
-    time.Sleep(2 * time.Second)
-    fmt.Println(atomic.LoadInt64(&amp;count1))
+				<span class="token keyword">defer</span> singalexit<span class="token punctuation">.</span><span class="token function">Done</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+				<span class="token keyword">for</span> j <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> <span class="token number">90</span><span class="token punctuation">;</span> j<span class="token operator">++</span> <span class="token punctuation">&#123;</span>
+					data <span class="token operator">&lt;-</span> <span class="token punctuation">(</span>i<span class="token operator">*</span><span class="token number">100</span> <span class="token operator">+</span> j<span class="token punctuation">)</span>
+				<span class="token punctuation">&#125;</span>
+			<span class="token punctuation">&#125;</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+		<span class="token punctuation">&#125;</span>
+	<span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	singalexit<span class="token punctuation">.</span><span class="token function">Wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	elapsed <span class="token operator">:=</span> time<span class="token punctuation">.</span><span class="token function">Since</span><span class="token punctuation">(</span>start<span class="token punctuation">)</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"该函数执行完成耗时："</span><span class="token punctuation">,</span> elapsed<span class="token punctuation">)</span>
+	time<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span><span class="token number">2</span> <span class="token operator">*</span> time<span class="token punctuation">.</span>Second<span class="token punctuation">)</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>atomic<span class="token punctuation">.</span><span class="token function">LoadInt64</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>count1<span class="token punctuation">)</span><span class="token punctuation">)</span>
 
-&#125;
+<span class="token punctuation">&#125;</span>
 
-func main() &#123;
-    for i := 0; i &lt; 10; i++ &#123;
-        count = 0
-        Test1()
-    &#125;
-    for i := 0; i &lt; 10; i++ &#123;
-        Test2()
-    &#125;
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">&#123;</span>
+		count <span class="token operator">=</span> <span class="token number">0</span>
+		<span class="token function">Test1</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">&#123;</span>
+		<span class="token function">Test2</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#125;</span>
 
-    // Test2()
-&#125;
-</code></pre>
+	<span class="token comment">// Test2()</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
 
             </div>
           
@@ -458,33 +445,20 @@ window._bd_share_config={
     "share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='../../../../../static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
 </script>
  
-<!-- <div id="comments"></div> -->
 <div id="gitalk-container"></div>
 
 <script>
-  //   var gitment = new Gitment({
-  //   id: "Thu Mar 04 2021 11:06:13 GMT+0800",
-  //   owner: "StoneQi",
-  //   repo: "stoneqi.github.io",
-  //   oauth: {
-  //     client_id:"d9f4e8907ec2566c2307",
-  //     client_secret: "2390fe6084c9227566e82de1755e3c3de4a13592",
-  //   }
-  // })
-  // gitment.render('comments')
-
   const gitalk = new Gitalk({
-  clientID: "d9f4e8907ec2566c2307",
-  clientSecret: "2390fe6084c9227566e82de1755e3c3de4a13592",
-  repo: "stoneqi.github.io",      // The repository of store comments,
-  owner: "StoneQi",
-  admin: ["StoneQi"],
-  language: "zh-CN",
-  id: "Thu Mar 04 2021 11:06:13 GMT+0800",      // Ensure uniqueness and length less than 50
-  distractionFreeMode: false  // Facebook-like distraction free mode
-})
-
-gitalk.render('gitalk-container')
+    clientID: "d9f4e8907ec2566c2307",
+    clientSecret: "2390fe6084c9227566e82de1755e3c3de4a13592",
+    repo: "stoneqi.github.io",      // The repository of store comments,
+    owner: "StoneQi",
+    admin: ["StoneQi"],
+    language: "zh-CN",
+    id: "Thu Mar 04 2021 11:06:13 GMT+0800",      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+  gitalk.render('gitalk-container')
 </script>
     </main>
     <a class="not-found">not found!</a>
@@ -494,9 +468,9 @@ gitalk.render('gitalk-container')
         <i class="fa fa-sort-asc fa-2x"></i>
     </a>
     <footer class="footer">
-    <div class="footer-copyright">©️2017
-    <a href="//github.com/Vevlins/toki" class="link" target="_blank">Toki</a>  by Vevlins
-    </div>    
+    <div class="footer-copyright">©️2023
+    <a href="//github.com/stoneqi/hexo-theme-toki" class="link" target="_blank">Toki</a> is updated by Stoneqi based on Vevlins
+    </div>
 </footer>
 
     
