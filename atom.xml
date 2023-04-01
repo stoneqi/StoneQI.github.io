@@ -6,7 +6,7 @@
   <link href="https://stoneqi.github.io/atom.xml" rel="self"/>
   
   <link href="https://stoneqi.github.io/"/>
-  <updated>2023-04-01T17:17:41.418Z</updated>
+  <updated>2023-04-01T17:56:47.993Z</updated>
   <id>https://stoneqi.github.io/</id>
   
   <author>
@@ -15,32 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>hello world</title>
-    <link href="https://stoneqi.github.io/2023/04/02/hello-world/"/>
-    <id>https://stoneqi.github.io/2023/04/02/hello-world/</id>
-    <published>2023-04-01T17:17:41.418Z</published>
-    <updated>2023-04-01T17:17:41.418Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;一直想写博客，断断续续零散也糊弄了几篇，却未坚持下去，望这次能坚持下去！&lt;/p&gt;
-&lt;p&gt;如果您对本文有问题，评论，或建议，请访问&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="杂记" scheme="https://stoneqi.github.io/categories/%E6%9D%82%E8%AE%B0/"/>
-    
-    
-    <category term="杂记" scheme="https://stoneqi.github.io/tags/%E6%9D%82%E8%AE%B0/"/>
-    
-  </entry>
   
   <entry>
     <title>【翻译】Go 编译器理解: 新增一个关键字语句-Part2 </title>
@@ -337,6 +311,32 @@
     <category term="翻译" scheme="https://stoneqi.github.io/tags/%E7%BF%BB%E8%AF%91/"/>
     
     <category term="CRUD" scheme="https://stoneqi.github.io/tags/CRUD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>hello world</title>
+    <link href="https://stoneqi.github.io/2021/01/23/hello-world/"/>
+    <id>https://stoneqi.github.io/2021/01/23/hello-world/</id>
+    <published>2021-01-23T12:16:37.000Z</published>
+    <updated>2023-04-01T18:08:17.741Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;一直想写博客，断断续续零散也糊弄了几篇，却未坚持下去，望这次能坚持下去！&lt;/p&gt;
+&lt;p&gt;如果您对本文有问题，评论，或建议，请访问&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="杂记" scheme="https://stoneqi.github.io/categories/%E6%9D%82%E8%AE%B0/"/>
+    
+    
+    <category term="杂记" scheme="https://stoneqi.github.io/tags/%E6%9D%82%E8%AE%B0/"/>
     
   </entry>
   
